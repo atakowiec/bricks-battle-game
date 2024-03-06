@@ -1,0 +1,25 @@
+@import "../../style/globals";
+
+.container {
+  @extend .global-container;
+
+  padding: 20px 50px 70px 50px;
+
+  button {
+    @extend .button;
+  }
+
+  input[type="text"] {
+    @extend .text-input;
+
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .separator {
+    margin: 20px 0;
+    width: 100%;
+    text-align: center;
+    font-size: $text-font-size;
+  }
+}

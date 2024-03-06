@@ -1,10 +1,7 @@
+import MainMenu from './pages/main/MainMenu.tsx';
 
 function App() {
-  return (
-    <>
-      Hello world!
-    </>
-  )
+  return <MainMenu />
 }
 
 export default App

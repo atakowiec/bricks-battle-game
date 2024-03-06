@@ -1,0 +1,109 @@
+@import url('https://fonts.cdnfonts.com/css/viga');
+
+
+$border-gradient-darker-color-1: #107500;
+$border-gradient-darker-color-2: #052500;
+$border-gradient-darker: linear-gradient(135deg, $border-gradient-darker-color-1, $border-gradient-darker-color-2);
+
+
+$border-gradient-lighter-color-1: #169D00;
+$border-gradient-lighter-color-2: #107500;
+$border-gradient-lighter: linear-gradient(135deg, $border-gradient-lighter-color-1, $border-gradient-lighter-color-2);
+
+
+$background-gradient-color-1: #169D00;
+$background-gradient-color-2: #0B5000;
+$background-gradient: linear-gradient(135deg, $background-gradient-color-1, $background-gradient-color-2);
+
+$container-opacity: 0.9;
+
+$background-inactive: #107500;
+$background-active: #0B9200;
+
+$inactive-opacity: 0.5;
+$action-opacity: 1;
+
+$accent-1: #00AF27;
+$accent-2: #00E03F;
+$accent-gradient: linear-gradient(125deg, $accent-1, $accent-2);
+
+$text-color: #fff;
+$text-color-darker: rgba(255, 255, 255, 0.47);
+$font-family: Viga, sans-serif;
+
+$input-text-color: rgba(255, 255, 255, 0.70);
+$input-background: rgba(217, 217, 217, 0.12);
+$input-background-active: rgba(217, 217, 217, 0.07);
+
+$title-font-size: 56px;
+$text-font-size: 24px;
+
+.text-input {
+  @extend .input-border;
+
+  background: $input-background;
+  color: $text-color;
+  font-size: $text-font-size;
+  font-family: $font-family;
+  outline: none;
+  padding: 18px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: 0.3s;
+
+  &::placeholder {
+    color: $text-color-darker;
+  }
+
+  &:focus,
+  &:hover {
+    background: $input-background-active;
+  }
+}
+
+.button {
+  @extend .input-border;
+
+  background: $accent-gradient;
+  color: $text-color;
+  font-size: $text-font-size;
+  font-family: $font-family;
+  outline: none;
+  padding: 18px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out background;
+  width: 100%;
+  text-shadow: rgba(0, 0, 0, 0.29) 1px 1px;
+}
+
+.input-border {
+  border: 6px solid;
+  border-image-source: $border-gradient-lighter;
+  border-image-slice: 1;
+}
+
+.title {
+  font-size: $title-font-size;
+  font-family: $font-family;
+  color: $text-color;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: black 2px 2px;
+}
+
+h1 {
+  @extend .title;
+}
+
+.global-container {
+  @extend .container-border;
+  background: $background-gradient;
+  padding: 20px;
+  opacity: $container-opacity;
+}
+
+.container-border {
+  border: 16px solid;
+  border-image-source: $border-gradient-darker;
+  border-image-slice: 1;
+}
