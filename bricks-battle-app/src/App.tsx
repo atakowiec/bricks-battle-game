@@ -5,6 +5,7 @@ import useSelector from "./hooks/useSelector.ts";
 import {Container} from "./components/Container.tsx";
 import NavBar from "./components/NavBar.tsx";
 import AccountTab from "./pages/account/AccountTab.tsx";
+import Gadgets from "./pages/gadgets/Gadgets.tsx";
 
 function App() {
     const stage = useSelector(state => state.layout.stage)
@@ -32,7 +33,7 @@ export const navbarRoutes: { [key: string]: NavbarRoute[] } = {
         },
         {
             id: "personalize",
-            element: <></>
+            element: <Gadgets />
         },
         {
             id: "map-hub",
