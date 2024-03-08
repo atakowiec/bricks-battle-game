@@ -1,0 +1,42 @@
+@import 'globals.module';
+
+.navBar {
+  display: flex;
+  padding: 0 32px;
+  z-index: 10;
+  position: absolute;
+  top: -93px;
+  left: 0;
+
+  .element {
+    cursor: pointer;
+    transition: 0.3s ease-in-out all;
+    margin-right: 12px;
+
+    &.active {
+      background-color: $background-active;
+      padding: 18px 16px;
+    }
+
+    &:not(.active) {
+      background-color: $background-inactive;
+      padding: 14px 16px;
+      margin-top: 8px;
+      margin-bottom: 16px;
+
+      &:hover {
+        background-color: $background-active;
+      }
+
+      img {
+        opacity: $inactive-opacity;
+      }
+    }
+
+    img {
+      width: 38px;
+      height: 38px;
+      filter: invert(100%);
+    }
+  }
+}

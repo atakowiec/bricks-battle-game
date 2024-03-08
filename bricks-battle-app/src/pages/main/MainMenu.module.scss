@@ -1,8 +1,6 @@
-@import "../../style/globals";
+@import "../../style/globals.module";
 
 .container {
-  @extend .global-container;
-
   padding: 20px 50px 70px 50px;
 
   button {
