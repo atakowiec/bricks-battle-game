@@ -4,6 +4,7 @@ import {ReactNode} from "react";
 import useSelector from "./hooks/useSelector.ts";
 import {Container} from "./components/Container.tsx";
 import NavBar from "./components/NavBar.tsx";
+import AccountTab from "./pages/account/AccountTab.tsx";
 
 function App() {
     const stage = useSelector(state => state.layout.stage)
@@ -27,7 +28,7 @@ export const navbarRoutes: { [key: string]: NavbarRoute[] } = {
         },
         {
             id: "account",
-            element: <></>
+            element: <AccountTab />
         },
         {
             id: "personalize",

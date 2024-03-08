@@ -1,29 +1,29 @@
 @import url('https://fonts.cdnfonts.com/css/viga');
 
 
-$border-gradient-darker-color-1: #107500;
+$border-gradient-darker-color-1: #0d5d00;
 $border-gradient-darker-color-2: #052500;
 $border-gradient-darker: linear-gradient(135deg, $border-gradient-darker-color-1, $border-gradient-darker-color-2);
 
 
-$border-gradient-lighter-color-1: #169D00;
-$border-gradient-lighter-color-2: #107500;
+$border-gradient-lighter-color-1: #149d00;
+$border-gradient-lighter-color-2: #118000;
 $border-gradient-lighter: linear-gradient(135deg, $border-gradient-lighter-color-1, $border-gradient-lighter-color-2);
 
 
-$background-gradient-color-1: #169D00;
-$background-gradient-color-2: #0B5000;
+$background-gradient-color-1: #127f00;
+$background-gradient-color-2: #093f00;
 $background-gradient: linear-gradient(135deg, $background-gradient-color-1, $background-gradient-color-2);
 
 $container-opacity: 0.9;
 
-$background-inactive: #107500;
-$background-active: #0B9200;
+$background-inactive: #0e6400;
+$background-active: #0c8000;
 
 $inactive-opacity: 0.5;
 
 $accent-1: #00AF27;
-$accent-2: #00E03F;
+$accent-2: #00c736;
 $accent-gradient: linear-gradient(125deg, $accent-1, $accent-2);
 
 $text-color: #fff;
@@ -45,7 +45,7 @@ $text-font-size: 24px;
   font-size: $text-font-size;
   font-family: $font-family;
   outline: none;
-  padding: 15px;
+  padding: 10px 15px;
   width: 100%;
   box-sizing: border-box;
   transition: 0.3s;
@@ -108,6 +108,10 @@ $text-font-size: 24px;
   text-transform: uppercase;
   text-align: center;
   text-shadow: black 2px 2px;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
 }
 
 h1 {
@@ -120,6 +124,7 @@ h1 {
   background: $background-gradient;
   opacity: $container-opacity;
   position: relative;
+  padding: 20px 50px 70px 50px;
   z-index: 5;
   transition: 0.3s ease-in-out all;
 }
