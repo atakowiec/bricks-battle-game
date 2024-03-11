@@ -15,7 +15,7 @@ export default function NavBar() {
     return (
         <div className={style.navBar}>
             {routes.map(route => (
-                <NavbarElement id={route.id} active={route.id === tab}>
+                <NavbarElement id={route.id} active={route.id === tab} key={`${tab}-${route.id}`}>
                     <NavbarIcon src={`assets/${route.id}.png`} alt={route.id}/>
                 </NavbarElement>
             ))}
