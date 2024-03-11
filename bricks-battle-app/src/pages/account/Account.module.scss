@@ -1,20 +1,6 @@
 @import "../../style/globals.module";
 
 .container {
-
-  input {
-    @extend .text-input;
-
-    margin-bottom: 20px;
-  }
-
-  .error {
-    margin-top: 8px;
-    font-size: 20px;
-    text-align: center;
-    height: 36px;
-  }
-
   .buttonsBox {
     margin-top: 32px;
     display: flex;
@@ -29,6 +15,47 @@
 
     button:last-child {
       background: transparent;
+    }
+  }
+}
+
+.loginBox {
+  input {
+    @extend .text-input;
+
+    margin-bottom: 20px;
+  }
+
+  .error {
+    margin-top: 8px;
+    font-size: 20px;
+    text-align: center;
+    height: 36px;
+  }
+}
+
+.accountBox {
+  .nameBox {
+    display: flex;
+    margin-bottom: 150px;
+
+    .profileIcon {
+      img {
+        border: 6px solid $accent-1;
+        background-color: $accent-1;
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    .name {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: $text-font-size;
+      border: 6px solid $accent-1;
+      margin-left: -6px;
+      width: 100%;
     }
   }
 }

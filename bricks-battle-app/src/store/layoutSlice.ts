@@ -1,4 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 export interface LayoutState {
     stage: "main" | "game-lobby" | "game"
@@ -20,6 +22,11 @@ const layoutSlice = createSlice({
         }
     }
 })
+
+export const persistedLayoutReducer = persistReducer({
+  key: 'layout',
+  storage,
+}, layoutSlice.reducer);
 
 export default layoutSlice.reducer;
 

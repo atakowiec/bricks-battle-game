@@ -37,7 +37,7 @@ export function Login() {
   };
 
   return (
-    <div className={style.container}>
+    <div className={`${style.loginBox} ${style.container}`}>
       <h1>Login</h1>
       <input type={'text'} placeholder={'Username'} ref={loginRef} />
       <br />

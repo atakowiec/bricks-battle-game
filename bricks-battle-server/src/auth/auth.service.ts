@@ -67,4 +67,9 @@ export class AuthService {
     }
     return null;
   }
+
+  async logout(res: Response) {
+    res.clearCookie('access_token');
+    return {};
+  }
 }
