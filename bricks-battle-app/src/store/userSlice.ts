@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
 export interface UserStateData {
   sub: string;
@@ -22,11 +20,6 @@ const userSlice = createSlice({
     },
   },
 });
-
-export const persistedUserReducer = persistReducer({
-  key: 'user',
-  storage,
-}, userSlice.reducer);
 
 export const userActions = userSlice.actions;
 

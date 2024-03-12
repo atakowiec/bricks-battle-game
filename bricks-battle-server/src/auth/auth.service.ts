@@ -89,4 +89,8 @@ export class AuthService {
 
     return { 'status': 'ok' };
   }
+
+  verify(req: Request) {
+    return req.user;
+  }
 }

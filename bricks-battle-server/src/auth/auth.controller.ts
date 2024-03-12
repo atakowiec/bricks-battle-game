@@ -32,4 +32,10 @@ export class AuthController {
   changePassword(@Body() changePasswordDto: ChangePasswordDto, @Req() req: Request) {
     return this.authService.changePassword(changePasswordDto, req);
   }
+
+  @UseGuards(AuthGuard)
+  @Post('verify')
+  verify(@Req() req: Request) {
+    return this.authService.verify(req);
+  }
 }
