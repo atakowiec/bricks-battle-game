@@ -59,3 +59,30 @@
     }
   }
 }
+
+.changePasswordBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+  input {
+    width: 50%;
+  }
+
+  .error {
+    margin-top: 8px;
+    font-size: 20px;
+    text-align: center;
+    height: 36px;
+  }
+
+  .inputBox {
+    width: 70%;
+  }
+
+  button {
+    width: fit-content !important;
+    margin-top: 40px !important;
+  }
+}

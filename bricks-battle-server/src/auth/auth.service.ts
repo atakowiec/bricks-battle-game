@@ -3,7 +3,9 @@ import { UsersService } from '../users/users.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { Request } from '../types/request.type';
+import { ChangePasswordDto } from '../users/dto/change-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -53,7 +55,7 @@ export class AuthService {
   }
 
   async hashPassword(password: string): Promise<string> {
-    const saltRounds = 10; // You can adjust the salt rounds according to your requirements
+    const saltRounds = 10;
     return await bcrypt.hash(password, saltRounds);
   }
 
@@ -71,5 +73,20 @@ export class AuthService {
   async logout(res: Response) {
     res.clearCookie('access_token');
     return {};
+  }
+
+  async changePassword(changePasswordDto: ChangePasswordDto, req: Request) {
+    //@ts-ignore
+    const user = await this.usersService.findOne(req.user.nickname);
+
+    if (!user || !await this.comparePasswords(changePasswordDto.oldPassword, user.password)) {
+      throw new HttpException('Invalid credentials', 401);
+    }
+
+    user.password = await this.hashPassword(changePasswordDto.newPassword);
+
+    user.save();
+
+    return { 'status': 'ok' };
   }
 }
