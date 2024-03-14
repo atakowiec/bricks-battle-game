@@ -1,0 +1,8 @@
+@import "../../style/globals.module";
+
+.addMapButton {
+  @extend .buttonSecondary;
+  margin-top: 20px;
+  padding: 10px 30px;
+  width: fit-content;
+}

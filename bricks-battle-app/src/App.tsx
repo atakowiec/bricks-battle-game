@@ -9,6 +9,8 @@ import Gadgets from './pages/gadgets/Gadgets.tsx';
 import getApi from './api/axios.ts';
 import { useDispatch } from 'react-redux';
 import { userActions } from './store/userSlice.ts';
+import MapHubTab from './pages/map-hub/MapHubTab.tsx';
+import { commonDataActions } from './store/commonDataSlice.ts';
 
 function App() {
   const stage = useSelector(state => state.layout.stage);
@@ -23,7 +25,12 @@ function App() {
       .catch(() => {
         dispatch(userActions.setUser(null));
       });
-  });
+
+    getApi().get('/maps/blocks')
+      .then((res: any) => {
+        dispatch(commonDataActions.setMapBlocks(res.data));
+      });
+  }, []);
 
   if (stage === 'game') return <></>;
 
@@ -51,7 +58,7 @@ export const navbarRoutes: { [key: string]: NavbarRoute[] } = {
     },
     {
       id: 'map-hub',
-      element: <></>,
+      element: <MapHubTab />,
     },
   ],
   'game-lobby': [
@@ -61,15 +68,15 @@ export const navbarRoutes: { [key: string]: NavbarRoute[] } = {
     },
     {
       id: 'account',
-      element: <></>,
+      element: <AccountTab />,
     },
     {
       id: 'personalize',
-      element: <></>,
+      element: <Gadgets />,
     },
     {
       id: 'map-hub',
-      element: <></>,
+      element: <MapHubTab />,
     },
     {
       id: 'settings',
