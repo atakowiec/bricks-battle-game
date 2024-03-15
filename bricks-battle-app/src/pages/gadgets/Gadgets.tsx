@@ -1,6 +1,9 @@
 import style from './Gadgets.module.scss';
+import title from '../../util/title.ts';
 
 export default function Gadgets() {
+    title('Personalize')
+
     return (
         <div className={style.container}>
             <h1>Personalize</h1>

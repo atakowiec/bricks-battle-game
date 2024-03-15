@@ -34,10 +34,20 @@ function App() {
 
   if (stage === 'game') return <></>;
 
+  const route = navbarRoutes[stage].find(route => route.id === tab);
+
+  if(!route)
+    return <></>;
+
+  // unfortunately map hub uses a different container
+  if(route.id === "map-hub") {
+    return route.element;
+  }
+
   return (
     <Container>
       <NavBar />
-      {navbarRoutes[stage].find(route => route.id === tab)?.element || <></>}
+      {route.element || <></>}
     </Container>
   );
 }

@@ -3,8 +3,11 @@ import { useRef, useState } from 'react';
 import getApi from '../../api/axios.ts';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/userSlice.ts';
+import title from '../../util/title.ts';
 
 export function Login() {
+  title('Login')
+
   const [error, setError] = useState('');
   const loginRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);

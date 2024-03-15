@@ -34,6 +34,10 @@ $input-background-active: rgba(217, 217, 217, 0.07);
 $title-font-size: 56px;
 $text-font-size: 24px;
 
+* {
+  font-family: Viga, sans-serif;
+}
+
 .text-input {
   @extend .input-border;
 

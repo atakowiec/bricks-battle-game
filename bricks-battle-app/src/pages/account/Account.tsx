@@ -5,8 +5,11 @@ import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/userSlice.ts';
 import FloatingContainer from '../../components/FloatingContainer.tsx';
 import { useRef, useState } from 'react';
+import title from '../../util/title.ts';
 
 export default function Account() {
+  title('Your Account')
+
   const user = useSelector((state) => state.user)!;
   const dispatch = useDispatch();
   const [changePasswordVisible, setChangePasswordVisible] = useState(false);

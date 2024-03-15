@@ -5,6 +5,7 @@ export interface ButtonSelectorProps {
   children: JSX.Element[];
   active: any;
   setActive: (id: any) => void;
+  className?: string;
 }
 
 export interface SelectButtonProps {
@@ -18,7 +19,7 @@ export function ButtonSelector(props: ButtonSelectorProps) {
     .map(child => ({ id: child.props.id, children: child.props.children, className: child.props.className })), [props]);
 
   return (
-    <div className={style.buttonSelectorBox}>
+    <div className={`${props.className ?? ""} ${style.buttonSelectorBox}`}>
       {
         elements.map(element => (
           <div key={element.id}

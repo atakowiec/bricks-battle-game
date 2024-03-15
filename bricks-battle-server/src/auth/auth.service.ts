@@ -48,7 +48,7 @@ export class AuthService {
 
   setCookie(res: Response, token: string) {
     res.cookie('access_token', token, {
-      expires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365), // 1 year
       httpOnly: true,
       secure: false,
     });

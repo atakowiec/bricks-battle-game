@@ -16,6 +16,12 @@ export class MapBlocksService {
       data: '#ff0000',
       unbreakable: true,
     },
+    3: {
+      id: 3,
+      type: 'color',
+      data: '#00ffff',
+      unbreakable: false,
+    },
   };
 
   getBlock(id: number | string): IMapBlock {

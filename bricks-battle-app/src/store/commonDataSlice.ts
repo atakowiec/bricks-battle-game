@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { IMapBlock } from '@shared/Map.ts';
 
 export interface CommonDataState {
-  blocks: IMapBlock[];
+  blocks: { [key: string]: IMapBlock };
 }
 
 const commonDataSlice = createSlice({
   name: 'commonData',
   initialState: {
-    blocks: [],
+    blocks: {},
   } as CommonDataState,
   reducers: {
     setMapBlocks(state, action) {
