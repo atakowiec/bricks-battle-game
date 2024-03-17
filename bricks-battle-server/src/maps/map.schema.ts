@@ -19,7 +19,7 @@ export class Map extends Model {
   ownerId?: string;
 
   @Prop()
-  width: number;
+  size: number;
 
   @Prop()
   data: string;

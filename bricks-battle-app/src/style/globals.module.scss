@@ -75,7 +75,7 @@ $text-font-size: 24px;
   font-size: $text-font-size;
   font-family: $font-family;
   outline: none;
-  padding: 0.9375rem;
+  padding: 0.6rem 0.9rem;
   cursor: pointer;
   transition: 0.3s ease-in-out background;
   width: 100%;
@@ -191,7 +191,6 @@ h1 {
     transition: background 0.2s;
     margin: 0 0.3125rem;
     flex: 1;
-    padding: 0.625rem 0.3125rem;
     text-align: center;
 
     &:not(.active) {

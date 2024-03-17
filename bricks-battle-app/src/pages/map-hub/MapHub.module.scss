@@ -3,7 +3,6 @@
 .addMapButton {
   @extend .buttonSecondary;
   margin-top: 20px;
-  padding: 10px 30px;
   width: fit-content;
 }
 
@@ -17,8 +16,26 @@
   @extend .globalContainer;
   padding: 10px 40px 10px 10px;
 
-  display: flex;
-  flex-direction: row;
+  .bottomButtons {
+    display: flex;
+    justify-content: center;
+
+    & > button {
+      width: fit-content !important;
+      padding-left: 30px !important;
+      padding-right: 30px !important;
+      margin: 10px 10px 0 10px;
+
+      &:first-child {
+        @extend .button
+      }
+
+      &:last-child {
+        @extend .buttonSecondary
+      }
+    }
+
+  }
 
   .previewBox {
     background-color: #020D00;

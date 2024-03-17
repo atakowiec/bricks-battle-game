@@ -11,7 +11,7 @@ export interface IMap {
 export type MapBlockType = 'image' | 'color';
 
 export interface IMapBlock {
-  id: number;
+  id: string;
   type: MapBlockType;
   data: string;
   unbreakable: boolean;

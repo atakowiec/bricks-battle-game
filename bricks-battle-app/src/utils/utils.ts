@@ -1,7 +1,7 @@
 export const Base64 = (function() {
   const digitsStr = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-';
   const digits = digitsStr.split('');
-  const digitsMap = {};
+  const digitsMap: any = {};
   for (let i = 0; i < digits.length; i++) {
     digitsMap[digits[i]] = i;
   }

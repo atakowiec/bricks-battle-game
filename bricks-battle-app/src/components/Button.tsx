@@ -5,11 +5,13 @@ export interface ContainerProps {
   children?: ReactNode;
   className?: string;
   onClick?: () => void;
+  type: 'primary' | 'secondary';
 }
 
 export default function Button(props: ContainerProps) {
   return (
-    <button className={`${style.button} ${props.className ?? ''}`}>
+    <button className={`${props.type === 'secondary' ? style.buttonSecondary : style.button} ${props.className ?? ''}`}
+            onClick={props.onClick}>
       {props.children}
     </button>
   );

@@ -2,11 +2,11 @@ import style from '../style/globals.module.scss';
 import { ReactNode } from 'react';
 
 export interface FloatingContainerProps {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   visible: boolean;
   setVisible: (visible: boolean) => void;
-  width: 'narrow' | 'normal' | 'wide' | 'auto';
+  width?: 'narrow' | 'normal' | 'wide' | 'auto';
 }
 
 const widthMap = {
@@ -29,7 +29,7 @@ export default function FloatingContainer({ children, className, visible, setVis
 
   return (
     <div className={style.floatingContainerBackground} onClick={close}>
-      <div className={`${className ?? ''} ${style.floatingContainer} ${widthMap[width] ?? ''}`}
+      <div className={`${className ?? ''} ${style.floatingContainer} ${widthMap[width ?? "auto"] ?? ''}`}
            onClick={stopPropagation}>
         {children}
       </div>

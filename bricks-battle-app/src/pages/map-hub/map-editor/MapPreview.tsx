@@ -1,9 +1,8 @@
 import style from '../MapHub.module.scss';
-import { StateProps } from './MapEditor.tsx';
-import useSelector from '../../../hooks/useSelector.ts';
-import { Base64 } from '../../../utils/utils.ts';
-import { IMapBlock } from '@shared/Map.ts';
+import { MapEditorState, StateProps } from './MapEditor.tsx';
 import { useEffect, useRef, useState } from 'react';
+import { produce } from 'immer';
+import { Cell } from './Cell.tsx';
 
 export function MapPreview(props: StateProps) {
   const boxRef = useRef<HTMLDivElement>(null);
@@ -15,33 +14,53 @@ export function MapPreview(props: StateProps) {
     const box = boxRef.current;
 
     const width = box.clientWidth;
-    setCellSize(width / props.state.size);
+    setCellSize(Math.floor(width / props.state.size));
   }, [props.state.size]);
 
   function onCellClick(row: number, col: number) {
-    const size = props.state.size;
-    const map = props.state.map.split('');
-    const index = row * size + col;
+    props.setState((prevState: MapEditorState) => {
+      return produce(prevState, draft => {
+        const { tool, map } = draft;
+        const selected = draft.block?.id ?? '0';
+        const clickedColor = map[row][col] ?? '0';
 
-    if (props.state.tool === 'pen') {
-      map[index] = Base64.fromInt(props.state.block?.id ?? 0);
-    } else if (props.state.tool === 'eraser') {
-      map[index] = '0';
-    } else if (props.state.tool === 'fill') {
-      const targetId = map[index];
-      const fill = (r: number, c: number) => {
-        if (r < 0 || r >= size || c < 0 || c >= size) return;
-        if (map[r * size + c] !== targetId) return;
-        map[r * size + c] = Base64.fromInt(props.state.block?.id ?? 0);
-        fill(r - 1, c);
-        fill(r + 1, c);
-        fill(r, c - 1);
-        fill(r, c + 1);
-      };
-      fill(row, col);
-    }
+        if (tool === 'pen') {
+          map[row][col] = selected == clickedColor ? '0' : selected;
+        }
 
-    props.setState({ ...props.state, map: map.join('') });
+        if (tool === 'eraser') {
+          map[row][col] = '0';
+        }
+
+        if (tool === 'fill') {
+          const visited: string[] = [];
+
+          function fillCell(row: number, col: number) {
+            if (row < 0 || col < 0)
+              return;
+            if (row >= draft.map.length || col >= draft.map[0].length)
+              return;
+
+            const cell: string = draft.map[row][col];
+            if (visited.includes(`${row}-${col}`) || (cell != clickedColor))
+              return;
+
+            visited.push(`${row}-${col}`);
+
+            draft.map[row][col] = selected;
+
+            for (let i of [-1, 1]) {
+              fillCell(row + i, col);
+              fillCell(row, col + i);
+            }
+          }
+
+          fillCell(row, col);
+        }
+
+        return draft;
+      });
+    });
   }
 
   return (
@@ -61,30 +80,5 @@ export function MapPreview(props: StateProps) {
         </div>
       ))}
     </div>
-  );
-}
-
-interface CellProps {
-  row: number;
-  col: number;
-  stateObj: StateProps;
-  size: number;
-  onClick: () => void;
-}
-
-function Cell(props: CellProps) {
-  const size = props.stateObj.state.size;
-  const block64Id = props.stateObj.state.map[props.row * size + props.col] ?? '0';
-  const block: IMapBlock = useSelector(state => state.commonData.blocks[Base64.toInt(block64Id)]) ?? {};
-
-  return (
-    <div className={style.cell}
-         style={{
-           width: props.size + 'px',
-           height: props.size + 'px',
-           background: block.data,
-         }}
-         onClick={props.onClick}
-    />
   );
 }
