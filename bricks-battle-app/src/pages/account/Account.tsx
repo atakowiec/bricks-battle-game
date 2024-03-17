@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/userSlice.ts';
 import FloatingContainer from '../../components/FloatingContainer.tsx';
 import { useRef, useState } from 'react';
-import title from '../../util/title.ts';
+import title from '../../utils/title.ts';
 
 export default function Account() {
   title('Your Account')

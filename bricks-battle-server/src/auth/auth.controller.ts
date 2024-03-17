@@ -1,10 +1,11 @@
-import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { Response } from 'express';
-import { Request } from '../types/request.type';
 import { AuthGuard } from './auth.guard';
 import { ChangePasswordDto } from '../users/dto/change-password.dto';
+import { RequestUser } from '../decorators/user.decorator';
+import { User } from '../users/user.schema';
 
 @Controller('auth')
 export class AuthController {
@@ -29,13 +30,13 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Post('change-password')
-  changePassword(@Body() changePasswordDto: ChangePasswordDto, @Req() req: Request) {
-    return this.authService.changePassword(changePasswordDto, req);
+  changePassword(@Body() changePasswordDto: ChangePasswordDto, @RequestUser() user: User) {
+    return this.authService.changePassword(changePasswordDto, user);
   }
 
   @UseGuards(AuthGuard)
   @Post('verify')
-  verify(@Req() req: Request) {
-    return this.authService.verify(req);
+  verify(@RequestUser() user: User){
+    return this.authService.verify(user);
   }
 }

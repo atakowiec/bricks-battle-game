@@ -1,5 +1,5 @@
 import style from './Gadgets.module.scss';
-import title from '../../util/title.ts';
+import title from '../../utils/title.ts';
 
 export default function Gadgets() {
     title('Personalize')

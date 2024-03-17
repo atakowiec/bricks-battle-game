@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 import { Request } from '../types/request.type';
 import { ChangePasswordDto } from '../users/dto/change-password.dto';
+import { User } from '../users/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -75,9 +76,9 @@ export class AuthService {
     return {};
   }
 
-  async changePassword(changePasswordDto: ChangePasswordDto, req: Request) {
+  async changePassword(changePasswordDto: ChangePasswordDto, user: User) {
     //@ts-ignore
-    const user = await this.usersService.findOne(req.user.nickname);
+    user = await this.usersService.findOne(user.nickname);
 
     if (!user || !await this.comparePasswords(changePasswordDto.oldPassword, user.password)) {
       throw new HttpException('Invalid credentials', 401);
@@ -90,7 +91,7 @@ export class AuthService {
     return { 'status': 'ok' };
   }
 
-  verify(req: Request) {
-    return req.user;
+  verify(user: User) {
+    return user;
   }
 }

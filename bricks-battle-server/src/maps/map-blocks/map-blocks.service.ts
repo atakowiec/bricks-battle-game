@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IMapBlock } from '@shared/Map';
+import { Base64 } from '../../utils/utils';
 
 @Injectable()
 export class MapBlocksService {
@@ -32,7 +33,7 @@ export class MapBlocksService {
 
   getBlock(id: number | string): IMapBlock {
     if (typeof id === 'string')
-      id = atob(id);
+      id = Base64.toInt(id)
     return this.mapBlocks[id];
   }
 

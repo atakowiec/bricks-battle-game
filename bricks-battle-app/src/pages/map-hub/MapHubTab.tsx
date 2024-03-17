@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import MapEditor from './map-editor/MapEditor.tsx';
 import MapListPage from './MapList.tsx';
-import title from '../../util/title.ts';
+import title from '../../utils/title.ts';
 
 export interface MapHubPageProps {
   setMapEditor: (mapEditor: boolean) => void;

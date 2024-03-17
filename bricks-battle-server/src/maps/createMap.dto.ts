@@ -7,7 +7,7 @@ export class CreateMapDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsIn(['easy', 'medium', 'hard'])
+  @IsIn(['easy', 'normal', 'hard'])
   difficulty: string;
 
   @IsString()

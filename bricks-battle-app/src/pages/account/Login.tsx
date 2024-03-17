@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import getApi from '../../api/axios.ts';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/userSlice.ts';
-import title from '../../util/title.ts';
+import title from '../../utils/title.ts';
 
 export function Login() {
   title('Login')

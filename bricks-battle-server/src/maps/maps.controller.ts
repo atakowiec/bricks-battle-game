@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { MapsService } from './maps.service';
 import { MapBlocksService } from './map-blocks/map-blocks.service';
 import { CreateMapDto } from './createMap.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { RequestUser } from '../decorators/user.decorator';
+import { User } from '../users/user.schema';
 
 @Controller('maps')
 export class MapsController {
@@ -18,13 +20,13 @@ export class MapsController {
   }
 
   @Get(':type')
-  getMapsByType(@Param('type') type: string, @Req() req: Request) {
-    return this.mapsService.getMapsByType(type, req);
+  getMapsByType(@Param('type') type: string, @RequestUser() user: User) {
+    return this.mapsService.getMapsByType(type, user);
   }
 
   @UseGuards(AuthGuard)
   @Post()
-  saveMap(@Body() createMapDto: CreateMapDto, @Req() req: Request) {
-    return this.mapsService.saveMap(createMapDto, req);
+  saveMap(@Body() createMapDto: CreateMapDto, @RequestUser() user: User) {
+    return this.mapsService.saveMap(createMapDto, user);
   }
 }
