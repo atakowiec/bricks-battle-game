@@ -1,20 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '../users/user.schema';
-import { CreateMapDto } from './createMap.dto';
+import { CreateMapDto } from './create-map.dto';
 import { Map } from './map.schema';
 import { MapBlocksService } from './map-blocks/map-blocks.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { MapType } from '@shared/Map';
 
 @Injectable()
 export class MapsService {
   constructor(private readonly mapBlocksService: MapBlocksService,
-              @InjectModel(Map.name) private userModel: Model<Map>) {
+              @InjectModel(Map.name) private mapModel: Model<Map>) {
     // empty
   }
 
-  getMapsByType(type: string, user: User) {
-    // todo implement
+  getMapsByType(type: MapType, user: User) {
+    if (type === 'personal') {
+      if (!user?.sub) {
+        console.log(user);
+        return [];
+      }
+      return this.mapModel.find({ ownerId: user.sub, type });
+    } else {
+      return this.mapModel.find({ type });
+    }
   }
 
   saveMap(body: CreateMapDto, user: User) {
@@ -28,7 +37,7 @@ export class MapsService {
       throw new Error('Invalid map data');
     }
 
-    const map = new this.userModel();
+    const map = new this.mapModel();
     map.type = 'personal';
     map.name = body.name;
     map.ownerId = user.sub;

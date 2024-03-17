@@ -8,8 +8,8 @@ export interface ApiData {
     setData: React.Dispatch<any>
 }
 
-export default function useApi(path: string, method: string, payload?: any): ApiData {
-    const [data, setData] = useState(undefined as any | undefined);
+export default function useApi<DataType>(path: string, method: string, payload?: any): ApiData {
+    const [data, setData] = useState<DataType | null | undefined>(undefined);
     const [error, setError] = useState(false as boolean | Error);
 
     const isLoaded = useRef(false);

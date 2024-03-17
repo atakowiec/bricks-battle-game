@@ -4,11 +4,16 @@ export interface IMap {
   _id: string;
   name: string;
   type: MapType;
-  ownerId: string;
+  size: number;
+  ownerId?: string;
+  difficulty: MapDifficulty;
+  data: string;
 }
 
 // image is not supported yet
 export type MapBlockType = 'image' | 'color';
+
+export type MapDifficulty = 'easy' | 'normal' | 'hard'
 
 export interface IMapBlock {
   id: string;

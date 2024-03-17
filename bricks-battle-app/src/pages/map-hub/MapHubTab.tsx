@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import MapEditor from './map-editor/MapEditor.tsx';
-import MapListPage from './MapList.tsx';
+import MapListPage from './map-list/MapListPage.tsx';
 import title from '../../utils/title.ts';
 
 export interface MapHubPageProps {

@@ -4,7 +4,7 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { Response } from 'express';
 import { AuthGuard } from './auth.guard';
 import { ChangePasswordDto } from '../users/dto/change-password.dto';
-import { RequestUser } from '../decorators/user.decorator';
+import { RequestUser } from '../users/user.decorator';
 import { User } from '../users/user.schema';
 
 @Controller('auth')
@@ -36,7 +36,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Post('verify')
-  verify(@RequestUser() user: User){
+  verify(@RequestUser() user: User) {
     return this.authService.verify(user);
   }
 }
