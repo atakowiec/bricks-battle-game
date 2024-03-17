@@ -5,7 +5,7 @@ export interface IMap {
   name: string;
   type: MapType;
   size: number;
-  ownerId?: string;
+  owner: { nickname: string };
   difficulty: MapDifficulty;
   data: string;
 }

@@ -18,7 +18,7 @@ export class AuthService {
   }
 
   async register(createUserDto: CreateUserDto, res: Response) {
-    if (await this.usersService.findOne(createUserDto.nickname)) {
+    if (await this.usersService.findOne({ nickname: createUserDto.nickname })) {
       throw new HttpException('Username already exists', 409);
     }
 
@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   async login(createUserDto: CreateUserDto, res: Response) {
-    const user = await this.usersService.findOne(createUserDto.nickname);
+    const user = await this.usersService.findOne({ nickname: createUserDto.nickname });
 
     if (!user || !(await this.comparePasswords(createUserDto.password, user.password))) {
       throw new HttpException('Invalid credentials', 401);

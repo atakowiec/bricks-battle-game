@@ -1,9 +1,62 @@
 @import "../../style/globals.module";
 
+
 .addMapButton {
   @extend .buttonSecondary;
   margin-top: 20px;
   width: fit-content;
+}
+
+.mapList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+
+  .mapCard {
+    margin: 10px 0;
+    width: 100%;
+    display: flex;
+    border: 6px solid $accent-1;
+
+    img {
+      width: 150px;
+      border-right: 6px solid $accent-1;
+    }
+
+    .mapCardInfo {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px 10px 10px 20px;
+      width: 100%;
+
+      .author {
+        margin-top: -10px;
+        font-size: 14px;
+        color: #ffffffca;
+      }
+
+      .cardBottomBox {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        button {
+          padding: 8px 20px;
+          margin: 0;
+          font-size: 18px;
+          width: fit-content;
+        }
+
+        .difficulty {
+          margin-top: 10px;
+          font-size: 14px;
+          color: #ffffffca;
+        }
+      }
+    }
+  }
 }
 
 .logInText {
@@ -34,7 +87,6 @@
         @extend .buttonSecondary
       }
     }
-
   }
 
   .previewBox {

@@ -3,7 +3,7 @@ import { MapsService } from './maps.service';
 import { MapBlocksService } from './map-blocks/map-blocks.service';
 import { CreateMapDto } from './create-map.dto';
 import { AuthGuard } from '../auth/auth.guard';
-import { RequestUser } from '../users/user.decorator';
+import { RequestUser } from '../users/request-user.decorator';
 import { User } from '../users/user.schema';
 import { MapType } from '@shared/Map';
 
@@ -27,7 +27,7 @@ export class MapsController {
 
   @UseGuards(AuthGuard)
   @Post()
-  saveMap(@Body() createMapDto: CreateMapDto, @RequestUser() user: User) {
-    return this.mapsService.saveMap(createMapDto, user);
+  async saveMap(@Body() createMapDto: CreateMapDto, @RequestUser() user: User) {
+    return await this.mapsService.saveMap(createMapDto, user);
   }
 }

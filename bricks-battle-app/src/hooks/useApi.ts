@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState} from "react";
 import getApi from '../api/axios.ts';
 
-export interface ApiData {
-    data: any
+export interface ApiData<T> {
+    data: T | null | undefined
     loaded: boolean
     error: boolean | Error
     setData: React.Dispatch<any>
 }
 
-export default function useApi<DataType>(path: string, method: string, payload?: any): ApiData {
+export default function useApi<DataType>(path: string, method: string, payload?: any): ApiData<DataType> {
     const [data, setData] = useState<DataType | null | undefined>(undefined);
     const [error, setError] = useState(false as boolean | Error);
 

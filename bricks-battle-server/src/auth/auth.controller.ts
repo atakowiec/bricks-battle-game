@@ -4,7 +4,7 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { Response } from 'express';
 import { AuthGuard } from './auth.guard';
 import { ChangePasswordDto } from '../users/dto/change-password.dto';
-import { RequestUser } from '../users/user.decorator';
+import { RequestUser } from '../users/request-user.decorator';
 import { User } from '../users/user.schema';
 
 @Controller('auth')
