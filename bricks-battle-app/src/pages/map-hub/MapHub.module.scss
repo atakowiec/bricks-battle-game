@@ -12,6 +12,17 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 20px;
+  height: 330px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 15px;
+    background: $background-inactive;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border-gradient-lighter;
+  }
 
   .mapCard {
     margin: 10px 0;
@@ -19,8 +30,16 @@
     display: flex;
     border: 6px solid $accent-1;
 
-    img {
-      width: 150px;
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    svg {
+      width: 200px;
       border-right: 6px solid $accent-1;
     }
 
@@ -31,8 +50,12 @@
       padding: 10px 10px 10px 20px;
       width: 100%;
 
+      h3 {
+        margin: 0;
+        font-size: 24px;
+      }
+
       .author {
-        margin-top: -10px;
         font-size: 14px;
         color: #ffffffca;
       }

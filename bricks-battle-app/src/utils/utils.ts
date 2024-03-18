@@ -1,3 +1,5 @@
+import { IMap } from '@shared/Map.ts';
+
 export const Base64 = (function() {
   const digitsStr = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-';
   const digits = digitsStr.split('');
@@ -26,3 +28,11 @@ export const Base64 = (function() {
     },
   };
 })();
+
+export function encodeMap(map: IMap) {
+  const chunks: number[][] = [];
+  for (let i = 0; i < map.data.length; i += map.size) {
+    chunks.push(map.data.slice(i, i + map.size).split('').map(c => Base64.toInt(c)));
+  }
+  return chunks
+}

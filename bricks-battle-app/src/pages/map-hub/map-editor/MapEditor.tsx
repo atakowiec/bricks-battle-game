@@ -7,6 +7,7 @@ import { produce } from 'immer';
 import { EditorTools } from './EditorTools.tsx';
 import { BottomButtons } from './BottomButtons.tsx';
 import getApi from '../../../api/axios.ts';
+import title from '../../../utils/title.ts';
 
 export interface MapEditorState {
   name: string;
@@ -34,6 +35,8 @@ function emptyRow(size: number): string[] {
 }
 
 export default function MapEditor(props: MapHubPageProps) {
+  title('Map editor')
+
   const [state, setState] = useState<MapEditorState>({
     name: '',
     difficulty: 'easy',

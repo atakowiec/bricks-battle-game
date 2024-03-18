@@ -5,6 +5,7 @@ import { MapType } from '@shared/Map.ts';
 import { Container } from '../../../components/Container.tsx';
 import NavBar from '../../../components/NavBar.tsx';
 import { MapList } from './MapList.tsx';
+import title from '../../../utils/title.ts';
 
 const mapCategories = [
   'official',
@@ -13,6 +14,8 @@ const mapCategories = [
 ];
 
 export default function MapListPage(props: MapHubPageProps) {
+  title('Map Hub');
+
   const [mapCategory, setMapCategory] = useState<MapType>('official');
 
   return (
