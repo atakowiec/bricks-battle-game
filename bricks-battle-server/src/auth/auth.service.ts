@@ -77,8 +77,7 @@ export class AuthService {
   }
 
   async changePassword(changePasswordDto: ChangePasswordDto, user: User) {
-    //@ts-ignore
-    user = await this.usersService.findOne(user.nickname);
+    user = await this.usersService.findOne({ nickname: user.nickname });
 
     if (!user || !await this.comparePasswords(changePasswordDto.oldPassword, user.password)) {
       throw new HttpException('Invalid credentials', 401);

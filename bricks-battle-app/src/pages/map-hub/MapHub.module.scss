@@ -8,25 +8,19 @@
 }
 
 .mapList {
+  @extend .scrollbar;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-content: flex-start;
   margin-top: 20px;
   height: 330px;
   overflow: auto;
 
-  &::-webkit-scrollbar {
-    width: 15px;
-    background: $background-inactive;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $border-gradient-lighter;
-  }
-
   .mapCard {
-    margin: 10px 0;
+    margin: 5px 0;
     width: 100%;
+    height: fit-content;
     display: flex;
     border: 6px solid $accent-1;
 

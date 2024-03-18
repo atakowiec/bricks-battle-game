@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { MapsModule } from './maps/maps.module';
 import { JwtMiddleware } from './auth/jwt.middleware';
+import { GameModule } from './game/game.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { JwtMiddleware } from './auth/jwt.middleware';
       'mongodb://root:pass@127.0.0.1:27017/bricks-battle?authSource=admin',
     ),
     MapsModule,
+    GameModule,
   ],
   controllers: [AppController],
   providers: [AppService],

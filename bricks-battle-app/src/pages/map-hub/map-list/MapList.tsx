@@ -10,7 +10,6 @@ import { encodeMap } from '../../../utils/utils.ts';
 export function MapList(props: MapHubPageProps & { mapCategory: MapType }) {
   const user = useSelector(state => state.user);
   const { data, loaded } = useApi<IMap[]>('/maps/' + props.mapCategory, 'get');
-  console.log(data);
 
   if (!loaded) {
     return <div>Loading...</div>;
@@ -37,7 +36,7 @@ export function MapList(props: MapHubPageProps & { mapCategory: MapType }) {
         </div>
       }
 
-      <div className={style.mapList} style={{paddingRight: (data?.length ?? 0) > 2 ? "5px" : ""}}>
+      <div className={style.mapList} style={{ paddingRight: (data?.length ?? 0) > 2 ? '5px' : '' }}>
         {data && data.map(map => <MapCard key={map._id} mapCategory={props.mapCategory} map={map} />)}
       </div>
     </>
@@ -75,8 +74,8 @@ function MapImage(props: { map: IMap }) {
   const arr = Array.from({ length: props.map.size });
 
   return (
-    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <rect x={0} y={0} width={20} height={20} fill="#00000070" />
+    <svg viewBox={`0 0 ${props.map.size} ${props.map.size}`} xmlns="http://www.w3.org/2000/svg">
+      <rect x={0} y={0} width={props.map.size} height={props.map.size} fill="#00000070" />
       {arr.map((_, y) => arr.map((_, x) => {
         const blockId = mapColors[y]?.[x] ?? '0';
         const blockColor = mapBlocks[blockId]?.data ?? undefined;

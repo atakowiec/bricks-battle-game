@@ -206,3 +206,14 @@ h1 {
     }
   }
 }
+
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: 15px;
+    background: $background-inactive;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border-gradient-lighter;
+  }
+}
