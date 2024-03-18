@@ -1,11 +1,12 @@
 import { StateProps } from './MapEditor.tsx';
-import { MapHubPageProps } from '../MapHubTab.tsx';
 import style from '../MapHub.module.scss';
 import { useState } from 'react';
 import FloatingContainer, { FloatingContainerProps } from '../../../components/FloatingContainer.tsx';
 import Button from '../../../components/Button.tsx';
+import { layoutActions } from '../../../store/layoutSlice.ts';
+import { useDispatch } from 'react-redux';
 
-export function BottomButtons(props: StateProps & MapHubPageProps & { saveMap: () => void }) {
+export function BottomButtons(props: StateProps & { saveMap: () => void }) {
   const [exitConfirmationVisible, setExitConfirmationVisible] = useState(false);
   const [saveConfirmationVisible, setSaveConfirmationVisible] = useState(false);
 
@@ -20,20 +21,19 @@ export function BottomButtons(props: StateProps & MapHubPageProps & { saveMap: (
         </button>
       </div>
 
-      <ExitConfirmation setMapEditor={props.setMapEditor}
-                        visible={exitConfirmationVisible}
+      <ExitConfirmation visible={exitConfirmationVisible}
                         setVisible={setExitConfirmationVisible} />
 
-      <SaveConfirmation setMapEditor={props.setMapEditor}
-                        visible={saveConfirmationVisible}
+      <SaveConfirmation visible={saveConfirmationVisible}
                         setVisible={setSaveConfirmationVisible}
                         saveMap={props.saveMap} />
-
     </>
   );
 }
 
-function ExitConfirmation(props: MapHubPageProps & FloatingContainerProps) {
+function ExitConfirmation(props: FloatingContainerProps) {
+  const dispatch = useDispatch();
+
   return (
     <FloatingContainer {...props}>
       <h1>Exit confirmation</h1>
@@ -41,7 +41,7 @@ function ExitConfirmation(props: MapHubPageProps & FloatingContainerProps) {
         Are you sure you want to exit? All unsaved changes will be lost.
       </p>
       <div className={`${style.bottomButtons} mt-5`}>
-        <Button type={'primary'} onClick={() => props.setMapEditor(false)}>
+        <Button type={'primary'} onClick={() => dispatch(layoutActions.setTab('map-hub'))}>
           Exit
         </Button>
         <Button type={'secondary'} onClick={() => props.setVisible(false)}>
@@ -52,7 +52,7 @@ function ExitConfirmation(props: MapHubPageProps & FloatingContainerProps) {
   );
 }
 
-function SaveConfirmation(props: MapHubPageProps & FloatingContainerProps & { saveMap: () => void }) {
+function SaveConfirmation(props: FloatingContainerProps & { saveMap: () => void }) {
   return (
     <FloatingContainer {...props}>
       <h1>Save confirmation</h1>

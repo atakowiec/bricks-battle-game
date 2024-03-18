@@ -3,20 +3,15 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 export interface LayoutState {
-    stage: "main" | "game-lobby" | "game"
     tab: string
 }
 
 const layoutSlice = createSlice({
     name: "layout",
     initialState: {
-        stage: "main",
         tab: "main"
     } as LayoutState,
     reducers: {
-        setStage: (state, action) => {
-            state.stage = action.payload
-        },
         setTab: (state, action) => {
             state.tab = action.payload
         }

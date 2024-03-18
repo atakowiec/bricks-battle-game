@@ -1,46 +1,45 @@
-import {ReactNode} from 'react';
+import { ReactNode } from 'react';
 import style from '../style/navbar.module.scss';
-import {NavbarRoute, navbarRoutes} from "../App.tsx";
-import {useDispatch} from "react-redux";
-import {layoutActions} from "../store/layoutSlice.ts";
-import useSelector from "../hooks/useSelector.ts";
+import { NavbarRoute } from '../App.tsx';
+import { useDispatch } from 'react-redux';
+import { layoutActions } from '../store/layoutSlice.ts';
+import useSelector from '../hooks/useSelector.ts';
 
-export default function NavBar() {
-    const stage = useSelector(state => state.layout.stage)
-    const tab = useSelector(state => state.layout.tab)
-    const routes = navbarRoutes[stage] as NavbarRoute[];
+export default function NavBar({ routes }: { routes: NavbarRoute[] }) {
+  const stage = useSelector(state => state.layout.stage);
+  const tab = useSelector(state => state.layout.tab);
 
-    if (!routes) return <></>;
+  if (!routes) return <></>;
 
-    return (
-        <div className={style.navBar}>
-            {routes.map(route => (
-                <NavbarElement id={route.id} active={route.id === tab} key={`${stage}-${route.id}`}>
-                    <NavbarIcon src={`assets/${route.id}.png`} alt={route.id}/>
-                </NavbarElement>
-            ))}
-        </div>
-    )
+  return (
+    <div className={style.navBar}>
+      {routes.map(route => (
+        <NavbarElement id={route.id} active={route.id === tab} key={`${stage}-${route.id}`}>
+          <NavbarIcon src={`assets/${route.id}.png`} alt={route.id} />
+        </NavbarElement>
+      ))}
+    </div>
+  );
 }
 
 function NavbarElement(props: NavbarElementProps) {
-    const dispatch = useDispatch();
-    const onTabClick = (id: string) => dispatch(layoutActions.setTab(id));
+  const dispatch = useDispatch();
+  const onTabClick = (id: string) => dispatch(layoutActions.setTab(id));
 
-    return (
-        <div key={props.id} onClick={() => onTabClick(props.id)}
-             className={`${style.element} ${props.active ? style.active : ""}`}>
-            {props.children}
-        </div>
-    );
+  return (
+    <div key={props.id} onClick={() => onTabClick(props.id)}
+         className={`${style.element} ${props.active ? style.active : ''}`}>
+      {props.children}
+    </div>
+  );
 }
 
-function NavbarIcon({src, alt}: { src: string, alt: string }) {
-    return <img src={src} alt={alt}/>;
+function NavbarIcon({ src, alt }: { src: string, alt: string }) {
+  return <img src={src} alt={alt} />;
 }
 
 interface NavbarElementProps {
-    children: ReactNode;
-    id: string;
-    active: boolean;
+  children: ReactNode;
+  id: string;
+  active: boolean;
 }

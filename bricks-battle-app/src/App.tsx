@@ -1,20 +1,14 @@
-import MainMenu from './pages/main/MainMenu.tsx';
-
 import { ReactNode, useEffect } from 'react';
 import useSelector from './hooks/useSelector.ts';
-import { Container } from './components/Container.tsx';
-import NavBar from './components/NavBar.tsx';
-import AccountTab from './pages/account/AccountTab.tsx';
-import Gadgets from './pages/gadgets/Gadgets.tsx';
 import getApi from './api/axios.ts';
 import { useDispatch } from 'react-redux';
 import { userActions } from './store/userSlice.ts';
-import MapHubTab from './pages/map-hub/MapHubTab.tsx';
 import { commonDataActions } from './store/commonDataSlice.ts';
+import { MenuRouter } from './pages/MenuRouter.tsx';
+import { GameRouter } from './pages/GameRouter.tsx';
 
 function App() {
-  const stage = useSelector(state => state.layout.stage);
-  const tab = useSelector(state => state.layout.tab);
+  const game = useSelector(state => state.game);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,68 +26,8 @@ function App() {
       });
   }, []);
 
-  if (stage === 'game') return <></>;
-
-  const route = navbarRoutes[stage].find(route => route.id === tab);
-
-  if(!route)
-    return <></>;
-
-  // unfortunately map hub uses a different container
-  if(route.id === "map-hub") {
-    return route.element;
-  }
-
-  return (
-    <Container>
-      <NavBar />
-      {route.element || <></>}
-    </Container>
-  );
+  return game ? <GameRouter /> : <MenuRouter />;
 }
-
-export const navbarRoutes: { [key: string]: NavbarRoute[] } = {
-  'main': [
-    {
-      id: 'main',
-      element: <MainMenu />,
-    },
-    {
-      id: 'account',
-      element: <AccountTab />,
-    },
-    {
-      id: 'personalize',
-      element: <Gadgets />,
-    },
-    {
-      id: 'map-hub',
-      element: <MapHubTab />,
-    },
-  ],
-  'game-lobby': [
-    {
-      id: 'game-lobby',
-      element: <></>,
-    },
-    {
-      id: 'account',
-      element: <AccountTab />,
-    },
-    {
-      id: 'personalize',
-      element: <Gadgets />,
-    },
-    {
-      id: 'map-hub',
-      element: <MapHubTab />,
-    },
-    {
-      id: 'settings',
-      element: <></>,
-    },
-  ],
-};
 
 export interface NavbarRoute {
   id: string;

@@ -1,4 +1,3 @@
-import { MapHubPageProps } from '../MapHubTab.tsx';
 import style from '../MapHub.module.scss';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { IMapBlock } from '@shared/Map.ts';
@@ -8,6 +7,8 @@ import { EditorTools } from './EditorTools.tsx';
 import { BottomButtons } from './BottomButtons.tsx';
 import getApi from '../../../api/axios.ts';
 import title from '../../../utils/title.ts';
+import { useDispatch } from 'react-redux';
+import { layoutActions } from '../../../store/layoutSlice.ts';
 
 export interface MapEditorState {
   name: string;
@@ -34,9 +35,9 @@ function emptyRow(size: number): string[] {
   return Array.from({ length: size }).map(() => '0');
 }
 
-export default function MapEditor(props: MapHubPageProps) {
+export default function MapEditor() {
   title('Map editor')
-
+  const dispatch = useDispatch();
   const [state, setState] = useState<MapEditorState>({
     name: '',
     difficulty: 'easy',
@@ -55,7 +56,7 @@ export default function MapEditor(props: MapHubPageProps) {
       data: mapString,
       size: state.size,
     }).then(() => {
-      props.setMapEditor(false);
+      dispatch(layoutActions.setTab('map-hub'));
     }).catch((e) => {
       console.log(e);
     });
@@ -94,7 +95,7 @@ export default function MapEditor(props: MapHubPageProps) {
         <MapPreview state={state} setState={setState} />
         <EditorTools state={state} setState={setState} onSizeChange={onSizeChange} />
       </div>
-      <BottomButtons {...props} state={state} setState={setState} saveMap={saveMap} />
+      <BottomButtons state={state} setState={setState} saveMap={saveMap} />
     </div>
   );
 }

@@ -7,6 +7,25 @@
   width: fit-content;
 }
 
+.loadingBox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  margin-top: 20px;
+  height: 330px;
+  overflow: hidden;
+
+  .loadingElement {
+    margin: 5px 0;
+    width: 100%;
+    display: flex;
+    border: 6px solid $accent-1;
+    background: $background-inactive;
+    height: 143px;
+  }
+}
+
 .mapList {
   @extend .scrollbar;
   display: flex;
