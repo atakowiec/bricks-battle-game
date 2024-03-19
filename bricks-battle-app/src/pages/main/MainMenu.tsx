@@ -24,7 +24,7 @@ export default function MainMenu() {
       return setEnterNameVisible(true);
     }
 
-    console.log('Creating new game');
+    socket.emit("create_game")
   }
 
   function onJoinGame(nickname?: string) {
@@ -33,7 +33,6 @@ export default function MainMenu() {
       return setEnterNameVisible(true);
     }
 
-    console.log('Joining game');
   }
 
   function saveNickname() {
@@ -75,13 +74,13 @@ export default function MainMenu() {
         {nickname && <div className={style.nicknameBox}>
           Hi, {nickname}!
         </div>}
-        <button onClick={() => onNewGame()}>Create game</button>
+        <button onClick={() => onNewGame(nickname)}>Create game</button>
         <div className={style.separator}>
           or
         </div>
         <input type={'text'} placeholder={'Enter game code'} />
         <br />
-        <button onClick={() => onJoinGame()}>Join game</button>
+        <button onClick={() => onJoinGame(nickname)}>Join game</button>
       </div>
     </>
   );

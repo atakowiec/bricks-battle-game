@@ -6,14 +6,14 @@ import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 import { Request, TokenPayload } from '../types/request.type';
 import { ChangePasswordDto } from '../users/dto/change-password.dto';
-import { GameGateway } from '../game/game.gateway';
+import { GameService } from '../game/game.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    private readonly gameGateway: GameGateway,
+    private readonly gameService: GameService,
   ) {
     // empty
   }
@@ -23,7 +23,7 @@ export class AuthService {
       throw new HttpException('Username already exists', 409);
     }
 
-    if (this.gameGateway.isUsernameConnected(createUserDto.nickname)) {
+    if (this.gameService.isUsernameConnected(createUserDto.nickname)) {
       throw new HttpException('User is already connected', 409);
     }
 
@@ -45,7 +45,7 @@ export class AuthService {
       throw new HttpException('Invalid credentials', 401);
     }
 
-    if (this.gameGateway.isUsernameConnected(user.nickname)) {
+    if (this.gameService.isUsernameConnected(user.nickname)) {
       throw new HttpException('User is already connected', 409);
     }
 
@@ -107,7 +107,7 @@ export class AuthService {
   }
 
   async verify(user: TokenPayload, response: Response) {
-    if (this.gameGateway.isUsernameConnected(user.nickname)) {
+    if (this.gameService.isUsernameConnected(user.nickname)) {
       AuthService.clearCookie(response);
       throw new HttpException('User is already connected', 409);
     }
@@ -136,7 +136,7 @@ export class AuthService {
   async setNickname(nickname: string, response: Response) {
     const user = await this.usersService.findOne({ nickname });
 
-    if (user || this.gameGateway.isUsernameConnected(nickname)) {
+    if (user || this.gameService.isUsernameConnected(nickname)) {
       throw new HttpException('Nickname already exists', 409);
     }
 

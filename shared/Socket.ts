@@ -1,5 +1,5 @@
 export interface ServerToClientEvents {
-
+    exception: (error: string) => void
 }
 
 export type ServerToClientEventsKeys = keyof ServerToClientEvents
