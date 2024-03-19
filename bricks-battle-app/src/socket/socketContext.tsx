@@ -6,13 +6,11 @@ export const SocketContext = createContext<Socket<ServerToClientEvents, ClientTo
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const socket : Socket<ServerToClientEvents, ClientToServerEvents> = useMemo(() => {
-    const socket = io('http://localhost:3000');
-
-    socket.on('connect', () => {
-      console.log('Connected to server');
+    return io('http://localhost:3000', {
+      autoConnect: false,
+      withCredentials: true,
+      transports: ["websocket"]
     });
-
-    return socket;
   }, []);
 
   return (

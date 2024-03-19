@@ -24,6 +24,7 @@ import { GameModule } from './game/game.module';
   ],
   controllers: [AppController],
   providers: [AppService],
+  exports: [AuthModule],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

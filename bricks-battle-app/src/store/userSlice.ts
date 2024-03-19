@@ -19,8 +19,7 @@ const userSlice = createSlice({
         };
       }
 
-      if(action.payload.sub)
-        action.payload.loggedIn = true;
+      action.payload.loggedIn = !!action.payload.sub;
 
       return action.payload;
     },

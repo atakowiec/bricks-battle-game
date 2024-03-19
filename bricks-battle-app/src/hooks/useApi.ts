@@ -8,7 +8,7 @@ export interface ApiData<T> {
     setData: React.Dispatch<any>
 }
 
-export default function useApi<DataType>(path: string, method: string, payload?: any): ApiData<DataType> {
+export default function useApi<DataType = any>(path: string, method: string, payload?: any): ApiData<DataType> {
     const [data, setData] = useState<DataType | null | undefined>(undefined);
     const [error, setError] = useState(false as boolean | Error);
 

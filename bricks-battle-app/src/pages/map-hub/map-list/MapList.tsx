@@ -1,16 +1,16 @@
-import { IMap, MapType } from '@shared/Map.ts';
+import {IMap, MapType} from '@shared/Map.ts';
 import useSelector from '../../../hooks/useSelector.ts';
 import style from '../MapHub.module.scss';
 import useApi from '../../../hooks/useApi.ts';
 import Button from '../../../components/Button.tsx';
-import { useDispatch } from 'react-redux';
-import { layoutActions } from '../../../store/layoutSlice.ts';
-import { MapImage } from './MapImage.tsx';
+import {useDispatch} from 'react-redux';
+import {layoutActions} from '../../../store/layoutSlice.ts';
+import {MapImage} from './MapImage.tsx';
 
 export function MapList(props: { mapCategory: MapType }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
-  const { data, loaded } = useApi<IMap[]>('/maps/' + props.mapCategory, 'get');
+  const {data, loaded} = useApi<IMap[]>('/maps/' + props.mapCategory, 'get');
 
   if (props.mapCategory === 'personal') {
     if (!user?.sub) {
@@ -26,20 +26,22 @@ export function MapList(props: { mapCategory: MapType }) {
     <>
       {
         props.mapCategory === 'personal' &&
-        <div className={'text-center'}>
-          <button className={style.addMapButton} onClick={() => dispatch(layoutActions.setTab('map-editor'))}>
-            Create map
-          </button>
-        </div>
+          <div className={'text-center'}>
+              <button className={style.addMapButton} onClick={() => dispatch(layoutActions.setTab('map-editor'))}>
+                  Create map
+              </button>
+          </div>
       }
 
       {
         !loaded ?
-            <Loading />
-          :
-          <div className={style.mapList} style={{ paddingRight: (data?.length ?? 0) > 2 ? '5px' : '' }}>
-            {data && data.map(map => <MapCard key={map._id} mapCategory={props.mapCategory} map={map} />)}
-          </div>
+          <Loading/>
+          : !data ?
+            <div className={style.noMaps}>No maps available :(</div>
+            :
+            <div className={style.mapList} style={{paddingRight: (data?.length ?? 0) > 2 ? '5px' : ''}}>
+              {data.map(map => <MapCard key={map._id} mapCategory={props.mapCategory} map={map}/>)}
+            </div>
       }
     </>
   );
@@ -58,15 +60,15 @@ function Loading() {
 function MapCard(props: { map: IMap, mapCategory: MapType }) {
   return (
     <div className={style.mapCard}>
-      <MapImage map={props.map} />
+      <MapImage map={props.map}/>
       <div className={style.mapCardInfo}>
         <div>
           <h3>{props.map.name}</h3>
           {
             props.mapCategory === 'community' && props.map.owner &&
-            <div className={style.author}>
-              by {props.map.owner?.nickname}
-            </div>
+              <div className={style.author}>
+                  by {props.map.owner?.nickname}
+              </div>
           }
         </div>
         <div className={style.cardBottomBox}>

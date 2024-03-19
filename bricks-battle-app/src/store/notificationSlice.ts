@@ -17,8 +17,6 @@ const notificationSlice = createSlice({
     addNotification(state, action) {
       if (!action.payload.id) return state;
 
-      console.log('Adding notification', action.payload);
-
       state.push({
         ...action.payload,
       });
