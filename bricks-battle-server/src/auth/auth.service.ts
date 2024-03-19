@@ -28,7 +28,7 @@ export class AuthService {
 
     const payload = { nickname: user.nickname, sub: user._id };
     const access_token = this.jwtService.sign(payload);
-    this.setCookie(res, access_token);
+    AuthService.setCookie(res, access_token);
 
     return payload;
   }
@@ -42,12 +42,12 @@ export class AuthService {
 
     const payload = { nickname: user.nickname, sub: user._id };
     const access_token = this.jwtService.sign(payload);
-    this.setCookie(res, access_token);
+    AuthService.setCookie(res, access_token);
 
     return payload;
   }
 
-  setCookie(res: Response, token: string) {
+  public static setCookie(res: Response, token: string) {
     res.cookie('access_token', token, {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365), // 1 year
       httpOnly: true,

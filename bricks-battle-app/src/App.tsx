@@ -6,6 +6,7 @@ import { userActions } from './store/userSlice.ts';
 import { commonDataActions } from './store/commonDataSlice.ts';
 import { MenuRouter } from './pages/MenuRouter.tsx';
 import { GameRouter } from './pages/GameRouter.tsx';
+import NotificationsMain from './components/NotificationsMain.tsx';
 
 function App() {
   const game = useSelector(state => state.game);
@@ -26,7 +27,12 @@ function App() {
       });
   }, []);
 
-  return game ? <GameRouter /> : <MenuRouter />;
+  return (
+    <>
+      <NotificationsMain />
+      {game ? <GameRouter /> : <MenuRouter />}
+    </>
+  );
 }
 
 export interface NavbarRoute {

@@ -14,7 +14,7 @@ export class JwtMiddleware implements NestMiddleware {
   ) {
   }
 
-  async use(req: Request, _: Response, next: NextFunction) {
+  async use(req: Request, res: Response, next: NextFunction) {
     const token = this.authService.extractTokenFromCookie(req);
     delete req.user;
     if (token) {
@@ -22,6 +22,11 @@ export class JwtMiddleware implements NestMiddleware {
         req.user = await this.jwtService.verifyAsync(token, {
           secret: this.configService.get('JWT_SECRET'),
         });
+
+        AuthService.setCookie(res, this.jwtService.sign({
+          nickname: req.user.nickname,
+          sub: req.user.sub,
+        }));
       } catch (_) {
         // ignored
       }

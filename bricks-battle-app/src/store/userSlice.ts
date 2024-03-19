@@ -1,20 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface UserStateData {
+export interface UserState {
   sub: string;
   nickname: string;
+  loggedIn: boolean;
 }
-
-export type UserState = UserStateData | null;
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: null as UserState,
+  initialState: {
+    loggedIn: false,
+  } as UserState,
   reducers: {
     setUser: (_, action) => {
       if(!action.payload) {
-        return null;
+        return {
+          loggedIn: false
+        };
       }
+
+      if(action.payload.sub)
+        action.payload.loggedIn = true;
 
       return action.payload;
     },

@@ -5,6 +5,13 @@
     @extend .button;
   }
 
+  .nicknameBox {
+    margin-top: -2.6rem;
+    margin-bottom: 2.6rem;
+    text-align: center;
+    opacity: $inactive-opacity;
+  }
+
   input[type="text"] {
     @extend .text-input;
 

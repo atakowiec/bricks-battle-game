@@ -1,9 +1,9 @@
-import {Login} from "./Login.tsx";
+import { Login } from './Login.tsx';
 import useSelector from '../../hooks/useSelector.ts';
 import Account from './Account.tsx';
 
 export default function AccountTab() {
-    const loggedIn = !!useSelector(state => state.user?.nickname);
+  const loggedIn = useSelector(state => state.user.loggedIn);
 
-    return loggedIn ? <Account /> : <Login />;
+  return loggedIn ? <Account /> : <Login />;
 }
