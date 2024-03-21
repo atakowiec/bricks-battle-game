@@ -28,9 +28,20 @@ export class GameService {
   }
 
   public createGame(client: SocketType): Game {
-    const game = new Game(client);
+    const game = new Game(client, this);
     this.games.push(game);
 
     return game;
+  }
+
+  destroyGame(game: Game) {
+    const index = this.games.indexOf(game);
+    this.games.splice(index, 1);
+
+    game.forceDestroy()
+  }
+
+  getUserGame(nickname: string) {
+    return this.games.find(game => game.owner.nickname === nickname || game.player?.nickname === nickname);
   }
 }

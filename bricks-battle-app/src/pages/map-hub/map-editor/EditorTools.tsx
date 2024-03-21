@@ -3,7 +3,7 @@ import { IMapBlock } from '@shared/Map.ts';
 import style from '../MapHub.module.scss';
 import { ButtonSelector, SelectButton } from '../../../components/button-selector/ButtonSelector.tsx';
 import { StateProps, ToolTypes } from './MapEditor.tsx';
-import React, { ChangeEvent, MouseEvent } from 'react';
+import { ChangeEvent } from 'react';
 
 export function EditorTools(props: StateProps) {
   const blocks = Object.values(useSelector(state => state.commonData.blocks)) as IMapBlock[];

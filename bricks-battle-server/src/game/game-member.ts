@@ -1,5 +1,6 @@
 import { SocketType } from './game.types';
 import Game from './game';
+import { GamePacket } from '@shared/Game';
 
 export class GameMember {
   public nickname: string;
@@ -22,5 +23,13 @@ export class GameMember {
 
   sendNotification(message: string) {
     this.socket.volatile.emit('notification', message);
+  }
+
+  sendUpdate(packet: GamePacket) {
+    this.socket.emit('game_update', packet);
+  }
+
+  sendGame() {
+    this.socket.emit('set_game', this.game.getPacket(this.socket));
   }
 }

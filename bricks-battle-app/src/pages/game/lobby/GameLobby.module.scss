@@ -17,6 +17,10 @@
     flex: 1;
     padding: 5px;
 
+    &.empty {
+      opacity: .5;
+    }
+
     .noMember {
       display: flex;
       justify-content: center;
@@ -25,7 +29,6 @@
       background-color: $background-inactive;
       width: 100%;
       border: 6px solid $accent-1;
-      opacity: .5;
     }
 
     img {

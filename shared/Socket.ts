@@ -3,7 +3,9 @@ import { GamePacket } from './Game';
 export interface ServerToClientEvents {
     exception: (error: string) => void
     set_game: (game: GamePacket) => void
+    game_update: (game: GamePacket) => void
     notification: (message: string) => void
+    event_exception: (error: string) => void
 }
 
 export type ServerToClientEventsKeys = keyof ServerToClientEvents

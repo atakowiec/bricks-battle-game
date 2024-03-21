@@ -28,7 +28,7 @@ function MemberCard(props: { owner: boolean }) {
   });
 
   return (
-    <div className={style.memberCard}>
+    <div className={`${style.memberCard} ${gameMember?.online ? "" : style.empty }`}>
       {gameMember ?
         <>
           <img src={'/assets/icon.png'} alt="icon" />

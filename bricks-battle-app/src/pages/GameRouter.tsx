@@ -33,7 +33,6 @@ export function GameRouter() {
     return <MapEditor />;
 
   const route = routes.find(route => route.id === tab);
-  console.log(route);
 
   if (!route) return <></>;
 

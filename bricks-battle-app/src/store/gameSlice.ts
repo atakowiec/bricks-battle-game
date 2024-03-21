@@ -13,13 +13,33 @@ const gameSlice = createSlice({
   reducers: {
     setGame: (_, action) => action.payload,
     updateGame: (state, action) => {
+      // do not update state if game is not set
+      if (state === null) {
+        return state;
+      }
+
+      console.log(action.payload);
+
       const payload: GamePacket = action.payload;
 
+      if (payload.player) {
+        payload.player = {
+          ...state.player,
+          ...payload.player,
+        };
+      }
+
+      if (payload.opponent) {
+        payload.opponent = {
+          ...state.opponent,
+          ...payload.opponent,
+        };
+      }
+
       return {
-        id: payload.id ?? state?.id!,
-        player: payload.player ?? state?.player!,
-        opponent: payload.opponent ?? state?.opponent,
-      };
+        ...state,
+        ...payload,
+      } as GameState;
     },
   },
 });

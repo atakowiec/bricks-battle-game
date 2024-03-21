@@ -16,7 +16,13 @@
     @extend .text-input;
 
     text-align: center;
+  }
+
+  .error {
+    text-align: center;
     margin-bottom: 20px;
+    color: #ffffffaa;
+    margin-top: 5px;
   }
 
   .separator {

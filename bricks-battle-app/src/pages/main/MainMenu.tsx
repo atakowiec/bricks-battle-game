@@ -1,6 +1,6 @@
 import style from './MainMenu.module.scss';
 import title from '../../utils/title.ts';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import FloatingContainer from '../../components/FloatingContainer.tsx';
 import useSelector from '../../hooks/useSelector.ts';
 import getApi from '../../api/axios.ts';
@@ -12,12 +12,24 @@ export default function MainMenu() {
   title('Main Menu');
   const socket = useSocket();
   const dispatch = useDispatch();
-  const [enterNameVisible, setEnterNameVisible] = useState(false);
+
   const nickname = useSelector(state => state.user.nickname);
+
+  const [enterNameVisible, setEnterNameVisible] = useState(false);
+  const [nicknameError, setNicknameError] = useState('');
+  const [gameIdError, setGameIdError] = useState('');
+
   const nicknameRef = useRef<HTMLInputElement>(null);
   const clickedActionRef = useRef<Function | null>(null);
-  const [nicknameError, setNicknameError] = useState('');
   const gameIdRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    socket.on('event_exception', setGameIdError);
+
+    return () => {
+      socket.off('event_exception', setGameIdError);
+    };
+  }, []);
 
   function onNewGame(nickname?: string) {
     if (!nickname) {
@@ -81,7 +93,9 @@ export default function MainMenu() {
           or
         </div>
         <input type={'text'} placeholder={'Enter game code'} ref={gameIdRef} />
-        <br />
+        <div className={style.error}>
+          {gameIdError}
+        </div>
         <button onClick={() => onJoinGame(nickname)}>Join game</button>
       </div>
     </>

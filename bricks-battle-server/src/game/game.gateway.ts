@@ -9,10 +9,11 @@ import { SocketServerType, SocketType } from './game.types';
 import { parse } from 'cookie';
 import { JwtService } from '@nestjs/jwt';
 import SubscribeMessage from 'src/utils/subscribe-message.decorator';
-import { RequireNickname } from './require-nickname.guard';
+import { RequireNickname } from '../socket/require-nickname.guard';
 import { forwardRef, Inject, UseFilters, UseGuards } from '@nestjs/common';
-import { WsExceptionFilter } from './ws-exception.filter';
+import { WsExceptionFilter } from '../socket/ws-exception.filter';
 import { GameService } from './game.service';
+import { EventWsException } from '../socket/event-ws-exception';
 
 
 @WebSocketGateway({ cors: true, credentials: true })
@@ -34,11 +35,24 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     client.data.nickname = payload.nickname;
     client.data.sub = payload.sub;
+
+    const game = this.gameService.getUserGame(client.data.nickname);
+
+    if (!game) return;
+
+    game.reconnect(client);
   }
 
   handleDisconnect(client: any) {
     console.log(`Socket has disconnected! Nickname: ${client.data.nickname}`);
-    // todo disconnect logic (in the future)
+
+    if (!client.data.gameId)
+      return;
+
+    const game = this.gameService.getGame(client.data.gameId);
+    if (!game) return;
+
+    game.onDisconnect(client);
   }
 
   @UseGuards(RequireNickname)
@@ -49,9 +63,9 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       throw new WsException('You are already in a game!');
     }
 
-    const game = this.gameService.createGame(client)
+    const game = this.gameService.createGame(client);
     game.send(client);
-    game.owner.sendNotification('You have created a game!')
+    game.owner.sendNotification('You have created a game!');
   }
 
   @UseGuards(RequireNickname)
@@ -59,13 +73,13 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('join_game')
   joinGame(@ConnectedSocket() client: SocketType, @MessageBody() gameId: string) {
     if (client.data.gameId) {
-      throw new WsException('You are already in a game!');
+      throw new EventWsException('You are already in a game!');
     }
 
     const game = this.gameService.getGame(gameId);
 
     if (!game) {
-      throw new WsException('Game not found!');
+      throw new EventWsException('Game not found!');
     }
 
     game.join(client);
