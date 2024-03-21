@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { GameMember } from '@shared/Game.ts';
+import { GameMember, GamePacket } from '@shared/Game.ts';
 
 export type GameState = {
-  owner: GameMember;
+  id: string;
+  player: GameMember;
   opponent?: GameMember;
 } | null;
 
@@ -10,15 +11,16 @@ const gameSlice = createSlice({
   name: 'game',
   initialState: null as GameState,
   reducers: {
+    setGame: (_, action) => action.payload,
     updateGame: (state, action) => {
-      if(!state)
-        return action.payload;
+      const payload: GamePacket = action.payload;
 
-      state.owner = action.payload.owner ?? state.owner;
-      state.opponent = action.payload.opponent ?? state.opponent;
-
-      return state;
-    }
+      return {
+        id: payload.id ?? state?.id!,
+        player: payload.player ?? state?.player!,
+        opponent: payload.opponent ?? state?.opponent,
+      };
+    },
   },
 });
 

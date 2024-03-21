@@ -1,4 +1,3 @@
-import AccountTab from './account/AccountTab.tsx';
 import Gadgets from './gadgets/Gadgets.tsx';
 import MapHubTab from './map-hub/MapHubTab.tsx';
 import { Container } from '../components/Container.tsx';
@@ -10,12 +9,8 @@ import MapEditor from './map-hub/map-editor/MapEditor.tsx';
 
 const routes: NavbarRoute[] = [
   {
-    id: 'game-lobby',
+    id: 'main',
     element: <GameLobby />,
-  },
-  {
-    id: 'account',
-    element: <AccountTab />,
   },
   {
     id: 'personalize',
@@ -38,6 +33,7 @@ export function GameRouter() {
     return <MapEditor />;
 
   const route = routes.find(route => route.id === tab);
+  console.log(route);
 
   if (!route) return <></>;
 

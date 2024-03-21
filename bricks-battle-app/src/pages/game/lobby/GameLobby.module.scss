@@ -1,6 +1,48 @@
+@import "../../../style/globals.module";
+
 .gameId {
   margin-top: -40px;
   opacity: 0.6;
   text-align: center;
   font-size: 1.2em;
+}
+
+.membersBox {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+
+  .memberCard {
+    display: flex;
+    flex: 1;
+    padding: 5px;
+
+    .noMember {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+      background-color: $background-inactive;
+      width: 100%;
+      border: 6px solid $accent-1;
+      opacity: .5;
+    }
+
+    img {
+      width: 60px;
+      height: 60px;
+      border: 6px solid $accent-1;
+      background-color: $accent-1;
+    }
+
+    .memberInfo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 6px solid $accent-1;
+      margin-left: -6px;
+      width: 100%;
+    }
+  }
 }

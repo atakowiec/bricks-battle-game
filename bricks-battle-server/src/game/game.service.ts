@@ -1,12 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { GameGateway } from './game.gateway';
 import Game from './game';
+import { SocketType } from './game.types';
 
 @Injectable()
 export class GameService {
   private readonly games: Game[] = [];
 
-  constructor(private readonly gameGateway: GameGateway) {
+  constructor(
+    @Inject(forwardRef(() => GameGateway))
+    private readonly gameGateway: GameGateway) {
     // empty
   }
 
@@ -24,9 +27,10 @@ export class GameService {
     return this.games.find(game => game.id === id);
   }
 
-  public createGame(): Game {
-    const game = new Game();
+  public createGame(client: SocketType): Game {
+    const game = new Game(client);
     this.games.push(game);
+
     return game;
   }
 }

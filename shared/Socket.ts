@@ -1,5 +1,9 @@
+import { GamePacket } from './Game';
+
 export interface ServerToClientEvents {
     exception: (error: string) => void
+    set_game: (game: GamePacket) => void
+    notification: (message: string) => void
 }
 
 export type ServerToClientEventsKeys = keyof ServerToClientEvents
@@ -8,6 +12,7 @@ export type ServerToClientEventsValues = Parameters<ServerToClientEvents[keyof S
 
 export interface ClientToServerEvents {
     create_game: () => void
+    join_game: (gameId: string) => void
 }
 
 export type ClientToServerEventsKeys = keyof ClientToServerEvents

@@ -4,14 +4,16 @@ import getApi from '../../api/axios.ts';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/userSlice.ts';
 import title from '../../utils/title.ts';
+import useSocket from '../../socket/useSocket.ts';
 
 export function Login() {
-  title('Login')
+  title('Login');
 
   const [error, setError] = useState('');
   const loginRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
+  const socket = useSocket();
 
   const login = () => {
     if (!loginRef.current?.value || !passwordRef.current?.value) {
@@ -22,7 +24,10 @@ export function Login() {
     getApi().post('/auth/login', {
       nickname: loginRef.current.value,
       password: passwordRef.current.value,
-    }).then((res) => dispatch(userActions.setUser(res.data)))
+    }).then((res) => {
+      socket.connect();
+      return dispatch(userActions.setUser(res.data));
+    })
       .catch((e) => setError(e.response.data.message));
   };
 
@@ -35,7 +40,10 @@ export function Login() {
     getApi().post('/auth/register', {
       nickname: loginRef.current.value,
       password: passwordRef.current.value,
-    }).then((res) => dispatch(userActions.setUser(res.data)))
+    }).then((res) => {
+      socket.connect();
+      return dispatch(userActions.setUser(res.data));
+    })
       .catch((e) => setError(e.response.data.message));
   };
 

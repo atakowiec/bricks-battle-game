@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { notificationActions, NotificationType } from '../store/notificationSlice.ts';
 import useSelector from './useSelector.ts';
 
-let nextId = 0;
+let nextId = 1;
 
 export default function useNotifications() {
   const dispatch = useDispatch();

@@ -6,7 +6,6 @@ import { layoutActions } from '../store/layoutSlice.ts';
 import useSelector from '../hooks/useSelector.ts';
 
 export default function NavBar({ routes }: { routes: NavbarRoute[] }) {
-  const stage = useSelector(state => state.layout.stage);
   const tab = useSelector(state => state.layout.tab);
 
   if (!routes) return <></>;
@@ -14,7 +13,7 @@ export default function NavBar({ routes }: { routes: NavbarRoute[] }) {
   return (
     <div className={style.navBar}>
       {routes.map(route => (
-        <NavbarElement id={route.id} active={route.id === tab} key={`${stage}-${route.id}`}>
+        <NavbarElement id={route.id} active={route.id === tab} key={`tab-${route.id}`}>
           <NavbarIcon src={`assets/${route.id}.png`} alt={route.id} />
         </NavbarElement>
       ))}

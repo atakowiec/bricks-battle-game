@@ -6,17 +6,22 @@ import { userActions } from '../../store/userSlice.ts';
 import FloatingContainer from '../../components/FloatingContainer.tsx';
 import { useRef, useState } from 'react';
 import title from '../../utils/title.ts';
+import useSocket from '../../socket/useSocket.ts';
 
 export default function Account() {
-  title('Your Account')
+  title('Your Account');
 
   const user = useSelector((state) => state.user)!;
   const dispatch = useDispatch();
   const [changePasswordVisible, setChangePasswordVisible] = useState(false);
+  const socket = useSocket();
 
   const logout = () => {
     getApi().post('/auth/logout')
-      .then(() => dispatch(userActions.setUser(null)))
+      .then(() => {
+        socket.disconnect();
+        return dispatch(userActions.setUser(null));
+      })
       .catch((e) => console.error(e));
   };
 
@@ -53,7 +58,7 @@ function ChangePasswordBox({ visible, setVisible }: { visible: boolean, setVisib
     const newPassword = newPasswordRef.current!.value;
     const newPasswordConfirm = newPasswordConfirmRef.current!.value;
 
-    if(!oldPassword || !newPassword || !newPasswordConfirm) return setError('All fields are required');
+    if (!oldPassword || !newPassword || !newPasswordConfirm) return setError('All fields are required');
 
     if (newPassword !== newPasswordConfirm) {
       setError('New password and confirm password do not match');

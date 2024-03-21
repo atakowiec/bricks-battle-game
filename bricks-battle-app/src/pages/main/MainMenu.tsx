@@ -10,13 +10,14 @@ import useSocket from '../../socket/useSocket.ts';
 
 export default function MainMenu() {
   title('Main Menu');
-  const socket = useSocket()
+  const socket = useSocket();
   const dispatch = useDispatch();
   const [enterNameVisible, setEnterNameVisible] = useState(false);
   const nickname = useSelector(state => state.user.nickname);
   const nicknameRef = useRef<HTMLInputElement>(null);
   const clickedActionRef = useRef<Function | null>(null);
   const [nicknameError, setNicknameError] = useState('');
+  const gameIdRef = useRef<HTMLInputElement>(null);
 
   function onNewGame(nickname?: string) {
     if (!nickname) {
@@ -24,7 +25,7 @@ export default function MainMenu() {
       return setEnterNameVisible(true);
     }
 
-    socket.emit("create_game")
+    socket.emit('create_game');
   }
 
   function onJoinGame(nickname?: string) {
@@ -33,6 +34,7 @@ export default function MainMenu() {
       return setEnterNameVisible(true);
     }
 
+    socket.emit('join_game', gameIdRef.current!.value);
   }
 
   function saveNickname() {
@@ -43,7 +45,7 @@ export default function MainMenu() {
         setEnterNameVisible(false);
         setNicknameError('');
         dispatch(userActions.setUser({ nickname }));
-        socket.connect()
+        socket.connect();
 
         if (clickedActionRef.current) clickedActionRef.current(nickname);
       })
@@ -78,7 +80,7 @@ export default function MainMenu() {
         <div className={style.separator}>
           or
         </div>
-        <input type={'text'} placeholder={'Enter game code'} />
+        <input type={'text'} placeholder={'Enter game code'} ref={gameIdRef} />
         <br />
         <button onClick={() => onJoinGame(nickname)}>Join game</button>
       </div>

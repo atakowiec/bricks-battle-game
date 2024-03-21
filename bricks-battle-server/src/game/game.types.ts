@@ -12,4 +12,5 @@ export type SocketServerType = SocketIOServer<ClientToServerEvents, ServerToClie
 export interface SocketData {
   nickname: string;
   sub?: string;
+  gameId?: string;
 }
