@@ -15,6 +15,7 @@ export type ServerToClientEventsValues = Parameters<ServerToClientEvents[keyof S
 export interface ClientToServerEvents {
     create_game: () => void
     join_game: (gameId: string) => void
+    kick: () => void
 }
 
 export type ClientToServerEventsKeys = keyof ClientToServerEvents

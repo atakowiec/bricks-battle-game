@@ -9,8 +9,7 @@ import { SocketServerType, SocketType } from './game.types';
 import { parse } from 'cookie';
 import { JwtService } from '@nestjs/jwt';
 import SubscribeMessage from 'src/utils/subscribe-message.decorator';
-import { RequireNickname } from '../socket/require-nickname.guard';
-import { forwardRef, Inject, UseFilters, UseGuards } from '@nestjs/common';
+import { forwardRef, Inject, UseFilters } from '@nestjs/common';
 import { WsExceptionFilter } from '../socket/ws-exception.filter';
 import { GameService } from './game.service';
 import { EventWsException } from '../socket/event-ws-exception';
@@ -55,7 +54,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     game.onDisconnect(client);
   }
 
-  @UseGuards(RequireNickname)
   @UseFilters(WsExceptionFilter)
   @SubscribeMessage('create_game')
   createNewGame(@ConnectedSocket() client: SocketType) {
@@ -68,7 +66,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     game.owner.sendNotification('You have created a game!');
   }
 
-  @UseGuards(RequireNickname)
   @UseFilters(WsExceptionFilter)
   @SubscribeMessage('join_game')
   joinGame(@ConnectedSocket() client: SocketType, @MessageBody() gameId: string) {
@@ -83,5 +80,21 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     game.join(client);
+  }
+
+  @UseFilters(WsExceptionFilter)
+  @SubscribeMessage('kick')
+  kick(@ConnectedSocket() client: SocketType) {
+    if (!client.data.gameId) {
+      throw new WsException('You are not in a game!');
+    }
+
+    const game = this.gameService.getGame(client.data.gameId);
+
+    if (!game) {
+      throw new WsException('Game not found!');
+    }
+
+    game.kick(client);
   }
 }

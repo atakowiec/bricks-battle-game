@@ -5,7 +5,7 @@ export interface ContainerProps {
   children?: ReactNode;
   className?: string;
   onClick?: () => void;
-  type: 'primary' | 'secondary';
+  type?: 'primary' | 'secondary';
 }
 
 export default function Button(props: ContainerProps) {

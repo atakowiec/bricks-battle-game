@@ -173,4 +173,19 @@ export default class Game {
     this.send();
     console.log(`User ${client.data.nickname} has reconnected to game ${this.id}`);
   }
+
+  kick(client: SocketType) {
+    if(client != this.owner.socket) {
+      throw new WsException('You are not the owner of this game!');
+    }
+
+    if (!this.player) {
+      throw new WsException('You cannot do this now!');
+    }
+
+    // todo add some more checks here (when game will be implemented)
+    this.player.sendNotification('You have been kicked from the game!');
+    this.owner.sendNotification(`${this.player.nickname} has been kicked from the game!`);
+    this.playerQuit();
+  }
 }

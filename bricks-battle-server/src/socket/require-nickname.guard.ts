@@ -4,6 +4,9 @@ import { WsException } from '@nestjs/websockets';
 import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from '../types/request.type';
 
+/**
+ * Its unused because socket should not be able to connect without setting a nickname first.
+ */
 @Injectable()
 export class RequireNickname implements CanActivate {
   constructor(private readonly jwtService: JwtService) {

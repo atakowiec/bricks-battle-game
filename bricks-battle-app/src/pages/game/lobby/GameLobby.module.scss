@@ -7,6 +7,16 @@
   font-size: 1.2em;
 }
 
+.kickConfirmButtons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  button {
+    margin: 0 10px;
+  }
+}
+
 .membersBox {
   display: flex;
   align-items: center;
@@ -19,6 +29,27 @@
 
     &.empty {
       opacity: .5;
+    }
+
+
+    .kickOverlay {
+      transition: opacity 0.3s;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $background-active;
+      opacity: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1.5em;
+
+      &:hover {
+        opacity: 1;
+      }
     }
 
     .noMember {
@@ -39,6 +70,7 @@
     }
 
     .memberInfo {
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: center;
