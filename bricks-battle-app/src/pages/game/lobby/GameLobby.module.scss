@@ -17,6 +17,26 @@
   }
 }
 
+.mapImage {
+  text-align: center;
+  margin-top: 1rem;
+
+  svg {
+    @extend .input-border;
+    width: 10rem;
+    height: auto;
+    cursor: pointer;
+    position: relative;
+
+    rect:first-child {
+      transition: fill 0.2s;
+      &:hover {
+        fill: #000000a0;
+      }
+    }
+  }
+}
+
 .membersBox {
   display: flex;
   align-items: center;

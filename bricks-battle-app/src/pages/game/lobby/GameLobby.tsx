@@ -5,10 +5,14 @@ import FloatingContainer from '../../../components/FloatingContainer.tsx';
 import { useState } from 'react';
 import Button from '../../../components/Button.tsx';
 import useSocket from '../../../socket/useSocket.ts';
+import { MapImage } from '../../map-hub/map-list/MapImage.tsx';
+import { useDispatch } from 'react-redux';
+import { layoutActions } from '../../../store/layoutSlice.ts';
 
 export function GameLobby() {
   title('Game Lobby');
   const game = useSelector(state => state.game)!;
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -17,6 +21,10 @@ export function GameLobby() {
       <div className={style.membersBox}>
         <MemberCard owner={true} />
         <MemberCard owner={false} />
+      </div>
+
+      <div className={style.mapImage}>
+        <MapImage map={game.map} onClick={() => dispatch(layoutActions.setTab("map-hub"))} />
       </div>
     </>
   );

@@ -1,3 +1,5 @@
+import { IMap } from './Map';
+
 export interface GameMember {
   nickname: string;
   online: boolean;
@@ -8,4 +10,5 @@ export interface GamePacket {
   id?: string;
   player?: GameMember;
   opponent?: GameMember;
+  map?: IMap;
 }

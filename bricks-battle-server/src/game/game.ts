@@ -3,12 +3,14 @@ import { GamePacket } from '@shared/Game';
 import { GameMember } from './game-member';
 import { GameService } from './game.service';
 import { WsException } from '@nestjs/websockets';
+import { IMap } from '@shared/Map';
 
 export default class Game {
   private gameService: GameService;
   public id: string;
   public owner: GameMember;
   public player: GameMember | null = null;
+  public map: IMap;
 
   private ownerDisconnectTimeout: NodeJS.Timeout;
   private playerDisconnectTimeout: NodeJS.Timeout;
@@ -31,6 +33,7 @@ export default class Game {
   public getPacket(member: SocketType): GamePacket {
     const result = {
       id: this.id,
+      map: this.map,
     } as GamePacket;
 
     if (this.player?.nickname === member.data.nickname) {
@@ -175,7 +178,7 @@ export default class Game {
   }
 
   kick(client: SocketType) {
-    if(client != this.owner.socket) {
+    if (client != this.owner.socket) {
       throw new WsException('You are not the owner of this game!');
     }
 
@@ -187,5 +190,28 @@ export default class Game {
     this.player.sendNotification('You have been kicked from the game!');
     this.owner.sendNotification(`${this.player.nickname} has been kicked from the game!`);
     this.playerQuit();
+  }
+
+  async changeMap(client: SocketType, mapId: string) {
+    if (client != this.owner.socket) {
+      throw new WsException('You are not the owner of this game!');
+    }
+
+    const map = await this.gameService.mapsService.getIMap(mapId);
+
+    if (!map) {
+      throw new WsException('Internal Error: Map not found!');
+    }
+
+    if (map.owner.nickname !== this.owner.nickname && map.type === 'personal') {
+      throw new WsException('You cannot use this map!');
+    }
+
+    this.map = map;
+    this.owner.sendNotification(`Map has been changed to ${this.map.name}`);
+
+    const packet = { map: this.map };
+    this.owner.sendUpdate(packet);
+    this.player?.sendUpdate(packet);
   }
 }

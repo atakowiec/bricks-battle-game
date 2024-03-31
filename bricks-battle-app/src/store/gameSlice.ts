@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { GameMember, GamePacket } from '@shared/Game.ts';
+import { IMap } from '@shared/Map.ts';
 
 export type GameState = {
   id: string;
   player: GameMember;
   opponent?: GameMember;
+  map: IMap
 } | null;
 
 const gameSlice = createSlice({
@@ -17,8 +19,6 @@ const gameSlice = createSlice({
       if (state === null) {
         return state;
       }
-
-      console.log(action.payload);
 
       const payload: GamePacket = action.payload;
 
@@ -33,6 +33,13 @@ const gameSlice = createSlice({
         payload.opponent = {
           ...state.opponent,
           ...payload.opponent,
+        };
+      }
+
+      if (payload.map) {
+        payload.map = {
+          ...state.map,
+          ...payload.map,
         };
       }
 

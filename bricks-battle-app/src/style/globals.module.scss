@@ -31,8 +31,8 @@ $input-text-color: rgba(255, 255, 255, 0.70);
 $input-background: rgba(217, 217, 217, 0.12);
 $input-background-active: rgba(217, 217, 217, 0.07);
 
-$title-font-size: 56px;
-$text-font-size: 24px;
+$title-font-size: 2.5rem;
+$text-font-size: 1.5rem;
 
 * {
   font-family: Viga, sans-serif;
@@ -84,6 +84,24 @@ $text-font-size: 24px;
 
   &:hover {
     filter: brightness(0.93);
+  }
+}
+
+.inlineButtonsBox {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  button {
+    margin: 0 10px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 

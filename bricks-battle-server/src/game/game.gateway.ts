@@ -13,6 +13,7 @@ import { forwardRef, Inject, UseFilters } from '@nestjs/common';
 import { WsExceptionFilter } from '../socket/ws-exception.filter';
 import { GameService } from './game.service';
 import { EventWsException } from '../socket/event-ws-exception';
+import { GameId } from '../socket/game-id.decorator';
 
 
 @WebSocketGateway({ cors: true, credentials: true })
@@ -56,14 +57,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @UseFilters(WsExceptionFilter)
   @SubscribeMessage('create_game')
-  createNewGame(@ConnectedSocket() client: SocketType) {
+  async createNewGame(@ConnectedSocket() client: SocketType, @MessageBody() mapId?: string) {
     if (client.data.gameId) {
       throw new WsException('You are already in a game!');
     }
 
-    const game = this.gameService.createGame(client);
+    const game = await this.gameService.createGame(client, mapId);
     game.send(client);
     game.owner.sendNotification('You have created a game!');
+
+    // return anything so the client will execute the callback
+    return 'Boo';
   }
 
   @UseFilters(WsExceptionFilter)
@@ -96,5 +100,21 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     game.kick(client);
+  }
+
+  @UseFilters(WsExceptionFilter)
+  @SubscribeMessage('change_map')
+  async changeMap(@ConnectedSocket() client: SocketType, @MessageBody() mapId: string, @GameId() gameId: string) {
+    const game = this.gameService.getGame(gameId);
+
+    if (!game) {
+      throw new EventWsException('Game not found!');
+    }
+
+    await game.changeMap(client, mapId);
+    console.log(`User ${client.data.nickname} has changed map to ${mapId}`);
+
+    // return anything so the client will execute the callback
+    return 'Ponk';
   }
 }

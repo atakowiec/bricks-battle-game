@@ -121,6 +121,14 @@ export class AuthService {
         AuthService.clearCookie(response);
         throw new HttpException('Nickname already exists', 409);
       }
+    } else {
+      // if user is logged in - check if account exists
+      const dbUser = await this.usersService.getUserById(user.sub);
+
+      if (!dbUser) {
+        AuthService.clearCookie(response);
+        throw new HttpException('User not found', 404);
+      }
     }
 
     // allow to use nickname if it's not taken by anyone
