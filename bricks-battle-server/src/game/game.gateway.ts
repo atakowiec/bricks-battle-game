@@ -117,4 +117,16 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // return anything so the client will execute the callback
     return 'Ponk';
   }
+
+  @UseFilters(WsExceptionFilter)
+  @SubscribeMessage('leave_game')
+  leaveGame(@ConnectedSocket() client: SocketType, @GameId() gameId: string) {
+    const game = this.gameService.getGame(gameId);
+
+    if (!game) {
+      throw new WsException('Game not found!');
+    }
+
+    game.leave(client);
+  }
 }

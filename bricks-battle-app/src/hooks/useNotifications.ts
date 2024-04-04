@@ -8,11 +8,11 @@ export default function useNotifications() {
   const dispatch = useDispatch();
   const notifications = useSelector(state => state.notifications);
 
-  function addNotification(message: string, type: NotificationType) {
+  function addNotification(message: any, type: NotificationType) {
     const id = nextId++;
     dispatch(notificationActions.addNotification({
       id,
-      message,
+      message: typeof message === 'string' ? message : message.toString(),
       type,
     }));
 

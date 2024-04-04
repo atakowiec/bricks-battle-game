@@ -1,7 +1,7 @@
 @import "../../../style/globals.module";
 
 .gameId {
-  margin-top: -40px;
+  margin-top: -2rem;
   opacity: 0.6;
   text-align: center;
   font-size: 1.2em;
@@ -19,11 +19,11 @@
 
 .mapImage {
   text-align: center;
-  margin-top: 1rem;
+  margin: 3rem;
 
   svg {
     @extend .input-border;
-    width: 10rem;
+    width: 13rem;
     height: auto;
     cursor: pointer;
     position: relative;
@@ -45,12 +45,14 @@
   .memberCard {
     display: flex;
     flex: 1;
-    padding: 5px;
+
+    &:first-child {
+      margin-right: 10px;
+    }
 
     &.empty {
       opacity: .5;
     }
-
 
     .kickOverlay {
       transition: opacity 0.3s;

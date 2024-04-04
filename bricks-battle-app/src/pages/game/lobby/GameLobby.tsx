@@ -8,11 +8,30 @@ import useSocket from '../../../socket/useSocket.ts';
 import { MapImage } from '../../map-hub/map-list/MapImage.tsx';
 import { useDispatch } from 'react-redux';
 import { layoutActions } from '../../../store/layoutSlice.ts';
+import useNotifications from '../../../hooks/useNotifications.ts';
+import { InlineButtons } from '../../../components/InlineButtons.tsx';
 
 export function GameLobby() {
   title('Game Lobby');
   const game = useSelector(state => state.game)!;
   const dispatch = useDispatch();
+  const socket = useSocket();
+  const { addNotification } = useNotifications();
+
+  function onMapClick() {
+    if (!game.player.owner)
+      return addNotification('Only the owner can change the map!', 'error');
+
+    dispatch(layoutActions.setTab('map-hub'));
+  }
+
+  function leaveGame() {
+    socket.emit('leave_game');
+  }
+
+  function startGame() {
+
+  }
 
   return (
     <>
@@ -24,8 +43,13 @@ export function GameLobby() {
       </div>
 
       <div className={style.mapImage}>
-        <MapImage map={game.map} onClick={() => dispatch(layoutActions.setTab("map-hub"))} />
+        <MapImage map={game.map} onClick={onMapClick} />
       </div>
+
+      <InlineButtons>
+        <Button disabled={!game.player.owner} onClick={startGame}>Start game</Button>
+        <Button type={'secondary'} width={"auto"} onClick={leaveGame}>{game.player.owner ? "Delete game" : "Leave game"}</Button>
+      </InlineButtons>
     </>
   );
 }

@@ -203,7 +203,7 @@ export default class Game {
       throw new WsException('Internal Error: Map not found!');
     }
 
-    if (map.owner.nickname !== this.owner.nickname && map.type === 'personal') {
+    if (map.owner && map.owner.nickname !== this.owner.nickname && map.type === 'personal') {
       throw new WsException('You cannot use this map!');
     }
 
@@ -213,5 +213,19 @@ export default class Game {
     const packet = { map: this.map };
     this.owner.sendUpdate(packet);
     this.player?.sendUpdate(packet);
+  }
+
+  leave(client: SocketType) {
+    if (client === this.owner.socket) {
+      this.owner.sendNotification('Game has been deleted!');
+      this.player?.sendNotification('Game has been deleted!');
+      this.gameService.destroyGame(this);
+    }
+
+    if (this.player && client === this.player.socket) {
+      this.player.sendNotification('You have left the game!');
+      this.owner.sendNotification('Player has left the game!');
+      this.playerQuit();
+    }
   }
 }
