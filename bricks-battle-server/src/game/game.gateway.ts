@@ -129,4 +129,16 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     game.leave(client);
   }
+
+  @UseFilters(WsExceptionFilter)
+  @SubscribeMessage('start_game')
+  startGame(@ConnectedSocket() client: SocketType, @GameId() gameId: string) {
+    const game = this.gameService.getGame(gameId);
+
+    if (!game) {
+      throw new WsException('Game not found!');
+    }
+
+    game.start(client);
+  }
 }

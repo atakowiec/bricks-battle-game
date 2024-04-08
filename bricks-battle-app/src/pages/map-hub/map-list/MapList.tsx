@@ -115,7 +115,9 @@ function Loading() {
 }
 
 function MapCard(props: { map: IMap, mapCategory: MapType, onClick: () => void }) {
-  const isNotOwner = useSelector(state => state.game?.player?.owner === false);
+  const game = useSelector(state => state.game);
+  const isNotOwner = game?.player?.owner === false
+  const isSelected = game?.map?._id === props.map._id;
 
   return (
     <div className={style.mapCard}>
@@ -134,7 +136,7 @@ function MapCard(props: { map: IMap, mapCategory: MapType, onClick: () => void }
           <div className={style.difficulty}>
             {props.map.difficulty}
           </div>
-          {!isNotOwner && <Button onClick={props.onClick} type={'secondary'}>Play</Button>}
+          {!isNotOwner && <Button onClick={props.onClick} disabled={isSelected} type={'secondary'}>{isSelected ? "Selected" : "Play"}</Button>}
         </div>
       </div>
     </div>

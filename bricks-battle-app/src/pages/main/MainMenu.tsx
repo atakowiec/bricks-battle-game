@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import useSelector from '../../hooks/useSelector.ts';
 import useSocket from '../../socket/useSocket.ts';
 import { EnterNickname } from './EnterNickname.tsx';
+import Button from '../../components/Button.tsx';
 
 export default function MainMenu() {
   title('Main Menu');
@@ -56,7 +57,7 @@ export default function MainMenu() {
         {nickname && <div className={style.nicknameBox}>
           Hi, {nickname}!
         </div>}
-        <button onClick={() => onNewGame(nickname)}>Create game</button>
+        <Button onClick={() => onNewGame(nickname)}>Create game</Button>
         <div className={style.separator}>
           or
         </div>
@@ -64,7 +65,7 @@ export default function MainMenu() {
         <div className={style.error}>
           {gameIdError}
         </div>
-        <button onClick={() => onJoinGame(nickname)}>Join game</button>
+        <Button onClick={() => onJoinGame(nickname)}>Join game</Button>
       </div>
     </>
   );

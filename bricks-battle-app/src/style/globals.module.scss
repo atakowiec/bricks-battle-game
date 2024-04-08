@@ -78,10 +78,17 @@ $text-font-size: 1.5rem;
   padding: 0.6rem 0.9rem;
   cursor: pointer;
   transition: 0.3s ease-in-out filter;
-  width: 100%;
   text-shadow: rgba(0, 0, 0, 0.29) 1px 1px;
   position: relative;
   white-space: nowrap;
+
+  &.auto {
+    width: fit-content;
+  }
+
+  &.full {
+    width: 100%;
+  }
 
   &.disabled {
     cursor: default;
@@ -136,13 +143,17 @@ h1 {
 
 .globalContainer {
   @extend .container-border;
+  @extend .container-background;
 
-  background: $background-gradient;
-  opacity: $container-opacity;
   position: relative;
   padding: 1.25rem 3.125rem 4.375rem 3.125rem;
   z-index: 5;
   transition: 0.3s ease-in-out all;
+}
+
+.container-background {
+  background: $background-gradient;
+  opacity: $container-opacity;
 }
 
 .container-border {

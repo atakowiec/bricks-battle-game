@@ -1,5 +1,5 @@
 import { SocketType } from './game.types';
-import { GamePacket } from '@shared/Game';
+import { GamePacket, GameStatus } from '@shared/Game';
 import { GameMember } from './game-member';
 import { GameService } from './game.service';
 import { WsException } from '@nestjs/websockets';
@@ -11,6 +11,7 @@ export default class Game {
   public owner: GameMember;
   public player: GameMember | null = null;
   public map: IMap;
+  public gameStatus: GameStatus = 'waiting';
 
   private ownerDisconnectTimeout: NodeJS.Timeout;
   private playerDisconnectTimeout: NodeJS.Timeout;
@@ -34,6 +35,7 @@ export default class Game {
     const result = {
       id: this.id,
       map: this.map,
+      status: this.gameStatus,
     } as GamePacket;
 
     if (this.player?.nickname === member.data.nickname) {
@@ -227,5 +229,23 @@ export default class Game {
       this.owner.sendNotification('Player has left the game!');
       this.playerQuit();
     }
+  }
+
+  start(client: SocketType) {
+    if (client != this.owner.socket) {
+      throw new WsException('You are not the owner of this game!');
+    }
+
+    if (!this.player) {
+      throw new WsException('Game is not full!');
+    }
+
+    this.gameStatus = 'playing';
+
+    this.owner.sendNotification('Game has started!');
+    this.player.sendNotification('Game has started!');
+
+    this.owner.sendUpdate({ status: this.gameStatus });
+    this.player.sendUpdate({ status: this.gameStatus });
   }
 }

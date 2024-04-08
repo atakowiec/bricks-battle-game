@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { GameMember, GamePacket } from '@shared/Game.ts';
+import { GameMember, GamePacket, GameStatus } from '@shared/Game.ts';
 import { IMap } from '@shared/Map.ts';
 
 export type GameState = {
@@ -7,6 +7,7 @@ export type GameState = {
   player: GameMember;
   opponent?: GameMember;
   map: IMap
+  status: GameStatus;
 } | null;
 
 const gameSlice = createSlice({

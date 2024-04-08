@@ -1,0 +1,51 @@
+@import "../../../style/globals.module";
+
+.gameContainer {
+  width: 100vw;
+  padding: 0.3rem;
+  box-sizing: border-box;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.gameHeader {
+  @extend .container-background;
+  @extend .container-border;
+  border-width: 0.5rem;
+
+  padding: 5px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-around;
+
+  div {
+    font-size: 1.2rem;
+  }
+}
+
+.boardsContainer {
+  display: flex;
+  width: 100%;
+  margin-top: 5px;
+  height: 100%;
+
+  .boardContainer {
+    flex: 1;
+
+    &:first-child {
+      margin-right: 5px;
+
+      .boardBox {
+        margin-left: auto;
+      }
+    }
+
+    .boardBox {
+      @extend .container-border;
+      border-width: 0.5rem;
+      background-color: #020D00;
+    }
+  }
+}

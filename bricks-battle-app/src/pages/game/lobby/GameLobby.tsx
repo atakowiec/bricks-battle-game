@@ -30,7 +30,8 @@ export function GameLobby() {
   }
 
   function startGame() {
-
+    if (game.player.owner)
+      socket.emit('start_game');
   }
 
   return (
@@ -48,7 +49,8 @@ export function GameLobby() {
 
       <InlineButtons>
         <Button disabled={!game.player.owner} onClick={startGame}>Start game</Button>
-        <Button type={'secondary'} width={"auto"} onClick={leaveGame}>{game.player.owner ? "Delete game" : "Leave game"}</Button>
+        <Button type={'secondary'} width={'auto'}
+                onClick={leaveGame}>{game.player.owner ? 'Delete game' : 'Leave game'}</Button>
       </InlineButtons>
     </>
   );

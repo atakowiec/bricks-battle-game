@@ -4,6 +4,7 @@ import getApi from '../../api/axios.ts';
 import { userActions } from '../../store/userSlice.ts';
 import { useDispatch } from 'react-redux';
 import useSocket from '../../socket/useSocket.ts';
+import Button from '../../components/Button.tsx';
 
 interface EnterNicknameProps {
   enterNameVisible: boolean;
@@ -45,9 +46,9 @@ export function EnterNickname(props: EnterNicknameProps) {
         {nicknameError && <div className={'pt-2'}>
           {nicknameError}
         </div>}
-        <button onClick={saveNickname}>
+        <Button onClick={saveNickname}>
           Save
-        </button>
+        </Button>
       </div>
     </FloatingContainer>
   );

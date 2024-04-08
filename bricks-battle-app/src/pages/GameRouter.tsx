@@ -6,6 +6,7 @@ import useSelector from '../hooks/useSelector.ts';
 import { GameLobby } from './game/lobby/GameLobby.tsx';
 import { NavbarRoute } from '../App.tsx';
 import MapEditor from './map-hub/map-editor/MapEditor.tsx';
+import { GameBox } from './game/game/GameBox.tsx';
 
 const routes: NavbarRoute[] = [
   {
@@ -28,6 +29,11 @@ const routes: NavbarRoute[] = [
 
 export function GameRouter() {
   const tab = useSelector(state => state.layout.tab);
+  const game = useSelector(state => state.game);
+
+  if(game?.status === 'playing') {
+    return <GameBox />;
+  }
 
   if(tab === "map-editor")
     return <MapEditor />;

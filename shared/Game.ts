@@ -11,4 +11,7 @@ export interface GamePacket {
   player?: GameMember;
   opponent?: GameMember;
   map?: IMap;
+  status?: GameStatus;
 }
+
+export type GameStatus = 'waiting' | 'playing' | 'finished';

@@ -18,6 +18,7 @@ export interface ClientToServerEvents {
   kick: () => void;
   change_map: (mapId: string, cb: () => void) => void;
   leave_game: () => void;
+  start_game: () => void;
 }
 
 export type ClientToServerEventsKeys = keyof ClientToServerEvents

@@ -29,7 +29,7 @@ export const Base64 = (function() {
   };
 })();
 
-export function encodeMap(map: IMap) {
+export function decodeMap(map: IMap) {
   const chunks: number[][] = [];
   for (let i = 0; i < map.data.length; i += map.size) {
     chunks.push(map.data.slice(i, i + map.size).split('').map(c => Base64.toInt(c)));
