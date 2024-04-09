@@ -2,8 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { IMapBlock } from '@shared/Map.ts';
 
 export interface CommonDataState {
-  blocks: { [key: string]: IMapBlock };
+  blocks: CommonDataBlocks;
 }
+
+export type CommonDataBlocks = { [key: number]: IMapBlock }
 
 const commonDataSlice = createSlice({
   name: 'commonData',

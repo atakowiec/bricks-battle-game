@@ -1,17 +1,17 @@
 import style from './Game.module.scss';
-import { createContext, ReactNode, useContext, useLayoutEffect, useRef, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
 
 const BoardSizeContext = createContext(0);
 
 export function useBoardSize() {
-  return useContext(BoardSizeContext)
+  return useContext(BoardSizeContext);
 }
 
 export function BoardContainer(props: { children: ReactNode }) {
   const boardRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState(0);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     onResize();
 
     window.addEventListener('resize', onResize);
@@ -19,14 +19,12 @@ export function BoardContainer(props: { children: ReactNode }) {
   }, []);
 
   function onResize() {
-    const boundingRect = boardRef.current!.getBoundingClientRect();
-
-    setSize(Math.min(boundingRect.width, boundingRect.height));
+    setSize(Math.min(boardRef.current!.offsetWidth, boardRef.current!.offsetHeight) - 15);
   }
 
   return (
     <div className={style.boardContainer} ref={boardRef}>
-      <div className={style.boardBox} style={{ height: `${size}px`, width: `${size}px` }}>
+      <div className={style.boardBox} style={{ height: `${size + 15}px`, width: `${size + 15}px` }}>
         <BoardSizeContext.Provider value={size}>
           {props.children}
         </BoardSizeContext.Provider>

@@ -46,6 +46,32 @@
       @extend .container-border;
       border-width: 0.5rem;
       background-color: #020D00;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      .boardRow {
+        display: flex;
+
+        .boardCell {
+          margin: 1px;
+          border-radius: 5px;
+        }
+      }
+
+      .paddle {
+        position: absolute;
+        bottom: 1rem;
+        height: 15px;
+        border-radius: 5px;
+        background-color: white;
+      }
+
+      .ball {
+        position: absolute;
+        border-radius: 100%;
+        background-color: white;
+      }
     }
   }
 }

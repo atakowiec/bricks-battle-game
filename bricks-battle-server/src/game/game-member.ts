@@ -1,6 +1,6 @@
 import { SocketType } from './game.types';
 import Game from './game';
-import { GamePacket } from '@shared/Game';
+import { GamePacket, IGameMember } from '@shared/Game';
 
 export class GameMember {
   public nickname: string;
@@ -13,11 +13,14 @@ export class GameMember {
     this.socket = socket;
   }
 
-  getPacket() {
+  getPacket(): IGameMember {
     return {
       nickname: this.nickname,
       online: this.socket.connected,
       owner: this.game.owner === this,
+      paddlePosition: Math.random() * this.game.map.size,
+      ballPosition: [Math.random() * this.game.map.size, Math.random() * this.game.map.size],
+      board: this.game.map.data, // todo set actual player data
     };
   }
 

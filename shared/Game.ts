@@ -1,15 +1,18 @@
 import { IMap } from './Map';
 
-export interface GameMember {
+export interface IGameMember {
   nickname: string;
   online: boolean;
   owner: boolean;
+  paddlePosition: number;
+  ballPosition: [number, number];
+  board: string;
 }
 
 export interface GamePacket {
   id?: string;
-  player?: GameMember;
-  opponent?: GameMember;
+  player?: IGameMember;
+  opponent?: IGameMember;
   map?: IMap;
   status?: GameStatus;
 }

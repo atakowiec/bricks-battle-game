@@ -1,11 +1,12 @@
-import style from './Game.module.scss';
 import { PropsWithGame } from './GameBox.tsx';
-import { BoardContainer } from './BoardContainer.tsx';
+import { decodeMap } from '../../../utils/utils.ts';
+import { GameCanvas } from './GameCanvas.tsx';
 
 export function OpponentBoard(props: PropsWithGame) {
   const game = props.game!;
+  const map = decodeMap(game.opponent!.board, game.map.size);
 
   return (
-    game.opponent!.nickname
+    <GameCanvas gameMember={game.opponent!} map={map} game={game} />
   );
 }

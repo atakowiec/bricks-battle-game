@@ -1,14 +1,12 @@
-import style from './Game.module.scss';
 import { PropsWithGame } from './GameBox.tsx';
-import { BoardContainer, useBoardSize } from './BoardContainer.tsx';
 import { decodeMap } from '../../../utils/utils.ts';
+import { GameCanvas } from './GameCanvas.tsx';
 
 export function PlayerBoard(props: PropsWithGame) {
   const game = props.game!;
-  const map = decodeMap(game.map)
-  const boardSize = useBoardSize()
+  const map = decodeMap(game.player.board, game.map.size);
 
   return (
-    game.player!.nickname
+    <GameCanvas gameMember={game.player} map={map} game={game} />
   );
 }

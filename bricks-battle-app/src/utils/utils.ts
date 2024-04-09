@@ -29,10 +29,14 @@ export const Base64 = (function() {
   };
 })();
 
-export function decodeMap(map: IMap) {
+export function decodeIMap(map: IMap) {
+  return decodeMap(map.data, map.size);
+}
+
+export function decodeMap(data: string, size: number) {
   const chunks: number[][] = [];
-  for (let i = 0; i < map.data.length; i += map.size) {
-    chunks.push(map.data.slice(i, i + map.size).split('').map(c => Base64.toInt(c)));
+  for (let i = 0; i < data.length; i += size) {
+    chunks.push(data.slice(i, i + size).split('').map(c => Base64.toInt(c)));
   }
-  return chunks
+  return chunks;
 }

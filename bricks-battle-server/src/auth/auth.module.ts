@@ -15,7 +15,7 @@ import { GameModule } from '../game/game.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '365d' },
+        signOptions: { expiresIn: '365 days' },
       }),
     }),
     forwardRef(() => GameModule),

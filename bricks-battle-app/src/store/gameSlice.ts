@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { GameMember, GamePacket, GameStatus } from '@shared/Game.ts';
+import { IGameMember, GamePacket, GameStatus } from '@shared/Game.ts';
 import { IMap } from '@shared/Map.ts';
 
 export type GameState = {
   id: string;
-  player: GameMember;
-  opponent?: GameMember;
+  player: IGameMember;
+  opponent?: IGameMember;
   map: IMap
   status: GameStatus;
 } | null;
