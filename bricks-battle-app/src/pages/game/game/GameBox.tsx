@@ -17,10 +17,10 @@ export function GameBox() {
     <div className={style.gameContainer}>
       <GameHeader game={game} />
       <div className={style.boardsContainer}>
-        <BoardContainer>
+        <BoardContainer className={style.playerBoard}>
           <PlayerBoard game={game} />
         </BoardContainer>
-        <BoardContainer>
+        <BoardContainer className={style.opponentBoard}>
           <OpponentBoard game={game} />
         </BoardContainer>
       </div>

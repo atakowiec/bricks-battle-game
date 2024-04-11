@@ -31,6 +31,18 @@
   margin-top: 5px;
   height: 100%;
 
+  .playerBoard {
+    .paddle {
+      transition: all 60ms;
+    }
+  }
+
+  .opponentBoard {
+    .paddle {
+      transition: all 180ms;
+    }
+  }
+
   .boardContainer {
     flex: 1;
 
@@ -63,7 +75,6 @@
         position: absolute;
         border-radius: 5px;
         background-color: white;
-        transition: all ease-in-out 20ms;
       }
 
       .ball {

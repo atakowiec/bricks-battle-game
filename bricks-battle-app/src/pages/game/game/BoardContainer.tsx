@@ -7,7 +7,7 @@ export function useBoardSize() {
   return useContext(BoardSizeContext);
 }
 
-export function BoardContainer(props: { children: ReactNode }) {
+export function BoardContainer(props: { children: ReactNode, className?: string}) {
   const boardRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState(0);
 
@@ -23,7 +23,7 @@ export function BoardContainer(props: { children: ReactNode }) {
   }
 
   return (
-    <div className={style.boardContainer} ref={boardRef}>
+    <div className={`${style.boardContainer} ${props.className ?? ''}`} ref={boardRef}>
       <div className={style.boardBox} style={{ height: `${size + 15}px`, width: `${size + 15}px` }}>
         <BoardSizeContext.Provider value={size}>
           {props.children}

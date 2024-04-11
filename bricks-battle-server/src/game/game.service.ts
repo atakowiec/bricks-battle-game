@@ -6,13 +6,27 @@ import { MapsService } from '../maps/maps.service';
 
 @Injectable()
 export class GameService {
+  private static readonly TICKS_PER_SECOND = 50;
+  public static currentTick = 0;
+
   private readonly games: Game[] = [];
 
   constructor(
     public readonly mapsService: MapsService,
     @Inject(forwardRef(() => GameGateway))
     private readonly gameGateway: GameGateway) {
-    // empty
+
+    setInterval(() => this.tickGames(), 1000 / GameService.TICKS_PER_SECOND);
+  }
+
+  public tickGames() {
+    GameService.currentTick++;
+
+    if (!this.games) return;
+
+    for (const game of this.games) {
+      game.tick();
+    }
   }
 
   public isUsernameConnected(nickname: string): boolean {
@@ -44,7 +58,7 @@ export class GameService {
     const index = this.games.indexOf(game);
     this.games.splice(index, 1);
 
-    game.forceDestroy()
+    game.forceDestroy();
   }
 
   getUserGame(nickname: string) {

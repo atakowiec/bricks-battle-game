@@ -6,7 +6,7 @@ import { WsException } from '@nestjs/websockets';
 import { IMap } from '@shared/Map';
 
 export default class Game {
-  private gameService: GameService;
+  public gameService: GameService;
   public id: string;
   public owner: GameMember;
   public player: GameMember | null = null;
@@ -26,6 +26,32 @@ export default class Game {
     this.owner.socket.data.gameId = this.id;
 
     console.log(`Game ${this.id} has been created by ${this.owner.nickname}`);
+  }
+
+  public tick() {
+    if (this.gameStatus === 'playing') {
+      // paddle movement every 3 ticks
+      if (GameService.currentTick % 3 === 0) {
+        if (this.player.paddleMoved) {
+          this.owner.sendUpdate({
+            opponent: {
+              paddlePositionX: this.player.paddlePositionX,
+            },
+          });
+        }
+
+        if (this.owner.paddleMoved) {
+          this.player.sendUpdate({
+            opponent: {
+              paddlePositionX: this.owner.paddlePositionX,
+            },
+          });
+        }
+
+        this.owner.paddleMoved = false;
+        this.player.paddleMoved = false;
+      }
+    }
   }
 
   /**
@@ -264,21 +290,14 @@ export default class Game {
 
   movePaddle(client: SocketType, direction: PaddleDirection) {
     const gameMember = client === this.owner.socket ? this.owner : this.player;
-    const opponent = client === this.owner.socket ? this.player : this.owner;
 
     gameMember.paddlePositionX += direction == 'left' ? -gameMember.paddleSpeed : gameMember.paddleSpeed;
     gameMember.paddlePositionX = Math.max(0, Math.min(this.map.size - gameMember.paddleSize, gameMember.paddlePositionX));
-    console.log(`Paddle moved to ${gameMember.paddlePositionX}`);
+    gameMember.paddleMoved = true;
 
-    // todo make event loop for game logic like ball movement, collision detection, sending opponent's data to player etc.
+    // game member is the player who moved the paddle, so we send update to him asap, opponent will get update in next tick
     gameMember.sendUpdate({
       player: {
-        paddlePositionX: gameMember.paddlePositionX,
-      },
-    });
-
-    opponent.sendUpdate({
-      opponent: {
         paddlePositionX: gameMember.paddlePositionX,
       },
     });

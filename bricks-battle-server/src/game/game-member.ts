@@ -8,13 +8,17 @@ export class GameMember {
   public sub: string;
   public socket: SocketType;
   public game: Game;
+
   public paddlePositionX: number;
   public paddlePositionY: number;
   public paddleSize = 3;
   public paddleThickness = 0;
   public paddleSpeed = 0.5;
+  public paddleMoved = false;
+
   public ballPosition: [number, number];
   public ballSize = 0.66;
+
   public board: number[][];
 
   constructor(socket: SocketType, game: Game) {
