@@ -4,17 +4,24 @@ export interface IGameMember {
   nickname: string;
   online: boolean;
   owner: boolean;
-  paddlePosition: number;
+  paddlePositionX: number;
+  paddlePositionY: number;
+  paddleSize: number;
+  paddleThickness: number;
+  paddleSpeed: number;
   ballPosition: [number, number];
-  board: string;
+  board: number[][];
+  ballSize: number;
 }
 
 export interface GamePacket {
   id?: string;
-  player?: IGameMember;
-  opponent?: IGameMember;
+  player?: Partial<IGameMember>;
+  opponent?: Partial<IGameMember>;
   map?: IMap;
   status?: GameStatus;
 }
 
 export type GameStatus = 'waiting' | 'playing' | 'finished';
+
+export type PaddleDirection = 'left' | 'right';

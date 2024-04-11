@@ -61,10 +61,9 @@
 
       .paddle {
         position: absolute;
-        bottom: 1rem;
-        height: 15px;
         border-radius: 5px;
         background-color: white;
+        transition: all ease-in-out 20ms;
       }
 
       .ball {

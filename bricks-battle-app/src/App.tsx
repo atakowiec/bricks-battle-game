@@ -37,7 +37,7 @@ function App() {
     getApi().get('/maps/blocks')
       .then((res: any) => {
         dispatch(commonDataActions.setMapBlocks(res.data));
-      });
+      }).catch(console.log);
 
     return () => {
       socket.disconnect();

@@ -8,8 +8,10 @@ export function Paddle(props: GameCanvasProps) {
 
   return (
     <div className={style.paddle} style={{
-      width: `${blockSize*3}px`,
-      left: `${blockSize*props.gameMember.paddlePosition!}px`
+      width: `${blockSize * props.gameMember.paddleSize}px`,
+      height: `${props.gameMember.paddleThickness * blockSize}px`,
+      left: `${blockSize * props.gameMember.paddlePositionX!}px`,
+      top: `${blockSize * props.gameMember.paddlePositionY!}px`,
     }} />
   );
 }

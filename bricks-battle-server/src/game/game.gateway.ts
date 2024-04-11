@@ -8,12 +8,13 @@ import {
 import { SocketServerType, SocketType } from './game.types';
 import { parse } from 'cookie';
 import { JwtService } from '@nestjs/jwt';
-import SubscribeMessage from 'src/utils/subscribe-message.decorator';
+import SubscribeMessage from 'src/socket/subscribe-message.decorator';
 import { forwardRef, Inject, UseFilters } from '@nestjs/common';
 import { WsExceptionFilter } from '../socket/ws-exception.filter';
 import { GameService } from './game.service';
 import { EventWsException } from '../socket/event-ws-exception';
 import { GameId } from '../socket/game-id.decorator';
+import { PaddleDirection } from '@shared/Game';
 
 
 @WebSocketGateway({ cors: true, credentials: true })
@@ -140,5 +141,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     game.start(client);
+  }
+
+  @UseFilters(WsExceptionFilter)
+  @SubscribeMessage('move_paddle')
+  movePaddle(@ConnectedSocket() client: SocketType, @MessageBody() direction: PaddleDirection, @GameId() gameId: string){
+    const game = this.gameService.getGame(gameId);
+
+    if (!game) {
+      throw new WsException('You are not in a game!');
+    }
+
+    game.movePaddle(client, direction);
   }
 }

@@ -30,11 +30,12 @@ export class GameService {
   }
 
   public async createGame(client: SocketType, mapId: string): Promise<Game> {
+    // todo change random to last played map or something
+    const map = mapId ? await this.mapsService.getIMap(mapId) : await this.mapsService.getRandomIMap();
+
     const game = new Game(client, this);
     this.games.push(game);
-
-    // todo change random to last played map or something
-    game.map = mapId ? await this.mapsService.getIMap(mapId) : await this.mapsService.getRandomIMap();
+    game.map = map;
 
     return game;
   }

@@ -1,3 +1,5 @@
+import { IMap } from '@shared/Map';
+
 export const Base64 = (function() {
   const digitsStr = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-';
   const digits = digitsStr.split('');
@@ -26,3 +28,15 @@ export const Base64 = (function() {
     },
   };
 })();
+
+export function decodeIMap(map: IMap) {
+  return decodeMap(map.data, map.size);
+}
+
+export function decodeMap(data: string, size: number) {
+  const chunks: number[][] = [];
+  for (let i = 0; i < data.length; i += size) {
+    chunks.push(data.slice(i, i + size).split('').map(c => Base64.toInt(c)));
+  }
+  return chunks;
+}

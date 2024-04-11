@@ -1,5 +1,5 @@
 import { SocketType } from './game.types';
-import { GamePacket, GameStatus } from '@shared/Game';
+import { GamePacket, GameStatus, PaddleDirection } from '@shared/Game';
 import { GameMember } from './game-member';
 import { GameService } from './game.service';
 import { WsException } from '@nestjs/websockets';
@@ -205,7 +205,7 @@ export default class Game {
       throw new WsException('Internal Error: Map not found!');
     }
 
-    if (map.owner && map.owner.nickname !== this.owner.nickname && map.type === 'personal') {
+    if (map.owner && map.owner.toString() !== this.owner.sub && map.type === 'personal') {
       throw new WsException('You cannot use this map!');
     }
 
@@ -242,10 +242,45 @@ export default class Game {
 
     this.gameStatus = 'playing';
 
+    // init members properties like paddle position, ball position, etc.
+    this.owner.initProperties();
+    this.player.initProperties();
+
     this.owner.sendNotification('Game has started!');
     this.player.sendNotification('Game has started!');
 
-    this.owner.sendUpdate({ status: this.gameStatus });
-    this.player.sendUpdate({ status: this.gameStatus });
+    // send game update to both players
+    this.owner.sendUpdate({
+      status: this.gameStatus,
+      player: this.owner.getPacket(),
+      opponent: this.player.getPacket(),
+    });
+    this.player.sendUpdate({
+      status: this.gameStatus,
+      player: this.player.getPacket(),
+      opponent: this.owner.getPacket(),
+    });
+  }
+
+  movePaddle(client: SocketType, direction: PaddleDirection) {
+    const gameMember = client === this.owner.socket ? this.owner : this.player;
+    const opponent = client === this.owner.socket ? this.player : this.owner;
+
+    gameMember.paddlePositionX += direction == 'left' ? -gameMember.paddleSpeed : gameMember.paddleSpeed;
+    gameMember.paddlePositionX = Math.max(0, Math.min(this.map.size - gameMember.paddleSize, gameMember.paddlePositionX));
+    console.log(`Paddle moved to ${gameMember.paddlePositionX}`);
+
+    // todo make event loop for game logic like ball movement, collision detection, sending opponent's data to player etc.
+    gameMember.sendUpdate({
+      player: {
+        paddlePositionX: gameMember.paddlePositionX,
+      },
+    });
+
+    opponent.sendUpdate({
+      opponent: {
+        paddlePositionX: gameMember.paddlePositionX,
+      },
+    });
   }
 }

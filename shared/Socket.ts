@@ -1,4 +1,4 @@
-import { GamePacket } from './Game';
+import { GamePacket, PaddleDirection } from './Game';
 
 export interface ServerToClientEvents {
   exception: (error: string) => void;
@@ -6,6 +6,7 @@ export interface ServerToClientEvents {
   game_update: (game: GamePacket) => void;
   notification: (message: string) => void;
   event_exception: (error: string) => void;
+  set_paddle: (position: number) => void;
 }
 
 export type ServerToClientEventsKeys = keyof ServerToClientEvents
@@ -19,6 +20,7 @@ export interface ClientToServerEvents {
   change_map: (mapId: string, cb: () => void) => void;
   leave_game: () => void;
   start_game: () => void;
+  move_paddle: (direction: PaddleDirection) => void;
 }
 
 export type ClientToServerEventsKeys = keyof ClientToServerEvents
