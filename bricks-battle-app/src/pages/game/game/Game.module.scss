@@ -33,13 +33,13 @@
 
   .playerBoard {
     .paddle {
-      transition: all 60ms;
+      transition: left 60ms;
     }
   }
 
   .opponentBoard {
     .paddle {
-      transition: all 180ms;
+      transition: left 150ms;
     }
   }
 

@@ -6,7 +6,7 @@ export interface Notification {
   type: NotificationType;
 }
 
-export type NotificationType = 'info' | 'error';
+export type NotificationType = 'info' | 'error' | 'title';
 
 export type NotificationState = Notification[]
 

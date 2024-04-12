@@ -12,6 +12,7 @@ export default class Game {
   public player: GameMember | null = null;
   public map: IMap;
   public gameStatus: GameStatus = 'waiting';
+  public counting: number = 3;
 
   private ownerDisconnectTimeout: NodeJS.Timeout;
   private playerDisconnectTimeout: NodeJS.Timeout;
@@ -85,6 +86,16 @@ export default class Game {
       this.owner.sendGame();
       this.player?.sendGame();
     }
+  }
+
+  private sendUpdate(packet: GamePacket) {
+    this.owner.sendUpdate(packet);
+    this.player?.sendUpdate(packet);
+  }
+
+  sendTitle(title: string) {
+    this.owner.sendTitle(title);
+    this.player?.sendTitle(title);
   }
 
   join(client: SocketType) {
@@ -266,7 +277,9 @@ export default class Game {
       throw new WsException('Game is not full!');
     }
 
-    this.gameStatus = 'playing';
+    this.gameStatus = 'starting';
+    this.counting = 3;
+    this.countdown();
 
     // init members properties like paddle position, ball position, etc.
     this.owner.initProperties();
@@ -286,6 +299,24 @@ export default class Game {
       player: this.player.getPacket(),
       opponent: this.owner.getPacket(),
     });
+  }
+
+  countdown() {
+    if ((this.gameStatus != 'playing' && this.gameStatus != 'starting') || this.counting < 0)
+      return;
+
+    if (this.counting === 0) {
+      this.gameStatus = 'playing';
+      this.sendTitle('Start!');
+      this.sendUpdate({
+        status: this.gameStatus,
+      })
+      return;
+    }
+
+    this.sendTitle((this.counting--).toString());
+
+    setTimeout(() => this.countdown(), 1000);
   }
 
   movePaddle(client: SocketType, direction: PaddleDirection) {

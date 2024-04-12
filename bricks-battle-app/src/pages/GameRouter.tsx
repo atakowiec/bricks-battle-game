@@ -7,6 +7,7 @@ import { GameLobby } from './game/lobby/GameLobby.tsx';
 import { NavbarRoute } from '../App.tsx';
 import MapEditor from './map-hub/map-editor/MapEditor.tsx';
 import { GameBox } from './game/game/GameBox.tsx';
+import { isInGame } from '../utils/utils.ts';
 
 const routes: NavbarRoute[] = [
   {
@@ -31,7 +32,7 @@ export function GameRouter() {
   const tab = useSelector(state => state.layout.tab);
   const game = useSelector(state => state.game);
 
-  if(game?.status === 'playing') {
+  if(isInGame(game?.status)) {
     return <GameBox />;
   }
 

@@ -7,9 +7,19 @@ export default function NotificationsMain() {
 
   return (
     <div className={style.notificationsBox}>
-      {notifications.map(n => (
-        <NotificationCard key={n.id} notification={n} onClick={removeNotification} />
+      {notifications.map(notification => (
+        notification.type === 'title' ?
+          <TitleNotification key={notification.id} title={notification.message} /> :
+          <NotificationCard key={notification.id} notification={notification} onClick={removeNotification} />
       ))}
+    </div>
+  );
+}
+
+function TitleNotification(props: { title: string }) {
+  return (
+    <div className={style.titleNotificationCard}>
+      {props.title}
     </div>
   );
 }

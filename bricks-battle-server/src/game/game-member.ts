@@ -68,4 +68,8 @@ export class GameMember {
   sendGame() {
     this.socket.emit('set_game', this.game.getPacket(this.socket));
   }
+
+  sendTitle(title: string) {
+    this.socket.volatile.emit('title', title);
+  }
 }

@@ -7,6 +7,7 @@ export interface ServerToClientEvents {
   notification: (message: string) => void;
   event_exception: (error: string) => void;
   set_paddle: (position: number) => void;
+  title: (title: string) => void;
 }
 
 export type ServerToClientEventsKeys = keyof ServerToClientEvents

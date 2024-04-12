@@ -18,7 +18,7 @@ export default function useNotifications() {
 
     setTimeout(() => {
       removeNotification(id);
-    }, 5000);
+    }, type === 'title' ? 1000 : 5000);
   }
 
   function removeNotification(id: number) {

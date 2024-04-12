@@ -51,7 +51,7 @@ export function PlayerBoard(props: PropsWithGame) {
       window.removeEventListener('keydown', keydown);
       window.removeEventListener('keyup', keyup);
     };
-  }, []);
+  }, [game]);
 
   return (
     <GameCanvas gameMember={game.player} map={game.player.board} game={game} />

@@ -1,4 +1,5 @@
 import { IMap } from '@shared/Map.ts';
+import { GameStatus } from '@shared/Game.ts';
 
 export const Base64 = (function() {
   const digitsStr = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-';
@@ -39,4 +40,8 @@ export function decodeMap(data: string, size: number) {
     chunks.push(data.slice(i, i + size).split('').map(c => Base64.toInt(c)));
   }
   return chunks;
+}
+
+export function isInGame(status?: GameStatus) {
+  return status === 'playing' || status === 'starting';
 }

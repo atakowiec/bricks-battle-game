@@ -28,6 +28,8 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
     socket.on('game_update', (game: GamePacket) => dispatch(gameActions.updateGame(game)));
 
+    socket.on("title", (title: string) => addNotification(title, 'title'));
+
     return socket;
   }, []);
 
