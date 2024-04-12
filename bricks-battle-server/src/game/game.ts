@@ -194,11 +194,15 @@ export default class Game {
     delete this.player.socket.data.gameId;
 
     this.player.socket.emit('set_game', null);
-
     this.player = null;
+
+    if (this.gameStatus == 'playing' || this.gameStatus == 'starting' || this.gameStatus == 'paused') {
+      this.gameStatus = 'waiting';
+    }
 
     this.owner.sendUpdate({
       opponent: null,
+      status: this.gameStatus,
     });
   }
 
@@ -239,6 +243,10 @@ export default class Game {
 
     if (!this.player) {
       throw new WsException('You cannot do this now!');
+    }
+
+    if (this.gameStatus != 'waiting') {
+      throw new WsException('You cannot kick player during the game!');
     }
 
     // todo add some more checks here (when game will be implemented)
