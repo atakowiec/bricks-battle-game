@@ -53,6 +53,10 @@ export default class Game {
         this.player.paddleMoved = false;
       }
     }
+
+    if (GameService.currentTick % GameService.TICKS_PER_SECOND === 0) {
+      this.countdown();
+    }
   }
 
   /**
@@ -145,6 +149,13 @@ export default class Game {
 
     if (client === this.player?.socket)
       this.onPlayerDisconnect();
+
+    if (this.gameStatus == 'playing' || this.gameStatus == 'starting') {
+      this.gameStatus = 'paused';
+      this.sendUpdate({
+        status: this.gameStatus,
+      });
+    }
   }
 
   private onOwnerDisconnect() {
@@ -210,6 +221,11 @@ export default class Game {
       this.owner.sendNotification('Player has reconnected to the game!');
 
       clearTimeout(this.playerDisconnectTimeout);
+    }
+
+    if (this.player.socket.connected && this.owner.socket.connected) {
+      this.gameStatus = 'starting';
+      this.counting = 3;
     }
 
     this.send();
@@ -279,7 +295,6 @@ export default class Game {
 
     this.gameStatus = 'starting';
     this.counting = 3;
-    this.countdown();
 
     // init members properties like paddle position, ball position, etc.
     this.owner.initProperties();
@@ -302,7 +317,7 @@ export default class Game {
   }
 
   countdown() {
-    if ((this.gameStatus != 'playing' && this.gameStatus != 'starting') || this.counting < 0)
+    if (this.gameStatus != 'starting' || this.counting < 0)
       return;
 
     if (this.counting === 0) {
@@ -310,13 +325,11 @@ export default class Game {
       this.sendTitle('Start!');
       this.sendUpdate({
         status: this.gameStatus,
-      })
+      });
       return;
     }
 
     this.sendTitle((this.counting--).toString());
-
-    setTimeout(() => this.countdown(), 1000);
   }
 
   movePaddle(client: SocketType, direction: PaddleDirection) {

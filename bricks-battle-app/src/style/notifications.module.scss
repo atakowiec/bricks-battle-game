@@ -39,6 +39,7 @@
     font-size: 8rem;
     color: $text-color;
     text-shadow: 0 0 10px #000;
+    transform: scale(0);
     animation: titleAnimation 1s ease-in-out;
   }
 

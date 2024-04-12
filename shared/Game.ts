@@ -22,6 +22,6 @@ export interface GamePacket {
   status?: GameStatus;
 }
 
-export type GameStatus = 'waiting' | 'starting' | 'playing' | 'finished';
+export type GameStatus = 'waiting' | 'starting' | 'playing' | 'paused' | 'finished';
 
 export type PaddleDirection = 'left' | 'right';

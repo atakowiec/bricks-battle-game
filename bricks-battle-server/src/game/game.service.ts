@@ -6,7 +6,7 @@ import { MapsService } from '../maps/maps.service';
 
 @Injectable()
 export class GameService {
-  private static readonly TICKS_PER_SECOND = 50;
+  public static readonly TICKS_PER_SECOND = 50;
   public static currentTick = 0;
 
   private readonly games: Game[] = [];

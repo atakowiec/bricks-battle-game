@@ -43,5 +43,5 @@ export function decodeMap(data: string, size: number) {
 }
 
 export function isInGame(status?: GameStatus) {
-  return status === 'playing' || status === 'starting';
+  return status === 'playing' || status === 'starting' || status === 'paused';
 }
