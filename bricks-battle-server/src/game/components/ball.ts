@@ -1,5 +1,5 @@
 import { GameMember } from '../game-member';
-import { flipByXAxis, flipByYAxis } from '../../utils/math-utils';
+import { flipByXAxis, flipByYAxis, HALF_PI } from '../../utils/math-utils';
 
 export class Ball {
   public readonly ballOwner: GameMember;
@@ -63,6 +63,16 @@ export class Ball {
       const excess = newX + this.size - this.getMapSize();
       newX = this.getMapSize() - this.size - excess;
       flipY();
+    }
+
+    // collision with paddle
+    if(this.ballOwner.paddle.collidesWithBall()) {
+      // if ball is colliding with paddle and moving down then flip the direction to move up based on the paddle's position
+      if (!(this.direction < 0 || this.direction > Math.PI)) {
+        const distanceFromCenter = newX - this.ballOwner.paddle.positionX - this.ballOwner.paddle.size / 2;
+        const relativeDistance = (distanceFromCenter / this.ballOwner.paddle.size / 2) * -0.9 // angle between 10 and 80deg
+        this.direction = -(HALF_PI + HALF_PI * relativeDistance)
+      }
     }
 
     this.position = [newX, newY];
