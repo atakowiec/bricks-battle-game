@@ -3,6 +3,7 @@ import Game from './game';
 import { GamePacket, IGameMember } from '@shared/Game';
 import { decodeIMap } from '../utils/utils';
 import { Ball } from './components/ball';
+import { Paddle } from './components/paddle';
 
 export class GameMember {
   public nickname: string;
@@ -10,13 +11,7 @@ export class GameMember {
   public socket: SocketType;
   public game: Game;
 
-  public paddlePositionX: number;
-  public paddlePositionY: number;
-  public paddleSize = 3;
-  public paddleThickness = 0;
-  public paddleSpeed = 0.5;
-  public paddleMoved = false;
-
+  public paddle = new Paddle(this)
   public ball = new Ball(this);
 
   public board: number[][];
@@ -26,7 +21,6 @@ export class GameMember {
     this.sub = socket.data.sub;
     this.nickname = socket.data.nickname;
     this.socket = socket;
-    this.paddlePositionX = 0;
     this.board = [];
   }
 
@@ -35,11 +29,11 @@ export class GameMember {
       nickname: this.nickname,
       online: this.socket.connected,
       owner: this.game.owner === this,
-      paddlePositionX: this.paddlePositionX,
-      paddlePositionY: this.paddlePositionY,
-      paddleSize: this.paddleSize,
-      paddleThickness: this.paddleThickness,
-      paddleSpeed: this.paddleSpeed,
+      paddlePositionX: this.paddle.positionX,
+      paddlePositionY: this.paddle.positionY,
+      paddleSize: this.paddle.size,
+      paddleThickness: this.paddle.thickness,
+      paddleSpeed: this.paddle.speed,
       ballPosition: this.ball.position,
       board: this.board,
       ballSize: this.ball.size,
@@ -47,12 +41,12 @@ export class GameMember {
   }
 
   initProperties() {
-    this.paddleSize = 3 + (this.game.map.size - 20) / 6;
-    this.paddleThickness = 0.5 + 0.2 * ((this.game.map.size - 20) / 20);
-    this.paddlePositionX = 0.5 * (this.game.map.size - this.paddleSize);
-    this.paddlePositionY = this.game.map.size - 2 * this.paddleThickness;
-    this.paddleSpeed = this.game.map.size / 120;
-    this.ball.position = [this.paddlePositionX + ((this.paddleSize - this.ball.size * 2) * 0.5), this.paddlePositionY - this.ball.size * 2 - 0.1];
+    this.paddle.size = 3 + (this.game.map.size - 20) / 6;
+    this.paddle.thickness = 0.5 + 0.2 * ((this.game.map.size - 20) / 20);
+    this.paddle.positionX = 0.5 * (this.game.map.size - this.paddle.size);
+    this.paddle.positionY = this.game.map.size - 2 * this.paddle.thickness;
+    this.paddle.speed = this.game.map.size / 120;
+    this.ball.position = [this.paddle.positionX + ((this.paddle.size - this.ball.size * 2) * 0.5), this.paddle.positionY - this.ball.size * 2 - 0.1];
     this.board = decodeIMap(this.game.map);
   }
 

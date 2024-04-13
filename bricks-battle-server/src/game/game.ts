@@ -36,7 +36,7 @@ export default class Game {
       if (GameService.currentTick % 3 === 0) {
         this.owner.sendUpdate({
           opponent: {
-            paddlePositionX: this.player.paddlePositionX,
+            paddlePositionX: this.player.paddle.positionX,
             ballPosition: this.player.ball.position,
           },
           player: {
@@ -46,7 +46,7 @@ export default class Game {
 
         this.player.sendUpdate({
           opponent: {
-            paddlePositionX: this.owner.paddlePositionX,
+            paddlePositionX: this.owner.paddle.positionX,
             ballPosition: this.owner.ball.position,
           },
           player: {
@@ -54,8 +54,8 @@ export default class Game {
           }
         });
 
-        this.owner.paddleMoved = false;
-        this.player.paddleMoved = false;
+        this.owner.paddle.moved = false;
+        this.player.paddle.moved = false;
       }
 
       this.owner.ball.tick();
@@ -351,14 +351,12 @@ export default class Game {
   movePaddle(client: SocketType, direction: PaddleDirection) {
     const gameMember = client === this.owner.socket ? this.owner : this.player;
 
-    gameMember.paddlePositionX += direction == 'left' ? -gameMember.paddleSpeed : gameMember.paddleSpeed;
-    gameMember.paddlePositionX = Math.max(0, Math.min(this.map.size - gameMember.paddleSize, gameMember.paddlePositionX));
-    gameMember.paddleMoved = true;
+    gameMember.paddle.move(direction)
 
     // game member is the player who moved the paddle, so we send update to him asap, opponent will get update in next tick
     gameMember.sendUpdate({
       player: {
-        paddlePositionX: gameMember.paddlePositionX,
+        paddlePositionX: gameMember.paddle.positionX,
       },
     });
   }
