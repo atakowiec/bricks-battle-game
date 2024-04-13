@@ -9,10 +9,10 @@ export function Ball(props: GameCanvasProps) {
 
   return (
     <div className={style.ball} style={{
-      width: `${ballSize}px`,
-      height: `${ballSize}px`,
-      top: `${blockSize*props.gameMember.ballPosition[1]}px`,
-      left: `${blockSize*props.gameMember.ballPosition[0]}px`
+      width: `${ballSize * 2}px`,
+      height: `${ballSize * 2}px`,
+      top: `${blockSize * props.gameMember.ballPosition[1] - ballSize}px`,
+      left: `${blockSize * props.gameMember.ballPosition[0] - ballSize}px`,
     }} />
   );
 }

@@ -2,6 +2,7 @@ import { SocketType } from './game.types';
 import Game from './game';
 import { GamePacket, IGameMember } from '@shared/Game';
 import { decodeIMap } from '../utils/utils';
+import { Ball } from './components/ball';
 
 export class GameMember {
   public nickname: string;
@@ -16,8 +17,7 @@ export class GameMember {
   public paddleSpeed = 0.5;
   public paddleMoved = false;
 
-  public ballPosition: [number, number];
-  public ballSize = 0.66;
+  public ball = new Ball(this);
 
   public board: number[][];
 
@@ -27,7 +27,6 @@ export class GameMember {
     this.nickname = socket.data.nickname;
     this.socket = socket;
     this.paddlePositionX = 0;
-    this.ballPosition = [0, 0];
     this.board = [];
   }
 
@@ -41,9 +40,9 @@ export class GameMember {
       paddleSize: this.paddleSize,
       paddleThickness: this.paddleThickness,
       paddleSpeed: this.paddleSpeed,
-      ballPosition: this.ballPosition,
+      ballPosition: this.ball.position,
       board: this.board,
-      ballSize: this.ballSize,
+      ballSize: this.ball.size,
     };
   }
 
@@ -53,7 +52,7 @@ export class GameMember {
     this.paddlePositionX = 0.5 * (this.game.map.size - this.paddleSize);
     this.paddlePositionY = this.game.map.size - 2 * this.paddleThickness;
     this.paddleSpeed = this.game.map.size / 120;
-    this.ballPosition = [this.paddlePositionX + ((this.paddleSize - this.ballSize) * 0.5), this.paddlePositionY - this.ballSize - 0.1];
+    this.ball.position = [this.paddlePositionX + ((this.paddleSize - this.ball.size * 2) * 0.5), this.paddlePositionY - this.ball.size * 2 - 0.1];
     this.board = decodeIMap(this.game.map);
   }
 

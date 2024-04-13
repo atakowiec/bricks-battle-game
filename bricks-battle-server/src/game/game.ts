@@ -31,27 +31,35 @@ export default class Game {
 
   public tick() {
     if (this.gameStatus === 'playing') {
-      // paddle movement every 3 ticks
+      // send opponent paddle and ball position updates every 3 ticks
+      // player who moved the paddle will get update immediately (in movePaddle method)
       if (GameService.currentTick % 3 === 0) {
-        if (this.player.paddleMoved) {
-          this.owner.sendUpdate({
-            opponent: {
-              paddlePositionX: this.player.paddlePositionX,
-            },
-          });
-        }
+        this.owner.sendUpdate({
+          opponent: {
+            paddlePositionX: this.player.paddlePositionX,
+            ballPosition: this.player.ball.position,
+          },
+          player: {
+            ballPosition: this.owner.ball.position
+          }
+        });
 
-        if (this.owner.paddleMoved) {
-          this.player.sendUpdate({
-            opponent: {
-              paddlePositionX: this.owner.paddlePositionX,
-            },
-          });
-        }
+        this.player.sendUpdate({
+          opponent: {
+            paddlePositionX: this.owner.paddlePositionX,
+            ballPosition: this.owner.ball.position,
+          },
+          player: {
+            ballPosition: this.player.ball.position
+          }
+        });
 
         this.owner.paddleMoved = false;
         this.player.paddleMoved = false;
       }
+
+      this.owner.ball.tick();
+      this.player.ball.tick();
     }
 
     if (GameService.currentTick % GameService.TICKS_PER_SECOND === 0) {
