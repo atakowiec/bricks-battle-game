@@ -20,10 +20,10 @@ export class Paddle {
     this.moved = true;
   }
 
-  collidesWithBall(): boolean {
+  collidesWithBall(newX?: number, newY?: number): boolean {
     const ballSize = this.paddleOwner.ball.size;
-    const ballX = this.paddleOwner.ball.position[0];
-    const ballY = this.paddleOwner.ball.position[1];
+    const ballX = newX ?? this.paddleOwner.ball.position[0];
+    const ballY = newY ?? this.paddleOwner.ball.position[1];
 
     // ball is too high
     if (ballY + ballSize < this.positionY) return false;
