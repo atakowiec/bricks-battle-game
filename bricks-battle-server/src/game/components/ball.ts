@@ -3,7 +3,7 @@ import {
   flipBy135Degrees,
   flipBy45Degrees,
   flipByXAxis,
-  flipByYAxis,
+  flipByYAxis, getClosestCorner, getCornerBlocks,
   HALF_PI, normalizeAngle,
   SIN_COS_45,
 } from '../../utils/math-utils';
@@ -89,7 +89,6 @@ export class Ball {
     // first check if ball could have touched paddle in this tick (was above paddle, is below paddle line)
     const paddleY = this.ballOwner.paddle.positionY;
     if (newY + this.size >= paddleY && this.position[1] + this.size <= paddleY) {
-      console.log("ball could have touched paddle");
       // now determine exact collision point on paddle line to determine if it really collided and if so bounce it back
       const yTravelled = newY - this.position[1];
       const yNeed = paddleY - this.size - this.position[1];
@@ -153,30 +152,74 @@ export class Ball {
 
     // all collisions are calculated, now we need to determine the direction of the ball
     if (collidedBlocks.length) {
-      for (const [x, y] of collidedBlocks) {
+      this.log(`collided with ${collidedBlocks.length} blocks`)
+      collisionLoop: for (const [x, y] of collidedBlocks) {
         const [middleX, middleY] = [x + 0.5, y + 0.5];
-        const distanceX = middleX - newX;
-        const distanceY = middleY - newY;
+        const distanceX = newX - middleX;
+        const distanceY = newY - middleY;
         const diff = Math.abs(distanceX) - Math.abs(distanceY);
 
         if (diff < 0.1 && diff > -0.1) {
           // ball is colliding with the block's corner
-          // todo do not let ball collide with block's corner when other block is blocking this corner - main issue
+          // first, check if there is any block blocking the corner
+          const corner = getClosestCorner(distanceX, distanceY);
+          this.log(`collided with corner, corner: ${corner}`)
+          const cornerBlocks = getCornerBlocks([middleX, middleY], corner);
+          this.log(`corner blocks: ${cornerBlocks.map(([cx, cy]) => `${cx},${cy}`).join('|')}`);
+
+          for (const [cx, cy] of cornerBlocks) {
+            if (blockMap[cy]?.[cx]) {
+              this.log('this corner is not accessible - skipping');
+              continue collisionLoop;
+            }
+          }
+
+          this.log(`this corner is accessible - bouncing, ${distanceX}, ${distanceY}`);
           if ((distanceY < 0 && distanceX < 0) || (distanceY > 0 && distanceX > 0)) {
+            this.log(`flipping by 135 degrees from ${this.direction} to ${flipBy135Degrees(this.direction)}`);
             this.direction = flipBy135Degrees(this.direction);
           } else {
+            this.log(`flipping by 45 degrees from ${this.direction} to ${flipBy45Degrees(this.direction)}`);
             this.direction = flipBy45Degrees(this.direction);
           }
         } else if (diff < 0) {
+          this.log(`flipping by x from ${this.direction} to ${flipByXAxis(this.direction)} distanceX: ${distanceX}, distanceY: ${distanceY}`);
           // ball is colliding with the block's side (top or bottom)
           flipX();
         } else if (diff > 0) {
+          this.log(`flipping by y from ${this.direction} to ${flipByYAxis(this.direction)} distanceX: ${distanceX}, distanceY: ${distanceY}`);
           // ball is colliding with the block's side (left or right)
           flipY();
+        }
+
+        //after collision, recalculate the position, so it won't intersect with block it collided with
+        this.log(`diff ${diff}`);
+        if(diff <= 0.1) { // ball hit top or bottom side
+          this.log("ball hit top or bottom side")
+          const excess = Math.abs(distanceY) - this.size - 0.5;
+          if(distanceY < 0) // collided with left side
+            newY += excess;
+          else
+            newY -= excess;
+        }
+        if(diff >= -0.1) { // ball hit left or right side
+          this.log("ball hit left or right side")
+          const excess = Math.abs(distanceX) - this.size - 0.5;
+          if(distanceX < 0) // collided with top side
+            newX += excess;
+          else
+            newX -= excess;
         }
       }
     }
 
     this.position = [newX, newY];
+  }
+
+  log(message: string) {
+    if (this.ballOwner.game.owner === this.ballOwner) {
+      const formattedTime = new Date().toLocaleTimeString();
+      console.log(`[${formattedTime}] ${message}`);
+    }
   }
 }
