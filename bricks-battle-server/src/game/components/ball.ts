@@ -22,10 +22,11 @@ export class Ball {
 
   public readonly ballOwner: GameMember;
 
+  public isServing = true;
   public position: [number, number] = [0, 0]; // center of the ball
   public size = 0.33;
   public speed = 0.2;
-  public direction: number = -Math.PI / 4;
+  public direction: number = -Math.PI / 2;
 
   constructor(ballOwner: GameMember) {
     this.ballOwner = ballOwner;
@@ -35,7 +36,18 @@ export class Ball {
     return this.ballOwner.game.map.size;
   }
 
+  public resetPosition() {
+    this.position = [this.ballOwner.paddle.positionX + (this.ballOwner.paddle.size / 2), this.ballOwner.paddle.positionY - this.size * 2 - 0.1];
+  }
+
   public tick() {
+    if (this.isServing) {
+      if (this.ballOwner.paddle.moved)
+        this.resetPosition();
+
+      return;
+    }
+
     let xFlipped = false;
     let yFlipped = false;
 
@@ -65,10 +77,13 @@ export class Ball {
     }
 
     // player loses heart or something but for now ball will just bounce
-    if (newY + this.size >= this.getMapSize()) { // collision with bottom
-      const excess = newY + this.size - this.getMapSize();
-      newY = this.getMapSize() - this.size - excess;
-      flipX();
+    if (newY - this.size >= this.getMapSize()) { // collision with bottom
+      // const excess = newY + this.size - this.getMapSize();
+      // newY = this.getMapSize() - this.size - excess;
+      // flipX();
+
+      this.ballOwner.decreaseLives();
+      return;
     }
 
     if (newX - this.size <= 0) { // collision with left

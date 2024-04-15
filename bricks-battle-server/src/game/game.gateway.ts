@@ -145,7 +145,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @UseFilters(WsExceptionFilter)
   @SubscribeMessage('move_paddle')
-  movePaddle(@ConnectedSocket() client: SocketType, @MessageBody() direction: PaddleDirection, @GameId() gameId: string){
+  movePaddle(@ConnectedSocket() client: SocketType, @MessageBody() direction: PaddleDirection, @GameId() gameId: string) {
     const game = this.gameService.getGame(gameId);
 
     if (!game) {
@@ -153,5 +153,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     game.movePaddle(client, direction);
+  }
+
+  @UseFilters(WsExceptionFilter)
+  @SubscribeMessage('serve_ball')
+  serveBall(@ConnectedSocket() client: SocketType, @GameId() gameId: string) {
+    const game = this.gameService.getGame(gameId);
+
+    if (!game) {
+      throw new WsException('You are not in a game!');
+    }
+
+    game.serveBall(client);
   }
 }

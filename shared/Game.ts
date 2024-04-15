@@ -12,6 +12,7 @@ export interface IGameMember {
   ballPosition: [number, number];
   board: number[][];
   ballSize: number;
+  lives: number;
 }
 
 export interface GamePacket {

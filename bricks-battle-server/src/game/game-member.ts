@@ -13,8 +13,9 @@ export class GameMember {
 
   public paddle = new Paddle(this);
   public ball = new Ball(this);
-
   public board: number[][];
+
+  public lives = 3;
 
   public blockChanges: { x: number, y: number }[] = [];
 
@@ -39,6 +40,7 @@ export class GameMember {
       ballPosition: this.ball.position,
       board: this.board,
       ballSize: this.ball.size,
+      lives: this.lives,
     };
   }
 
@@ -48,7 +50,7 @@ export class GameMember {
     this.paddle.positionX = 0.5 * (this.game.map.size - this.paddle.size);
     this.paddle.positionY = this.game.map.size - 2 * this.paddle.thickness;
     this.paddle.speed = this.game.map.size / 120;
-    this.ball.position = [this.paddle.positionX + ((this.paddle.size - this.ball.size * 2) * 0.5), this.paddle.positionY - this.ball.size * 2 - 0.1];
+    this.ball.position = [this.paddle.positionX + (this.paddle.size / 2), this.paddle.positionY - this.ball.size * 2 - 0.1];
     this.board = decodeIMap(this.game.map);
   }
 
@@ -71,5 +73,24 @@ export class GameMember {
   updateBlock(x: number, y: number, newBlock: number) {
     this.board[y][x] = newBlock;
     this.blockChanges.push({ x, y });
+  }
+
+  decreaseLives() {
+    this.lives--;
+
+    this.ball.isServing = true;
+    this.ball.resetPosition();
+
+    this.sendUpdate({
+      player: {
+        lives: this.lives,
+      },
+    });
+
+    this.game.getOpponent(this).sendUpdate({
+      opponent: {
+        lives: this.lives,
+      },
+    });
   }
 }

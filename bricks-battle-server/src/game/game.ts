@@ -377,4 +377,14 @@ export default class Game {
       },
     });
   }
+
+  getOpponent(member: GameMember) {
+    return member === this.owner ? this.player : this.owner;
+  }
+
+  serveBall(client: SocketType) {
+    const gameMember = client === this.owner.socket ? this.owner : this.player;
+    gameMember.ball.isServing = false;
+    gameMember.ball.direction = -Math.PI / 2;
+  }
 }

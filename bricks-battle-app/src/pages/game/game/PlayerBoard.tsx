@@ -20,6 +20,8 @@ export function PlayerBoard(props: PropsWithGame) {
         pressedKeys.current['left'] = true;
       } else if (e.key === 'ArrowRight') {
         pressedKeys.current['right'] = true;
+      } else if (e.key === ' ') {
+        socket.emit('serve_ball');
       }
     };
 

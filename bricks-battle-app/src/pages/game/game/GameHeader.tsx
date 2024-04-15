@@ -8,11 +8,21 @@ export function GameHeader(props: PropsWithGame) {
 
   return (
     <div className={style.gameHeader}>
-      <div>
+      <div className={style.headerElement}>
         {game.player.nickname}
+        <div className={style.livesBox}>
+          {Array.from({ length: game.player.lives }, (_, i) => (
+            <div key={i} className={style.life} />
+          ))}
+        </div>
       </div>
-      <div>
+      <div className={style.headerElement}>
         {game.opponent!.nickname}
+        <div className={style.livesBox}>
+          {Array.from({ length: game.opponent!.lives }, (_, i) => (
+            <div key={i} className={style.life} />
+          ))}
+        </div>
       </div>
     </div>
   );

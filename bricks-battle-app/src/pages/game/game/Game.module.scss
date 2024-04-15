@@ -20,8 +20,23 @@
   display: flex;
   justify-content: space-around;
 
-  div {
+  .headerElement {
+    display: flex;
+    align-items: center;
     font-size: 1.2rem;
+  }
+
+  .livesBox {
+    display: flex;
+    gap: 10px;
+    margin-left: 20px;
+
+    .life {
+      width: 25px;
+      height: 25px;
+      background-color: #ddd;
+      border-radius: 100%;
+    }
   }
 }
 

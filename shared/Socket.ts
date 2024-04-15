@@ -23,6 +23,7 @@ export interface ClientToServerEvents {
   leave_game: () => void;
   start_game: () => void;
   move_paddle: (direction: PaddleDirection) => void;
+  serve_ball: () => void;
 }
 
 export type ClientToServerEventsKeys = keyof ClientToServerEvents
