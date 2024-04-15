@@ -40,8 +40,8 @@ export default class Game {
             ballPosition: this.player.ball.position,
           },
           player: {
-            ballPosition: this.owner.ball.position
-          }
+            ballPosition: this.owner.ball.position,
+          },
         });
 
         this.player.sendUpdate({
@@ -50,8 +50,8 @@ export default class Game {
             ballPosition: this.owner.ball.position,
           },
           player: {
-            ballPosition: this.player.ball.position
-          }
+            ballPosition: this.player.ball.position,
+          },
         });
 
         this.owner.paddle.moved = false;
@@ -236,8 +236,10 @@ export default class Game {
     }
 
     if (this.player.socket.connected && this.owner.socket.connected) {
-      this.gameStatus = 'starting';
-      this.counting = 3;
+      if (this.gameStatus === 'paused') {
+        this.gameStatus = 'starting';
+        this.counting = 3;
+      }
     }
 
     this.send();
@@ -351,7 +353,7 @@ export default class Game {
   movePaddle(client: SocketType, direction: PaddleDirection) {
     const gameMember = client === this.owner.socket ? this.owner : this.player;
 
-    gameMember.paddle.move(direction)
+    gameMember.paddle.move(direction);
 
     // game member is the player who moved the paddle, so we send update to him asap, opponent will get update in next tick
     gameMember.sendUpdate({
