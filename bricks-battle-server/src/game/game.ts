@@ -58,20 +58,8 @@ export default class Game {
         });
 
         // send board updates
-        for (const changedBlock of this.owner.blockChanges) {
-          const currentBlock = this.owner.board[changedBlock.y][changedBlock.x];
-          this.owner.socket.emit('update_board', true, changedBlock.x, changedBlock.y, currentBlock);
-          this.player.socket.emit('update_board', false, changedBlock.x, changedBlock.y, currentBlock);
-        }
+        this.sendBlockChanges();
 
-        for (const changedBlock of this.player.blockChanges) {
-          const currentBlock = this.player.board[changedBlock.y][changedBlock.x];
-          this.owner.socket.emit('update_board', false, changedBlock.x, changedBlock.y, currentBlock);
-          this.player.socket.emit('update_board', true, changedBlock.x, changedBlock.y, currentBlock);
-        }
-
-        this.owner.blockChanges = [];
-        this.player.blockChanges = [];
         this.owner.paddle.moved = false;
         this.player.paddle.moved = false;
       }
@@ -80,6 +68,23 @@ export default class Game {
     if (GameService.currentTick % GameService.TICKS_PER_SECOND === 0) {
       this.countdown();
     }
+  }
+
+  public sendBlockChanges() {
+    for (const changedBlock of this.owner.blockChanges) {
+      const currentBlock = this.owner.board[changedBlock.y][changedBlock.x];
+      this.owner.socket.emit('update_board', true, changedBlock.x, changedBlock.y, currentBlock);
+      this.player.socket.emit('update_board', false, changedBlock.x, changedBlock.y, currentBlock);
+    }
+
+    for (const changedBlock of this.player.blockChanges) {
+      const currentBlock = this.player.board[changedBlock.y][changedBlock.x];
+      this.owner.socket.emit('update_board', false, changedBlock.x, changedBlock.y, currentBlock);
+      this.player.socket.emit('update_board', true, changedBlock.x, changedBlock.y, currentBlock);
+    }
+
+    this.owner.blockChanges = [];
+    this.player.blockChanges = [];
   }
 
   /**
@@ -219,7 +224,7 @@ export default class Game {
     this.player.socket.emit('set_game', null);
     this.player = null;
 
-    if (this.gameStatus == 'playing' || this.gameStatus == 'starting' || this.gameStatus == 'paused') {
+    if (this.gameStatus == 'playing' || this.gameStatus == 'starting' || this.gameStatus == 'paused' || this.gameStatus == 'finished') {
       this.gameStatus = 'waiting';
     }
 
@@ -250,7 +255,7 @@ export default class Game {
       clearTimeout(this.playerDisconnectTimeout);
     }
 
-    if (this.player.socket.connected && this.owner.socket.connected) {
+    if (this.player && this.player.socket.connected && this.owner.socket.connected) {
       if (this.gameStatus === 'paused') {
         this.gameStatus = 'starting';
         this.counting = 3;
@@ -384,7 +389,41 @@ export default class Game {
 
   serveBall(client: SocketType) {
     const gameMember = client === this.owner.socket ? this.owner : this.player;
+    if (!gameMember.ball.isServing) return;
+
     gameMember.ball.isServing = false;
     gameMember.ball.direction = -Math.PI / 2;
+  }
+
+  endGame(winner: GameMember) {
+    this.gameStatus = 'finished';
+    this.sendBlockChanges();
+    this.sendUpdate({
+      status: this.gameStatus,
+      winner: winner.nickname,
+    });
+  }
+
+  playAgain(client: SocketType) {
+    if (client != this.owner.socket) {
+      throw new WsException('Only owner can start new game!');
+    }
+
+    if (this.gameStatus != 'finished') {
+      throw new WsException('Game is not finished!');
+    }
+
+    this.gameStatus = 'waiting';
+
+    this.owner.sendUpdate({
+      status: this.gameStatus,
+    });
+
+    this.player.sendUpdate({
+      status: this.gameStatus,
+    });
+
+    this.owner.sendNotification('Game has been restarted!');
+    this.player.sendNotification('Owner has restarted the game!');
   }
 }

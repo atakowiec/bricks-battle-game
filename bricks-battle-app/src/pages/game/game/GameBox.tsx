@@ -6,6 +6,7 @@ import { PlayerBoard } from './PlayerBoard.tsx';
 import { OpponentBoard } from './OpponentBoard.tsx';
 import { BoardContainer } from './BoardContainer.tsx';
 import { PauseScreen } from './components/PauseScreen.tsx';
+import { WinScreen } from './components/WinScreen.tsx';
 
 export interface PropsWithGame {
   game: GameState;
@@ -16,6 +17,7 @@ export function GameBox() {
 
   return (
     <div className={style.gameContainer}>
+      {game.status == "finished" && <WinScreen />}
       {game.status == "paused" && <PauseScreen />}
       <GameHeader game={game} />
       <div className={style.boardsContainer}>

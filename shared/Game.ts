@@ -21,6 +21,7 @@ export interface GamePacket {
   opponent?: Partial<IGameMember>;
   map?: IMap;
   status?: GameStatus;
+  winner?: string;
 }
 
 export type GameStatus = 'waiting' | 'starting' | 'playing' | 'paused' | 'finished';

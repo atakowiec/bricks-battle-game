@@ -32,7 +32,7 @@ export function GameRouter() {
   const tab = useSelector(state => state.layout.tab);
   const game = useSelector(state => state.game);
 
-  if(isInGame(game?.status)) {
+  if(isInGame(game?.status) || game?.status === "finished") {
     return <GameBox />;
   }
 

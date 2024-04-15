@@ -8,6 +8,7 @@ export type GameState = {
   opponent?: IGameMember;
   map: IMap
   status: GameStatus;
+  winner?: string;
 } | null;
 
 const gameSlice = createSlice({

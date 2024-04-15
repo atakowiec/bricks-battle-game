@@ -52,6 +52,7 @@ export class GameMember {
     this.paddle.speed = this.game.map.size / 120;
     this.ball.position = [this.paddle.positionX + (this.paddle.size / 2), this.paddle.positionY - this.ball.size * 2 - 0.1];
     this.board = decodeIMap(this.game.map);
+    this.lives = 3;
   }
 
   sendNotification(message: string) {
@@ -73,13 +74,14 @@ export class GameMember {
   updateBlock(x: number, y: number, newBlock: number) {
     this.board[y][x] = newBlock;
     this.blockChanges.push({ x, y });
+
+    if (this.board.every(row => row.every(cell => cell === 0))) {
+      this.game.endGame(this);
+    }
   }
 
   decreaseLives() {
     this.lives--;
-
-    this.ball.isServing = true;
-    this.ball.resetPosition();
 
     this.sendUpdate({
       player: {
@@ -92,5 +94,12 @@ export class GameMember {
         lives: this.lives,
       },
     });
+
+    if (this.lives === 0) {
+      this.game.endGame(this.game.getOpponent(this));
+    }
+
+    this.ball.isServing = true;
+    this.ball.resetPosition();
   }
 }
