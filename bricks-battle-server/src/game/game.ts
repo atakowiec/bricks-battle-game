@@ -31,6 +31,9 @@ export default class Game {
 
   public tick() {
     if (this.gameStatus === 'playing') {
+      this.owner.ball.tick();
+      this.player.ball.tick();
+
       // send opponent paddle and ball position updates every 3 ticks
       // player who moved the paddle will get update immediately (in movePaddle method)
       if (GameService.currentTick % 3 === 0) {
@@ -54,12 +57,24 @@ export default class Game {
           },
         });
 
+        // send board updates
+        for (const changedBlock of this.owner.blockChanges) {
+          const currentBlock = this.owner.board[changedBlock.y][changedBlock.x];
+          this.owner.socket.emit('update_board', true, changedBlock.x, changedBlock.y, currentBlock);
+          this.player.socket.emit('update_board', false, changedBlock.x, changedBlock.y, currentBlock);
+        }
+
+        for (const changedBlock of this.player.blockChanges) {
+          const currentBlock = this.player.board[changedBlock.y][changedBlock.x];
+          this.owner.socket.emit('update_board', false, changedBlock.x, changedBlock.y, currentBlock);
+          this.player.socket.emit('update_board', true, changedBlock.x, changedBlock.y, currentBlock);
+        }
+
+        this.owner.blockChanges = [];
+        this.player.blockChanges = [];
         this.owner.paddle.moved = false;
         this.player.paddle.moved = false;
       }
-
-      this.owner.ball.tick();
-      this.player.ball.tick();
     }
 
     if (GameService.currentTick % GameService.TICKS_PER_SECOND === 0) {

@@ -34,10 +34,10 @@ export function PlayerBoard(props: PropsWithGame) {
 
     const updatePaddle = () => {
       if (pressedKeys.current['left']) {
-        socket.emit("move_paddle", "left")
+        socket.emit('move_paddle', 'left');
       }
       if (pressedKeys.current['right']) {
-        socket.emit("move_paddle", "right")
+        socket.emit('move_paddle', 'right');
       }
     };
 

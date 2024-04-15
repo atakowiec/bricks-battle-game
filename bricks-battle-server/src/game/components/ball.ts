@@ -14,8 +14,6 @@ export class Ball {
     [1, 0],
     [0, -1],
     [-1, 0],
-  ];
-  public static readonly CORNER_COLLISION_POINTS = [
     [SIN_COS_45, SIN_COS_45],
     [SIN_COS_45, -SIN_COS_45],
     [-SIN_COS_45, SIN_COS_45],
@@ -115,7 +113,6 @@ export class Ball {
     }
 
     // collisions with blocks
-    const xTaken = [], yTaken = [];
     const collidedBlocks = [];
     const blockMap = this.ballOwner.board;
     for (const [x, y] of Ball.SIMPLE_COLLISION_POINTS) {
@@ -128,25 +125,6 @@ export class Ball {
         continue;
       }
 
-      collidedBlocks.push([collisionX, collisionY]);
-      xTaken.push(x);
-      yTaken.push(y);
-    }
-
-    for (const [x, y] of Ball.CORNER_COLLISION_POINTS) {
-      const collisionX = Math.floor(newX + (x * this.size));
-      const collisionY = Math.floor(newY + (y * this.size));
-      if (!blockMap[collisionY]?.[collisionX]) {
-        continue;
-      }
-      if (collidedBlocks.some(([cx, cy]) => cx === collisionX && cy === collisionY)) {
-        continue;
-      }
-
-      // check if the adjacent blocks are already taken, if so, skip this block
-      if (xTaken.includes(x / SIN_COS_45) && yTaken.includes(y / SIN_COS_45)) {
-        continue;
-      }
       collidedBlocks.push([collisionX, collisionY]);
     }
 
@@ -182,6 +160,9 @@ export class Ball {
           // ball is colliding with the block's side (left or right)
           flipY();
         }
+
+        // break block after collision
+        this.ballOwner.updateBlock(x, y, 0);
 
         //after collision, recalculate the position, so it won't intersect with block it collided with
         if (diff <= 0.1) { // ball hit top or bottom side

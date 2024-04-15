@@ -11,10 +11,12 @@ export class GameMember {
   public socket: SocketType;
   public game: Game;
 
-  public paddle = new Paddle(this)
+  public paddle = new Paddle(this);
   public ball = new Ball(this);
 
   public board: number[][];
+
+  public blockChanges: { x: number, y: number }[] = [];
 
   constructor(socket: SocketType, game: Game) {
     this.game = game;
@@ -64,5 +66,10 @@ export class GameMember {
 
   sendTitle(title: string) {
     this.socket.volatile.emit('title', title);
+  }
+
+  updateBlock(x: number, y: number, newBlock: number) {
+    this.board[y][x] = newBlock;
+    this.blockChanges.push({ x, y });
   }
 }

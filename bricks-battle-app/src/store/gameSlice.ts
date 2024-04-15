@@ -49,6 +49,17 @@ const gameSlice = createSlice({
         ...payload,
       } as GameState;
     },
+    updateBoard: (state, action) => {
+      const boardToChange = action.payload.playerBoard ? state?.player.board : state?.opponent?.board;
+      if (!boardToChange) {
+        return state;
+      }
+
+      const { x, y, newBlock } = action.payload;
+      boardToChange[y][x] = newBlock;
+
+      return state;
+    },
   },
 });
 
