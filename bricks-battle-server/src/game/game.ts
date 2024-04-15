@@ -120,9 +120,9 @@ export default class Game {
     this.player?.sendUpdate(packet);
   }
 
-  sendTitle(title: string) {
-    this.owner.sendTitle(title);
-    this.player?.sendTitle(title);
+  sendTitle(title: string, time?: number) {
+    this.owner.sendTitle(title, time);
+    this.player?.sendTitle(title, time);
   }
 
   join(client: SocketType) {
@@ -355,7 +355,7 @@ export default class Game {
 
     if (this.counting === 0) {
       this.gameStatus = 'playing';
-      this.sendTitle('Start!');
+      this.sendTitle('Start!', 2000);
       this.sendUpdate({
         status: this.gameStatus,
       });

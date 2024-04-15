@@ -9,6 +9,7 @@ import { GameRouter } from './pages/GameRouter.tsx';
 import NotificationsMain from './components/NotificationsMain.tsx';
 import useSocket from './socket/useSocket.ts';
 import useNotifications from './hooks/useNotifications.ts';
+import { gameActions } from './store/gameSlice.ts';
 
 function App() {
   const game = useSelector(state => state.game);
@@ -21,10 +22,12 @@ function App() {
     getApi().post('/auth/verify')
       .then((res: any) => {
         dispatch(userActions.setUser(res.data));
+        dispatch(gameActions.setGame(null))
         setUserLoaded(true);
         socket.connect();
       })
       .catch(e => {
+        dispatch(gameActions.setGame(null))
         dispatch(userActions.setUser(null));
         setUserLoaded(true);
 

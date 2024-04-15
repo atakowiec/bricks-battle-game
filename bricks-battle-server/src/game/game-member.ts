@@ -64,8 +64,8 @@ export class GameMember {
     this.socket.emit('set_game', this.game.getPacket(this.socket));
   }
 
-  sendTitle(title: string) {
-    this.socket.volatile.emit('title', title);
+  sendTitle(title: string, time?: number) {
+    this.socket.volatile.emit('title', title, time);
   }
 
   updateBlock(x: number, y: number, newBlock: number) {

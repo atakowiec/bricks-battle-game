@@ -4,10 +4,10 @@ export interface ServerToClientEvents {
   exception: (error: string) => void;
   set_game: (game: GamePacket) => void;
   game_update: (game: GamePacket) => void;
-  notification: (message: string) => void;
+  notification: (message: string, time?: number) => void;
+  title: (title: string, time?: number) => void;
   event_exception: (error: string) => void;
   set_paddle: (position: number) => void;
-  title: (title: string) => void;
   update_board: (playerBoard: boolean, x: number, y: number, newBlock: number) => void;
 }
 

@@ -22,7 +22,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
     socket.on('exception', (error) => addNotification(error, 'error'));
 
-    socket.on('notification', (message) => addNotification(message, 'info'));
+    socket.on('notification', (message, time) => addNotification(message, 'info', time));
+
+    socket.on('title', (title, time) => addNotification(title, 'title', time));
 
     socket.on('set_game', (game: GamePacket) => dispatch(gameActions.setGame(game)));
 
@@ -34,8 +36,6 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       y,
       newBlock,
     })));
-
-    socket.on('title', (title: string) => addNotification(title, 'title'));
 
     return socket;
   }, []);

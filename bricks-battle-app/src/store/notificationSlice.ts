@@ -4,6 +4,7 @@ export interface Notification {
   id?: number;
   message: string;
   type: NotificationType;
+  time: number;
 }
 
 export type NotificationType = 'info' | 'error' | 'title';

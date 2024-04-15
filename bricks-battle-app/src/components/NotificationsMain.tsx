@@ -9,16 +9,19 @@ export default function NotificationsMain() {
     <div className={style.notificationsBox}>
       {notifications.map(notification => (
         notification.type === 'title' ?
-          <TitleNotification key={notification.id} title={notification.message} /> :
+          <TitleNotification key={notification.id} title={notification.message} time={notification.time} /> :
           <NotificationCard key={notification.id} notification={notification} onClick={removeNotification} />
       ))}
     </div>
   );
 }
 
-function TitleNotification(props: { title: string }) {
+function TitleNotification(props: { title: string, time: number }) {
   return (
-    <div className={style.titleNotificationCard}>
+    <div className={style.titleNotificationCard}
+         style={{
+           animationDuration: `${props.time/1000}s`,
+         }}>
       {props.title}
     </div>
   );

@@ -18,7 +18,6 @@ export function GameCanvas(props: GameCanvasProps) {
   const boardSize = useBoardSize();
   const mapBlocks = useSelector(state => state.commonData.blocks);
   const cellSize = useMemo(() => boardSize / props.game!.map.size, [boardSize]);
-  console.log(props.map.map(row => row.filter(cell => cell !== 0).length).reduce((acc, val) => acc + val, 0));
 
   return (
     <>

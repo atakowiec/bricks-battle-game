@@ -8,17 +8,18 @@ export default function useNotifications() {
   const dispatch = useDispatch();
   const notifications = useSelector(state => state.notifications);
 
-  function addNotification(message: any, type: NotificationType) {
+  function addNotification(message: any, type: NotificationType, time?: number) {
     const id = nextId++;
     dispatch(notificationActions.addNotification({
       id,
-      message: typeof message === 'string' ? message : message.toString(),
+      message: typeof message === 'string' ? message : JSON.stringify(message),
       type,
+      time: time ?? (type === 'title' ? 1000 : 5000)
     }));
 
     setTimeout(() => {
       removeNotification(id);
-    }, type === 'title' ? 1000 : 5000);
+    }, time ?? (type === 'title' ? 1000 : 5000));
   }
 
   function removeNotification(id: number) {
