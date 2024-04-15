@@ -1,14 +1,25 @@
 import style from './Gadgets.module.scss';
 import title from '../../utils/title.ts';
+import { useState } from 'react';
+import { GadgetsSelector } from './GadgetsSelector.tsx';
+import { GadgetType } from '@shared/Gadgets.ts';
 
 export default function Gadgets() {
     title('Personalize')
+    const [selectedCategory, setSelectedCategory] = useState<GadgetType | null>(null)
+
+    if(selectedCategory)
+        return <GadgetsSelector type={selectedCategory} back={setCategory(null)} />
+
+    function setCategory(category: GadgetType | null) {
+        return () => setSelectedCategory(category)
+    }
 
     return (
         <div className={style.container}>
             <h1>Personalize</h1>
             <div className={`row`}>
-                <div className={`${style.gadgetBox}`}>
+                <div className={`${style.gadgetBox}`} onClick={setCategory("icon")}>
                     <div className={style.gadgetIcon}>
                         <img src="/assets/icon.png" alt="Profile Icon"/>
                     </div>
@@ -16,7 +27,7 @@ export default function Gadgets() {
                         icon
                     </div>
                 </div>
-                <div className={`${style.gadgetBox}`}>
+                <div className={`${style.gadgetBox}`} onClick={setCategory("paddle")}>
                     <div className={style.gadgetIcon}>
                         <img src="/assets/paddle.png" alt="Paddle Icon"/>
                     </div>
@@ -24,7 +35,7 @@ export default function Gadgets() {
                         paddle
                     </div>
                 </div>
-                <div className={`${style.gadgetBox}`}>
+                <div className={`${style.gadgetBox}`} onClick={setCategory("ball")}>
                     <div className={style.gadgetIcon}>
                         <img src="/assets/ball.png" alt="Ball Icon"/>
                     </div>
@@ -32,7 +43,7 @@ export default function Gadgets() {
                         ball
                     </div>
                 </div>
-                <div className={`${style.gadgetBox}`}>
+                <div className={`${style.gadgetBox}`} onClick={setCategory("trails")}>
                     <div className={style.gadgetIcon}>
                         <img src="/assets/trails.png" alt="Trails Icon"/>
                     </div>
@@ -40,22 +51,22 @@ export default function Gadgets() {
                         trails
                     </div>
                 </div>
-                <div className={`${style.gadgetBox}`}>
-                    <div className={style.gadgetIcon}>
-                        <img src="/assets/barrier.png" alt="Trails Icon"/>
-                    </div>
-                    <div className={style.gadgetName}>
-                        barrier
-                    </div>
-                </div>
-                <div className={`${style.gadgetBox}`}>
-                    <div className={`${style.gadgetIcon}`}>
-                        <img src="/assets/effects.png" alt="Trails Icon"/>
-                    </div>
-                    <div className={style.gadgetName}>
-                        effects
-                    </div>
-                </div>
+                {/*<div className={`${style.gadgetBox}`} onClick={setCategory("barrier")}>*/}
+                {/*    <div className={style.gadgetIcon}>*/}
+                {/*        <img src="/assets/barrier.png" alt="Barrier Icon"/>*/}
+                {/*    </div>*/}
+                {/*    <div className={style.gadgetName}>*/}
+                {/*        barrier*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+                {/*<div className={`${style.gadgetBox}`} onClick={setCategory("effects")}>*/}
+                {/*    <div className={`${style.gadgetIcon}`}>*/}
+                {/*        <img src="/assets/effects.png" alt="Effects Icon"/>*/}
+                {/*    </div>*/}
+                {/*    <div className={style.gadgetName}>*/}
+                {/*        effects*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
         </div>
     );

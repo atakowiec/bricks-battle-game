@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MapsModule } from './maps/maps.module';
 import { JwtMiddleware } from './auth/jwt.middleware';
 import { GameModule } from './game/game.module';
+import { GadgetsModule } from './gadgets/gadgets.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { GameModule } from './game/game.module';
     ),
     MapsModule,
     GameModule,
+    GadgetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

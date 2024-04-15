@@ -1,8 +1,10 @@
 export type GadgetType = 'icon' | 'paddle' | 'ball' | 'trails' | 'barrier' | 'effects';
 
-export interface Gadget {
-  id: number;
-  name: string;
+export type DisplayType = 'image' | 'color'
+
+export interface IGadget {
+  _id: string;
   type: GadgetType;
-  icon: string;
+  data: string;
+  displayType: DisplayType;
 }
