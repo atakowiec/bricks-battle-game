@@ -4,6 +4,7 @@ export interface UserState {
   sub: string;
   nickname: string;
   loggedIn: boolean;
+  admin: boolean;
 }
 
 const userSlice = createSlice({

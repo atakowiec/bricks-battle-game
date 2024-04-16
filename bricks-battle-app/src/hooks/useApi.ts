@@ -1,5 +1,6 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import getApi from '../api/axios.ts';
+import { ReloadApiContext } from './reload-api/ReloadApiContext.tsx';
 
 export interface ApiData<T> {
     data: T | null | undefined
@@ -11,6 +12,7 @@ export interface ApiData<T> {
 export default function useApi<DataType = any>(path: string, method: string, payload?: any): ApiData<DataType> {
     const [data, setData] = useState<DataType | null | undefined>(undefined);
     const [error, setError] = useState(false as boolean | Error);
+    const reloadToken = useContext(ReloadApiContext)?.reloadToken
 
     const isLoaded = useRef(false);
 
@@ -29,7 +31,7 @@ export default function useApi<DataType = any>(path: string, method: string, pay
                 setError(e);
                 isLoaded.current = true;
             })
-    }, [path, method, payload]);
+    }, [path, method, payload, reloadToken]);
 
     return {loaded: isLoaded.current, data: isLoaded.current ? data : undefined, error, setData};
 }

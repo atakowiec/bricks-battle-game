@@ -10,6 +10,9 @@ export class User extends Model {
 
   @Prop()
   password: string;
+
+  @Prop()
+  admin?: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

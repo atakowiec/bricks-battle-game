@@ -9,6 +9,7 @@ import { CreateGadgetDto } from './create-gadget.dto';
 export class GadgetsService {
   constructor(@InjectModel(Gadget.name) private gadgetModel: Model<Gadget>) {
     // empty
+
   }
 
   getAllGadgetsByType(type: GadgetType) {
@@ -18,5 +19,9 @@ export class GadgetsService {
   createGadget(createGadgetDto: CreateGadgetDto) {
     const gadget = new this.gadgetModel(createGadgetDto);
     return gadget.save();
+  }
+
+  deleteGadget(id: string) {
+    return this.gadgetModel.deleteOne({ _id: id });
   }
 }

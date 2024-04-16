@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { GadgetsService } from './gadgets.service';
 import { GadgetType } from '@shared/Gadgets';
 import { CreateGadgetDto } from './create-gadget.dto';
+import { AdminGuard } from '../auth/admin.guard';
 
 @Controller('gadgets')
 export class GadgetsController {
@@ -14,8 +15,15 @@ export class GadgetsController {
     return this.gadgetsService.getAllGadgetsByType(type);
   }
 
+  @UseGuards(AdminGuard)
   @Post()
-  async createGadget(@Body() createGadgetDto: CreateGadgetDto) { // todo add some admin role
+  async createGadget(@Body() createGadgetDto: CreateGadgetDto) {
     return this.gadgetsService.createGadget(createGadgetDto);
+  }
+
+  @UseGuards(AdminGuard)
+  @Delete(":id")
+  async deleteGadget(@Param('id') id: string) {
+    return this.gadgetsService.deleteGadget(id);
   }
 }

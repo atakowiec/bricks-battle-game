@@ -12,4 +12,5 @@ export interface TokenPayload {
   nickname: string;
   _id?: Types.ObjectId;
   sub?: string;
+  admin?: boolean;
 }
