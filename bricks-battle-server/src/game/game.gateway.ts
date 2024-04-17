@@ -184,4 +184,28 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     game.playAgain(client);
   }
+
+  @UseFilters(WsExceptionFilter)
+  @SubscribeMessage('pause')
+  pause(@ConnectedSocket() client: SocketType, @GameId() gameId: string) {
+    const game = this.gameService.getGame(gameId);
+
+    if (!game) {
+      throw new WsException('You are not in a game!');
+    }
+
+    game.pause(client);
+  }
+
+  @UseFilters(WsExceptionFilter)
+  @SubscribeMessage('resume_game')
+  resumeGame(@ConnectedSocket() client: SocketType, @GameId() gameId: string) {
+    const game = this.gameService.getGame(gameId);
+
+    if (!game) {
+      throw new WsException('You are not in a game!');
+    }
+
+    game.resume(client);
+  }
 }

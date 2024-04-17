@@ -44,7 +44,7 @@ export function decodeMap(data: string, size: number) {
 }
 
 export function isInGame(status?: GameStatus) {
-  return status === 'playing' || status === 'starting' || status === 'paused';
+  return status === 'playing' || status === 'starting' || status === 'paused' || status === 'owner_paused';
 }
 
 export function selectedGadgetStyle(gadget?: IGadget) {

@@ -35,6 +35,10 @@
   display: flex;
   justify-content: space-around;
 
+  .headerButton {
+    padding: 0 10px;
+  }
+
   .headerElement {
     display: flex;
     align-items: center;

@@ -137,7 +137,7 @@ export default class Game {
     }
 
     this.player = new GameMember(client, this);
-    await this.player.initSelectedGadgets()
+    await this.player.initSelectedGadgets();
 
     client.join(this.id);
     client.data.gameId = this.id;
@@ -226,7 +226,7 @@ export default class Game {
     this.player.socket.emit('set_game', null);
     this.player = null;
 
-    if (this.gameStatus == 'playing' || this.gameStatus == 'starting' || this.gameStatus == 'paused' || this.gameStatus == 'finished') {
+    if (this.gameStatus == 'playing' || this.gameStatus == 'starting' || this.gameStatus == 'paused' || this.gameStatus == 'owner_paused' || this.gameStatus == 'finished') {
       this.gameStatus = 'waiting';
     }
 
@@ -436,8 +436,41 @@ export default class Game {
       opponent: {
         selectedGadgets: {
           [gadget.type]: gadget,
-        }
+        },
       },
     });
+  }
+
+  pause(client: SocketType) {
+    if (client != this.owner.socket) {
+      throw new WsException('Only owner can pause the game!');
+    }
+
+    if (this.gameStatus != 'playing' && this.gameStatus != 'starting') {
+      throw new WsException('You cannot do this now!');
+    }
+
+    this.gameStatus = 'owner_paused';
+
+    this.sendUpdate({
+      status: this.gameStatus,
+    });
+  }
+
+  resume(client: SocketType) {
+    if (client != this.owner.socket) {
+      throw new WsException('Only owner can resume the game!');
+    }
+
+    if (this.gameStatus != 'owner_paused') {
+      throw new WsException('You cannot do this now!');
+    }
+
+    this.player.sendNotification('Game has been resumed!');
+    this.gameStatus = 'starting';
+    this.counting = 3;
+    this.sendUpdate({
+      status: this.gameStatus
+    })
   }
 }

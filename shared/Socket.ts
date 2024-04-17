@@ -26,6 +26,8 @@ export interface ClientToServerEvents {
   move_paddle: (direction: PaddleDirection) => void;
   serve_ball: () => void;
   play_again: () => void;
+  pause: () => void;
+  resume_game: () => void;
 }
 
 export type ClientToServerEventsKeys = keyof ClientToServerEvents

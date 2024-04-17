@@ -1,8 +1,12 @@
 import style from './Game.module.scss';
 import { PropsWithGame } from './GameBox.tsx';
+import { InlineButtons } from '../../../components/InlineButtons.tsx';
+import Button from '../../../components/Button.tsx';
+import useSocket from '../../../socket/useSocket.ts';
 
 export function GameHeader(props: PropsWithGame) {
   const game = props.game!;
+  const socket = useSocket()
 
   return (
     <div className={style.gameHeader}>
@@ -14,6 +18,11 @@ export function GameHeader(props: PropsWithGame) {
           ))}
         </div>
       </div>
+      <InlineButtons className={"mt-0"}>
+        {game.player.owner && <Button className={style.headerButton} onClick={() => socket.emit('pause')}>
+          ||
+        </Button>}
+      </InlineButtons>
       <div className={style.headerElement}>
         {game.opponent!.nickname}
         <div className={style.livesBox}>

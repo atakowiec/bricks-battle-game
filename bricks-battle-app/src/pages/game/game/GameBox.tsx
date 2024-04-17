@@ -17,8 +17,8 @@ export function GameBox() {
 
   return (
     <div className={style.gameContainer}>
-      {game.status == "finished" && <WinScreen />}
-      {game.status == "paused" && <PauseScreen />}
+      {game.status == 'finished' && <WinScreen />}
+      {game.status == 'paused' || game.status == 'owner_paused' && <PauseScreen />}
       <GameHeader game={game} />
       <div className={style.boardsContainer}>
         <BoardContainer className={style.playerBoard}>
