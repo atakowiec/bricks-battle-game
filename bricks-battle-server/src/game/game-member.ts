@@ -57,6 +57,9 @@ export class GameMember {
     this.ball.position = [this.paddle.positionX + (this.paddle.size / 2), this.paddle.positionY - this.ball.size * 2 - 0.1];
     this.board = decodeIMap(this.game.map);
     this.lives = 3;
+    this.blockChanges = [];
+    this.ball.isServing = true;
+    this.ball.resetPosition();
 
     await this.initSelectedGadgets();
   }

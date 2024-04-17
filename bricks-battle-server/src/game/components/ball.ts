@@ -38,6 +38,7 @@ export class Ball {
 
   public resetPosition() {
     this.position = [this.ballOwner.paddle.positionX + (this.ballOwner.paddle.size / 2), this.ballOwner.paddle.positionY - this.size * 2 - 0.1];
+    this.direction = -Math.PI / 2;
   }
 
   public tick() {
