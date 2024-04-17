@@ -5,6 +5,7 @@ import { CreateGadgetDto } from './create-gadget.dto';
 import { AdminGuard } from '../auth/admin.guard';
 import { RequestUser } from '../users/request-user.decorator';
 import { TokenPayload } from '../types/request.type';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('gadgets')
 export class GadgetsController {
@@ -29,6 +30,7 @@ export class GadgetsController {
     return this.gadgetsService.deleteGadget(id);
   }
 
+  @UseGuards(AuthGuard)
   @Get('select/:gadgetId')
   async selectGadget(@Param('gadgetId') gadgetId: string, @RequestUser() user: TokenPayload) {
     return this.gadgetsService.selectGadget(gadgetId, user);

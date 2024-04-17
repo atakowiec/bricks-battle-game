@@ -29,6 +29,9 @@ export function GadgetsSelector(props: GadgetsSelectorProps) {
       <Editor editorVisible={editorVisible} setEditorVisible={setEditorVisible} type={props.type} />
       <div className={`${style.container} text-center`}>
         <h1>{props.type}</h1>
+        {!user.loggedIn && <p className={'text-center'}>
+          You must be logged in to use gadgets.
+        </p>}
         <InlineButtons className={'mb-4'}>
           <Button onClick={props.back} width={'auto'} className={'px-5'}>Back</Button>
           {user.admin &&
@@ -52,9 +55,14 @@ function GadgetsList(props: { gadgets: IGadget[], deleteActive: boolean }) {
   const gadgetToDelete = useRef<IGadget | null>(null);
   const reloadApi = useReloadApi();
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
 
   function onGadgetClick(gadget: IGadget) {
+    if (!user.loggedIn) return;
+
     if (props.deleteActive) {
+      if (!user.admin) return;
+
       if (deleteScreenVisible) {
         getApi().delete(`/gadgets/${gadget._id}`).catch(err => {
           console.error(err);
@@ -79,6 +87,7 @@ function GadgetsList(props: { gadgets: IGadget[], deleteActive: boolean }) {
   }
 
   function deleteGadget() {
+    if (!user.admin) return;
     if (!gadgetToDelete.current?._id) return;
 
     getApi().delete(`/gadgets/${gadgetToDelete.current?._id}`).then(() => {
@@ -171,6 +180,9 @@ function Editor({ editorVisible, setEditorVisible, type }: {
   const dataRef = useRef<HTMLInputElement>(null);
   const { addNotification } = useNotifications();
   const reloadApi = useReloadApi();
+  const user = useSelector(state => state.user);
+
+  if (!user.admin) return <></>;
 
   function resetForm() {
     if (dataRef.current) {
@@ -182,6 +194,8 @@ function Editor({ editorVisible, setEditorVisible, type }: {
   }
 
   function saveGadget() {
+    if (!user.admin) return;
+
     getApi().post('/gadgets', {
       type,
       displayType: selectedDisplayType,

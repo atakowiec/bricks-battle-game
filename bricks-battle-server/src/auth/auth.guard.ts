@@ -5,7 +5,7 @@ import { Request } from '../types/request.type';
 export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
-    if (!request.user)
+    if (!request.user?._id)
       throw new UnauthorizedException();
 
     return true;

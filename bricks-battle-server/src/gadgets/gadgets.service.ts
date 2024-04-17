@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { GadgetType, IGadget } from '@shared/Gadgets';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
@@ -39,9 +39,8 @@ export class GadgetsService {
   async selectGadget(gadgetId: string, user: TokenPayload) {
     const gadget = await this.gadgetModel.findById(new mongoose.Types.ObjectId(gadgetId)).exec();
 
-    if (!user?._id) { // not logged in
-      // todo
-      return gadget;
+    if (!user?._id) { // user not logged in
+      throw new ForbiddenException('User not logged in');
     }
 
     const selectedGadgetOfType = await this.selectedGadgetModel.findOne({
