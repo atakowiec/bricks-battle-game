@@ -19,5 +19,5 @@ export interface IMapBlock {
   id: string;
   type: MapBlockType;
   data: string;
-  unbreakable: boolean;
+  unbreakable?: boolean;
 }

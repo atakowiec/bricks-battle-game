@@ -177,7 +177,9 @@ export class Ball {
         }
 
         // break block after collision
-        this.ballOwner.updateBlock(x, y, 0);
+        if (!this.ballOwner.game.gameService.mapsService.mapBlocksService.getBlock(blockMap[y][x]).unbreakable) {
+          this.ballOwner.updateBlock(x, y, 0);
+        }
 
         //after collision, recalculate the position, so it won't intersect with block it collided with
         if (diff <= 0.1) { // ball hit top or bottom side

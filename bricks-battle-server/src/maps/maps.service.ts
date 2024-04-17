@@ -10,7 +10,7 @@ import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class MapsService {
-  constructor(private readonly mapBlocksService: MapBlocksService,
+  constructor(public readonly mapBlocksService: MapBlocksService,
               @InjectModel(Map.name) private mapModel: Model<Map>,
               private readonly usersService: UsersService) {
     // empty

@@ -82,7 +82,7 @@ export class GameMember {
     this.board[y][x] = newBlock;
     this.blockChanges.push({ x, y });
 
-    if (this.board.every(row => row.every(cell => cell === 0))) {
+    if (this.board.every(row => row.every(cell => cell === 0 || cell > 31))) {
       this.game.endGame(this);
     }
   }
