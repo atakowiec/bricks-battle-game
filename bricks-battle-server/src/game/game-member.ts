@@ -58,7 +58,10 @@ export class GameMember {
     this.board = decodeIMap(this.game.map);
     this.lives = 3;
 
-    // Get selected gadgets from the database before the game starts
+    await this.initSelectedGadgets();
+  }
+
+  async initSelectedGadgets() {
     this.selectedGadgets = await this.game.gameService.gadgetService.getSelectedGadgets(new mongoose.Types.ObjectId(this.sub));
   }
 

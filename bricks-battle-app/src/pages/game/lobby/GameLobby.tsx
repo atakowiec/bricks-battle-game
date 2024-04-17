@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { layoutActions } from '../../../store/layoutSlice.ts';
 import useNotifications from '../../../hooks/useNotifications.ts';
 import { InlineButtons } from '../../../components/InlineButtons.tsx';
+import { selectedGadgetStyle } from '../../../utils/utils.ts';
 
 export function GameLobby() {
   title('Game Lobby');
@@ -81,7 +82,7 @@ function MemberCard(props: { owner: boolean }) {
     <div className={`${style.memberCard} ${gameMember?.online ? '' : style.empty}`}>
       {gameMember ?
         <>
-          <img src={'/assets/icon.png'} alt="icon" />
+          <div className={style.profileIcon} style={selectedGadgetStyle(gameMember.selectedGadgets.icon)} />
           <div className={style.memberInfo}>
             <div className={style.memberName}>{gameMember.nickname}</div>
             {gameMember.online && !props.owner && isOwner && (

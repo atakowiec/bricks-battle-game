@@ -53,7 +53,7 @@ export function selectedGadgetStyle(gadget?: IGadget) {
 
   if (gadget.displayType === 'image')
     return {
-      backgroundImage: `url(/assets/gadgets/paddle/${gadget.data})`,
+      backgroundImage: `url(/assets/gadgets/${gadget.type}/${gadget.data})`,
     };
 
   return {

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IGameMember, GamePacket, GameStatus } from '@shared/Game.ts';
 import { IMap } from '@shared/Map.ts';
+import lodash from 'lodash';
 
 export type GameState = {
   id: string;
@@ -24,31 +25,7 @@ const gameSlice = createSlice({
 
       const payload: GamePacket = action.payload;
 
-      if (payload.player) {
-        payload.player = {
-          ...state.player,
-          ...payload.player,
-        };
-      }
-
-      if (payload.opponent) {
-        payload.opponent = {
-          ...state.opponent,
-          ...payload.opponent,
-        };
-      }
-
-      if (payload.map) {
-        payload.map = {
-          ...state.map,
-          ...payload.map,
-        };
-      }
-
-      return {
-        ...state,
-        ...payload,
-      } as GameState;
+      return lodash.merge(state, payload);
     },
     updateBoard: (state, action) => {
       const boardToChange = action.payload.playerBoard ? state?.player.board : state?.opponent?.board;

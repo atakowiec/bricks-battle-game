@@ -4,8 +4,6 @@ import { PropsWithGame } from './GameBox.tsx';
 export function GameHeader(props: PropsWithGame) {
   const game = props.game!;
 
-  // todo header is simple for now (no idea what should i put here)
-
   return (
     <div className={style.gameHeader}>
       <div className={style.headerElement}>

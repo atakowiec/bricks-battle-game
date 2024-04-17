@@ -1,0 +1,13 @@
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Request } from '../types/request.type';
+
+@Injectable()
+export class JwtGuard implements CanActivate {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request: Request = context.switchToHttp().getRequest();
+    if (!request.user)
+      throw new UnauthorizedException();
+
+    return true;
+  }
+}

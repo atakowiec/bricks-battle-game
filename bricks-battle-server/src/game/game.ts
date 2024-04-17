@@ -4,6 +4,7 @@ import { GameMember } from './game-member';
 import { GameService } from './game.service';
 import { WsException } from '@nestjs/websockets';
 import { IMap } from '@shared/Map';
+import { IGadget } from '@shared/Gadgets';
 
 export default class Game {
   public gameService: GameService;
@@ -130,12 +131,13 @@ export default class Game {
     this.player?.sendTitle(title, time);
   }
 
-  join(client: SocketType) {
+  async join(client: SocketType) {
     if (this.player) {
       throw new WsException('Game is already full!');
     }
 
     this.player = new GameMember(client, this);
+    await this.player.initSelectedGadgets()
 
     client.join(this.id);
     client.data.gameId = this.id;
@@ -425,5 +427,17 @@ export default class Game {
 
     this.owner.sendNotification('Game has been restarted!');
     this.player.sendNotification('Owner has restarted the game!');
+  }
+
+  sendGadgetChange(nickname: string, gadget: IGadget) {
+    // send gadget change to opponent
+    const gameMember = this.owner.nickname === nickname ? this.player : this.owner;
+    gameMember.sendUpdate({
+      opponent: {
+        selectedGadgets: {
+          [gadget.type]: gadget,
+        }
+      },
+    });
   }
 }

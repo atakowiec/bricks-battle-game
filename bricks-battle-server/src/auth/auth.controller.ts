@@ -7,6 +7,7 @@ import { ChangePasswordDto } from '../users/dto/change-password.dto';
 import { RequestUser } from '../users/request-user.decorator';
 import { SetNicknameDto } from './dto/set-nickname.dto';
 import { TokenPayload } from '../types/request.type';
+import { JwtGuard } from './jwt.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -35,7 +36,7 @@ export class AuthController {
     return this.authService.changePassword(changePasswordDto, user);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtGuard)
   @Post('verify')
   verify(@RequestUser() user: TokenPayload, @Res({passthrough: true}) response: Response) {
     return this.authService.verify(user, response);

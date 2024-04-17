@@ -9,6 +9,7 @@ export interface ServerToClientEvents {
   event_exception: (error: string) => void;
   set_paddle: (position: number) => void;
   update_board: (playerBoard: boolean, x: number, y: number, newBlock: number) => void;
+  select_opponent_gadget: (gadget: string) => void;
 }
 
 export type ServerToClientEventsKeys = keyof ServerToClientEvents

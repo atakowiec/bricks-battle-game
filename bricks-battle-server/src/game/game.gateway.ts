@@ -79,7 +79,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @UseFilters(WsExceptionFilter)
   @SubscribeMessage('join_game')
-  joinGame(@ConnectedSocket() client: SocketType, @MessageBody() gameId: string) {
+  async joinGame(@ConnectedSocket() client: SocketType, @MessageBody() gameId: string) {
     if (client.data.gameId) {
       throw new EventWsException('You are already in a game!');
     }
@@ -90,7 +90,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
       throw new EventWsException('Game not found!');
     }
 
-    game.join(client);
+    await game.join(client);
   }
 
   @UseFilters(WsExceptionFilter)

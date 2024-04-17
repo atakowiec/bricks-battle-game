@@ -7,6 +7,7 @@ import FloatingContainer from '../../components/FloatingContainer.tsx';
 import { useRef, useState } from 'react';
 import title from '../../utils/title.ts';
 import useSocket from '../../socket/useSocket.ts';
+import { selectedGadgetStyle } from '../../utils/utils.ts';
 
 export default function Account() {
   title('Your Account');
@@ -15,6 +16,7 @@ export default function Account() {
   const dispatch = useDispatch();
   const [changePasswordVisible, setChangePasswordVisible] = useState(false);
   const socket = useSocket();
+  const selectedIcon = useSelector((state) => state.gadgets).icon;
 
   const logout = () => {
     getApi().post('/auth/logout')
@@ -32,7 +34,7 @@ export default function Account() {
         <h1>Account</h1>
         <div className={style.nameBox}>
           <div className={style.profileIcon}>
-            <img src={'/assets/icon.png'} alt={'profile'} />
+            <div style={selectedGadgetStyle(selectedIcon)}/>
           </div>
           <div className={style.name}>
             {user.nickname}

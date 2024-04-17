@@ -50,6 +50,7 @@ export class GameService {
     const map = mapId ? await this.mapsService.getIMap(mapId) : await this.mapsService.getRandomIMap();
 
     const game = new Game(client, this);
+    await game.owner.initSelectedGadgets();
     this.games.push(game);
     game.map = map;
 

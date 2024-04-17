@@ -84,11 +84,13 @@
       border: 6px solid $accent-1;
     }
 
-    img {
-      width: 60px;
+    .profileIcon {
       height: 60px;
+      width: 72px;
       border: 6px solid $accent-1;
       background-color: $accent-1;
+      background-size: contain;
+      background-repeat: no-repeat;
     }
 
     .memberInfo {
