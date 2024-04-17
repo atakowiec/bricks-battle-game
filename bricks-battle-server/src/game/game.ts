@@ -432,7 +432,7 @@ export default class Game {
   sendGadgetChange(nickname: string, gadget: IGadget) {
     // send gadget change to opponent
     const gameMember = this.owner.nickname === nickname ? this.player : this.owner;
-    gameMember.sendUpdate({
+    gameMember?.sendUpdate({
       opponent: {
         selectedGadgets: {
           [gadget.type]: gadget,
