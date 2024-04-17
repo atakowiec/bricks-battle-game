@@ -4,6 +4,8 @@ import { GamePacket, IGameMember } from '@shared/Game';
 import { decodeIMap } from '../utils/utils';
 import { Ball } from './components/ball';
 import { Paddle } from './components/paddle';
+import { SelectedGadgets } from '@shared/Gadgets';
+import mongoose from 'mongoose';
 
 export class GameMember {
   public nickname: string;
@@ -11,6 +13,7 @@ export class GameMember {
   public socket: SocketType;
   public game: Game;
 
+  public selectedGadgets: SelectedGadgets = {};
   public paddle = new Paddle(this);
   public ball = new Ball(this);
   public board: number[][];
@@ -41,10 +44,11 @@ export class GameMember {
       board: this.board,
       ballSize: this.ball.size,
       lives: this.lives,
+      selectedGadgets: this.selectedGadgets,
     };
   }
 
-  initProperties() {
+  async initProperties() {
     this.paddle.size = 3 + (this.game.map.size - 20) / 6;
     this.paddle.thickness = 0.5 + 0.2 * ((this.game.map.size - 20) / 20);
     this.paddle.positionX = 0.5 * (this.game.map.size - this.paddle.size);
@@ -53,6 +57,9 @@ export class GameMember {
     this.ball.position = [this.paddle.positionX + (this.paddle.size / 2), this.paddle.positionY - this.ball.size * 2 - 0.1];
     this.board = decodeIMap(this.game.map);
     this.lives = 3;
+
+    // Get selected gadgets from the database before the game starts
+    this.selectedGadgets = await this.game.gameService.gadgetService.getSelectedGadgets(new mongoose.Types.ObjectId(this.sub));
   }
 
   sendNotification(message: string) {

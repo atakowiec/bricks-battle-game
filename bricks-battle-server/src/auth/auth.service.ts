@@ -7,7 +7,6 @@ import { Response } from 'express';
 import { Request, TokenPayload } from '../types/request.type';
 import { ChangePasswordDto } from '../users/dto/change-password.dto';
 import { GameService } from '../game/game.service';
-import { User } from '../users/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -113,30 +112,36 @@ export class AuthService {
       throw new HttpException('User is already connected', 409);
     }
 
+    let tokenPayload: TokenPayload = { nickname: user.nickname };
     // if user wants to use nickname without being logged in - check if it's available
-    let dbUser: User;
     if (!user.sub) {
-      dbUser = await this.usersService.findOne({ nickname: user.nickname });
+      const dbUser = await this.usersService.findOne({ nickname: user.nickname });
 
       // do not allow to use nickname that is already taken by logged user
       if (dbUser) {
         AuthService.clearCookie(response);
         throw new HttpException('Nickname already exists', 409);
       }
+
+      tokenPayload = {
+        nickname: user.nickname,
+        admin: false,
+      };
     } else {
       // if user is logged in - check if account exists
-      dbUser = await this.usersService.getUserById(user.sub);
+      const dbUser = await this.usersService.getUserById(user.sub);
 
       if (!dbUser) {
         AuthService.clearCookie(response);
         throw new HttpException('User not found', 404);
       }
+
+      tokenPayload = {
+        nickname: dbUser.nickname,
+        sub: dbUser._id,
+        admin: !!dbUser.admin,
+      };
     }
-    const tokenPayload: TokenPayload = {
-      nickname: dbUser.nickname,
-      sub: dbUser._id,
-      admin: !!dbUser.admin,
-    };
 
     const access_token = this.jwtService.sign(tokenPayload);
     AuthService.setCookie(response, access_token);

@@ -7,6 +7,7 @@ import { PURGE, REGISTER, FLUSH, REHYDRATE, PAUSE, PERSIST } from 'redux-persist
 import commonDataSlice, { CommonDataState } from './commonDataSlice.ts';
 import gameReducer, { GameState } from './gameSlice.ts';
 import notificationSlice, { NotificationState } from './notificationSlice.ts';
+import gadgetsSlice, { GadgetsState } from './gadgetsSlice.ts';
 
 export interface State {
   layout: LayoutState & PersistPartial;
@@ -14,6 +15,7 @@ export interface State {
   commonData: CommonDataState;
   game: GameState;
   notifications: NotificationState;
+  gadgets: GadgetsState;
 }
 
 export const store = configureStore<State>({
@@ -22,7 +24,8 @@ export const store = configureStore<State>({
     user: userReducer,
     commonData: commonDataSlice,
     game: gameReducer,
-    notifications: notificationSlice
+    notifications: notificationSlice,
+    gadgets: gadgetsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -3,6 +3,7 @@ import { GameGateway } from './game.gateway';
 import Game from './game';
 import { SocketType } from './game.types';
 import { MapsService } from '../maps/maps.service';
+import { GadgetsService } from '../gadgets/gadgets.service';
 
 @Injectable()
 export class GameService {
@@ -14,7 +15,8 @@ export class GameService {
   constructor(
     public readonly mapsService: MapsService,
     @Inject(forwardRef(() => GameGateway))
-    private readonly gameGateway: GameGateway) {
+    private readonly gameGateway: GameGateway,
+    public readonly gadgetService: GadgetsService) {
 
     setInterval(() => this.tickGames(), 1000 / GameService.TICKS_PER_SECOND);
   }

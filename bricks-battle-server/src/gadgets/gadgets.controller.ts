@@ -3,6 +3,8 @@ import { GadgetsService } from './gadgets.service';
 import { GadgetType } from '@shared/Gadgets';
 import { CreateGadgetDto } from './create-gadget.dto';
 import { AdminGuard } from '../auth/admin.guard';
+import { RequestUser } from '../users/request-user.decorator';
+import { TokenPayload } from '../types/request.type';
 
 @Controller('gadgets')
 export class GadgetsController {
@@ -10,7 +12,7 @@ export class GadgetsController {
     // empty
   }
 
-  @Get("all/:type")
+  @Get('all/:type')
   async getByType(@Param('type') type: GadgetType) {
     return this.gadgetsService.getAllGadgetsByType(type);
   }
@@ -22,8 +24,18 @@ export class GadgetsController {
   }
 
   @UseGuards(AdminGuard)
-  @Delete(":id")
+  @Delete(':id')
   async deleteGadget(@Param('id') id: string) {
     return this.gadgetsService.deleteGadget(id);
+  }
+
+  @Get('select/:gadgetId')
+  async selectGadget(@Param('gadgetId') gadgetId: string, @RequestUser() user: TokenPayload) {
+    return this.gadgetsService.selectGadget(gadgetId, user);
+  }
+
+  @Get('selected')
+  async getSelected(@RequestUser() user: TokenPayload) {
+    return user?._id ? this.gadgetsService.getSelectedGadgets(user._id) : {};
   }
 }

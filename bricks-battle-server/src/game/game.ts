@@ -322,7 +322,7 @@ export default class Game {
     }
   }
 
-  start(client: SocketType) {
+  async start(client: SocketType) {
     if (client != this.owner.socket) {
       throw new WsException('You are not the owner of this game!');
     }
@@ -335,8 +335,8 @@ export default class Game {
     this.counting = 3;
 
     // init members properties like paddle position, ball position, etc.
-    this.owner.initProperties();
-    this.player.initProperties();
+    await this.owner.initProperties();
+    await this.player.initProperties();
 
     this.owner.sendNotification('Game has started!');
     this.player.sendNotification('Game has started!');

@@ -10,6 +10,8 @@ import getApi from '../../api/axios.ts';
 import useSelector from '../../hooks/useSelector.ts';
 import useNotifications from '../../hooks/useNotifications.ts';
 import { useReloadApi } from '../../hooks/reload-api/useReloadApi.ts';
+import { useDispatch } from 'react-redux';
+import { gadgetsActions } from '../../store/gadgetsSlice.ts';
 
 interface GadgetsSelectorProps {
   type: GadgetType;
@@ -48,20 +50,26 @@ export function GadgetsSelector(props: GadgetsSelectorProps) {
 function GadgetsList(props: { gadgets: IGadget[], deleteActive: boolean }) {
   const [deleteScreenVisible, setDeleteScreenVisible] = useState(false);
   const gadgetToDelete = useRef<IGadget | null>(null);
-  const reloadApi = useReloadApi()
+  const reloadApi = useReloadApi();
+  const dispatch = useDispatch();
 
   function onGadgetClick(gadget: IGadget) {
-    if (!props.deleteActive) {
-      return;
-    }
-
-    if (deleteScreenVisible) {
-      getApi().delete(`/gadgets/${gadget._id}`).catch(err => {
+    if (props.deleteActive) {
+      if (deleteScreenVisible) {
+        getApi().delete(`/gadgets/${gadget._id}`).catch(err => {
+          console.error(err);
+        });
+      } else {
+        gadgetToDelete.current = gadget;
+        setDeleteScreenVisible(true);
+      }
+    } else {
+      // select gadget
+      getApi().get(`/gadgets/select/${gadget._id}`).then((data) => {
+        dispatch(gadgetsActions.selectGadget(data.data));
+      }).catch(err => {
         console.error(err);
       });
-    } else {
-      gadgetToDelete.current = gadget;
-      setDeleteScreenVisible(true);
     }
   }
 
@@ -71,7 +79,7 @@ function GadgetsList(props: { gadgets: IGadget[], deleteActive: boolean }) {
   }
 
   function deleteGadget() {
-    if(!gadgetToDelete.current?._id) return;
+    if (!gadgetToDelete.current?._id) return;
 
     getApi().delete(`/gadgets/${gadgetToDelete.current?._id}`).then(() => {
       reloadApi();
@@ -88,7 +96,7 @@ function GadgetsList(props: { gadgets: IGadget[], deleteActive: boolean }) {
           <h1>
             Delete {gadgetToDelete.current?.type} gadget?
           </h1>
-          <div className={"d-flex justify-content-center"}>
+          <div className={'d-flex justify-content-center'}>
             {gadgetToDelete.current && <GadgetElement gadget={gadgetToDelete.current} deleteActive={false} />}
           </div>
           <InlineButtons>
@@ -114,12 +122,12 @@ function GadgetElement({ gadget, deleteActive, onGadgetClick }: {
   deleteActive?: boolean,
   onGadgetClick?: (gadget: IGadget) => void
 }) {
+  const selectedGadgets = useSelector(state => state.gadgets);
+
   return (
-    <div className={style.gadget} key={gadget._id} onClick={() => onGadgetClick?.(gadget)}>
-      {deleteActive &&
-        <div className={style.deleteIcon}>
-          <img src={'/assets/trash-can.png'} alt={'trash can'} />
-        </div>}
+    <div className={`${style.gadget} ${selectedGadgets[gadget.type]?._id === gadget._id ? style.selected : ''}`}
+         key={gadget._id}
+         onClick={() => onGadgetClick?.(gadget)}>
       {gadget.type === 'trails' ?
         <TrailsGadgetElement gadget={gadget} /> :
         gadget.displayType === 'color' ?
@@ -129,6 +137,10 @@ function GadgetElement({ gadget, deleteActive, onGadgetClick }: {
           <div className={`${style[`${gadget.type}Gadget`]}`}
                style={{ backgroundImage: `url('/assets/gadgets/${gadget.type}/${gadget.data}')` }}>
           </div>}
+      {deleteActive &&
+        <div className={style.deleteIcon}>
+          <img src={'/assets/trash-can.png'} alt={'trash can'} />
+        </div>}
     </div>
   );
 }

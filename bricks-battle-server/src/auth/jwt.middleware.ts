@@ -13,7 +13,7 @@ export class JwtMiddleware implements NestMiddleware {
   ) {
   }
 
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: Request, _: Response, next: NextFunction) {
     const token = this.authService.extractTokenFromCookie(req);
 
     delete req.user;

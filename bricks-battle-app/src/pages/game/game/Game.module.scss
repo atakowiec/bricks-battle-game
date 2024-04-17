@@ -90,6 +90,7 @@
         position: absolute;
         border-radius: 5px;
         background-color: white;
+        background-size: contain;
       }
 
       .ball {
@@ -97,6 +98,7 @@
         border-radius: 100%;
         background-color: white;
         transition: top 150ms, left 150ms;
+        background-size: contain;
       }
     }
   }

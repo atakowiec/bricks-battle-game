@@ -10,6 +10,7 @@ import NotificationsMain from './components/NotificationsMain.tsx';
 import useSocket from './socket/useSocket.ts';
 import useNotifications from './hooks/useNotifications.ts';
 import { gameActions } from './store/gameSlice.ts';
+import { gadgetsActions } from './store/gadgetsSlice.ts';
 
 function App() {
   const game = useSelector(state => state.game);
@@ -21,13 +22,20 @@ function App() {
   useEffect(() => {
     getApi().post('/auth/verify')
       .then((res: any) => {
+        if(!res.data.nickname) {
+          dispatch(gameActions.setGame(null));
+          dispatch(userActions.setUser(null));
+          setUserLoaded(true);
+          return;
+        }
+
         dispatch(userActions.setUser(res.data));
-        dispatch(gameActions.setGame(null))
+        dispatch(gameActions.setGame(null));
         setUserLoaded(true);
         socket.connect();
       })
       .catch(e => {
-        dispatch(gameActions.setGame(null))
+        dispatch(gameActions.setGame(null));
         dispatch(userActions.setUser(null));
         setUserLoaded(true);
 
@@ -40,6 +48,11 @@ function App() {
     getApi().get('/maps/blocks')
       .then((res: any) => {
         dispatch(commonDataActions.setMapBlocks(res.data));
+      }).catch(console.log);
+
+    getApi().get('/gadgets/selected')
+      .then((res: any) => {
+          dispatch(gadgetsActions.setSelected(res.data));
       }).catch(console.log);
 
     return () => {

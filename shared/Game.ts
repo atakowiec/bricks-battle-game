@@ -1,4 +1,5 @@
 import { IMap } from './Map';
+import { SelectedGadgets } from './Gadgets';
 
 export interface IGameMember {
   nickname: string;
@@ -13,6 +14,7 @@ export interface IGameMember {
   board: number[][];
   ballSize: number;
   lives: number;
+  selectedGadgets: SelectedGadgets;
 }
 
 export interface GamePacket {

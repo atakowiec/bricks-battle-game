@@ -8,3 +8,5 @@ export interface IGadget {
   data: string;
   displayType: DisplayType;
 }
+
+export type SelectedGadgets = { [_ in GadgetType]?: IGadget };

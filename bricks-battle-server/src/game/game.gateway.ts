@@ -32,6 +32,12 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const cookies = parse(client.handshake.headers.cookie);
     const payload = this.jwtService.decode(cookies.access_token);
 
+    if (!payload?.nickname) {
+      console.log('Socket has connected without a nickname');
+      client.disconnect();
+      return;
+    }
+
     console.log(`Socket has connected! Nickname: ${payload.nickname}, logged in: ${!!payload.sub}`);
 
     client.data.nickname = payload.nickname;
@@ -133,14 +139,14 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @UseFilters(WsExceptionFilter)
   @SubscribeMessage('start_game')
-  startGame(@ConnectedSocket() client: SocketType, @GameId() gameId: string) {
+  async startGame(@ConnectedSocket() client: SocketType, @GameId() gameId: string) {
     const game = this.gameService.getGame(gameId);
 
     if (!game) {
       throw new WsException('Game not found!');
     }
 
-    game.start(client);
+    await game.start(client);
   }
 
   @UseFilters(WsExceptionFilter)

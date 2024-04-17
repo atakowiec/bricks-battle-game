@@ -1,5 +1,6 @@
 import { IMap } from '@shared/Map.ts';
 import { GameStatus } from '@shared/Game.ts';
+import { IGadget } from '@shared/Gadgets.ts';
 
 export const Base64 = (function() {
   const digitsStr = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-';
@@ -44,4 +45,18 @@ export function decodeMap(data: string, size: number) {
 
 export function isInGame(status?: GameStatus) {
   return status === 'playing' || status === 'starting' || status === 'paused';
+}
+
+export function selectedGadgetStyle(gadget?: IGadget) {
+  if (!gadget)
+    return {};
+
+  if (gadget.displayType === 'image')
+    return {
+      backgroundImage: `url(/assets/gadgets/paddle/${gadget.data})`,
+    };
+
+  return {
+    backgroundColor: gadget.data,
+  };
 }
