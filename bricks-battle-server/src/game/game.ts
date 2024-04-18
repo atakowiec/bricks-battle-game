@@ -32,37 +32,14 @@ export default class Game {
 
   public tick() {
     if (this.gameStatus === 'playing') {
-      this.owner.ball.tick();
-      this.player.ball.tick();
+      this.owner.tick();
+      this.player.tick();
 
       // send opponent paddle and ball position updates every 3 ticks
       // player who moved the paddle will get update immediately (in movePaddle method)
       if (GameService.currentTick % 3 === 0) {
-        this.owner.sendUpdate({
-          opponent: {
-            paddlePositionX: this.player.paddle.positionX,
-            ballPosition: this.player.ball.position,
-          },
-          player: {
-            ballPosition: this.owner.ball.position,
-          },
-        });
-
-        this.player.sendUpdate({
-          opponent: {
-            paddlePositionX: this.owner.paddle.positionX,
-            ballPosition: this.owner.ball.position,
-          },
-          player: {
-            ballPosition: this.player.ball.position,
-          },
-        });
-
-        // send board updates
-        this.sendBlockChanges();
-
-        this.owner.paddle.moved = false;
-        this.player.paddle.moved = false;
+        this.owner.sendUpdates();
+        this.player.sendUpdates();
       }
     }
 
@@ -71,32 +48,15 @@ export default class Game {
     }
   }
 
-  public sendBlockChanges() {
-    for (const changedBlock of this.owner.blockChanges) {
-      const currentBlock = this.owner.board[changedBlock.y][changedBlock.x];
-      this.owner.socket.emit('update_board', true, changedBlock.x, changedBlock.y, currentBlock);
-      this.player.socket.emit('update_board', false, changedBlock.x, changedBlock.y, currentBlock);
-    }
-
-    for (const changedBlock of this.player.blockChanges) {
-      const currentBlock = this.player.board[changedBlock.y][changedBlock.x];
-      this.owner.socket.emit('update_board', false, changedBlock.x, changedBlock.y, currentBlock);
-      this.player.socket.emit('update_board', true, changedBlock.x, changedBlock.y, currentBlock);
-    }
-
-    this.owner.blockChanges = [];
-    this.player.blockChanges = [];
-  }
-
   /**
    * Returns a packet with full game information for given player
    */
   public getPacket(member: SocketType): GamePacket {
-    const result = {
+    const result: GamePacket = {
       id: this.id,
       map: this.map,
       status: this.gameStatus,
-    } as GamePacket;
+    };
 
     if (this.player?.nickname === member.data.nickname) {
       result.player = this.player.getPacket();
@@ -399,7 +359,8 @@ export default class Game {
 
   endGame(winner: GameMember) {
     this.gameStatus = 'finished';
-    this.sendBlockChanges();
+    this.owner.sendBlockChanges();
+    this.player?.sendBlockChanges();
     this.sendUpdate({
       status: this.gameStatus,
       winner: winner.nickname,
@@ -470,7 +431,7 @@ export default class Game {
     this.gameStatus = 'starting';
     this.counting = 3;
     this.sendUpdate({
-      status: this.gameStatus
-    })
+      status: this.gameStatus,
+    });
   }
 }

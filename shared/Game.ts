@@ -1,5 +1,6 @@
 import { IMap } from './Map';
 import { SelectedGadgets } from './Gadgets';
+import { IDrop } from './Drops';
 
 export interface IGameMember {
   nickname: string;
@@ -15,6 +16,7 @@ export interface IGameMember {
   ballSize: number;
   lives: number;
   selectedGadgets: SelectedGadgets;
+  drops: IDrop[];
 }
 
 export interface GamePacket {

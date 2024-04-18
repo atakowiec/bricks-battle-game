@@ -131,3 +131,12 @@
     }
   }
 }
+
+.boardBox {
+  .drop {
+    position: absolute;
+    background-size: contain;
+    transition: top 150ms, left 150ms;
+    border-radius: 100%;
+  }
+}

@@ -1,4 +1,5 @@
 import { GamePacket, PaddleDirection } from './Game';
+import { DropUpdateData, IDrop } from './Drops';
 
 export interface ServerToClientEvents {
   exception: (error: string) => void;
@@ -7,9 +8,10 @@ export interface ServerToClientEvents {
   notification: (message: string, time?: number) => void;
   title: (title: string, time?: number) => void;
   event_exception: (error: string) => void;
-  set_paddle: (position: number) => void;
   update_board: (playerBoard: boolean, x: number, y: number, newBlock: number) => void;
-  select_opponent_gadget: (gadget: string) => void;
+  new_drops: (drops: IDrop[]) => void;
+  drops_update: (update: DropUpdateData[]) => void;
+  drop_remove: (dropId: string) => void;
 }
 
 export type ServerToClientEventsKeys = keyof ServerToClientEvents

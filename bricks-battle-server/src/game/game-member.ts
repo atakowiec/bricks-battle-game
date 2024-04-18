@@ -6,6 +6,7 @@ import { Ball } from './components/ball';
 import { Paddle } from './components/paddle';
 import { SelectedGadgets } from '@shared/Gadgets';
 import mongoose from 'mongoose';
+import { Drops } from './components/drops';
 
 export class GameMember {
   public nickname: string;
@@ -14,6 +15,7 @@ export class GameMember {
   public game: Game;
 
   public selectedGadgets: SelectedGadgets = {};
+  public drops = new Drops(this);
   public paddle = new Paddle(this);
   public ball = new Ball(this);
   public board: number[][];
@@ -45,6 +47,7 @@ export class GameMember {
       ballSize: this.ball.size,
       lives: this.lives,
       selectedGadgets: this.selectedGadgets,
+      drops: this.drops.drops,
     };
   }
 
@@ -114,5 +117,38 @@ export class GameMember {
 
     this.ball.isServing = true;
     this.ball.resetPosition();
+  }
+
+  sendUpdates() {
+    const opponent = this.game.getOpponent(this);
+
+    this.sendUpdate({
+      opponent: {
+        paddlePositionX: opponent.paddle.positionX,
+        ballPosition: opponent.ball.position,
+      },
+      player: {
+        ballPosition: this.ball.position,
+      },
+    });
+
+    this.sendBlockChanges()
+    this.drops.sendUpdates();
+    this.blockChanges = [];
+    this.paddle.moved = false;
+  }
+
+  public sendBlockChanges() {
+    for (const changedBlock of this.blockChanges) {
+      const currentBlock = this.board[changedBlock.y][changedBlock.x];
+      this.game.owner.socket.emit('update_board', true, changedBlock.x, changedBlock.y, currentBlock);
+      this.game.player.socket.emit('update_board', false, changedBlock.x, changedBlock.y, currentBlock);
+      this.drops.onBlockDestroy(changedBlock.x, changedBlock.y);
+    }
+  }
+
+  tick() {
+    this.ball.tick()
+    this.drops.tick()
   }
 }

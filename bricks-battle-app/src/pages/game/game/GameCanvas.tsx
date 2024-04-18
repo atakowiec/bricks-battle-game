@@ -7,6 +7,7 @@ import { Cell } from './components/Cell.tsx';
 import { Paddle } from './components/Paddle.tsx';
 import { IGameMember } from '@shared/Game.ts';
 import { Ball } from './components/Ball.tsx';
+import { Drops } from './components/Drops.tsx';
 
 export interface GameCanvasProps {
   map: number[][];
@@ -36,6 +37,7 @@ export function GameCanvas(props: GameCanvasProps) {
       }
       <Paddle {...props} />
       <Ball {...props} />
+      <Drops {...props} />
     </>
   );
 }

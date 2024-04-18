@@ -6,6 +6,11 @@ export type Corner = [number, number];
 
 export type Point = [number, number];
 
+export type Rect = {
+  min: Point;
+  max: Point;
+}
+
 export function flipByXAxis(angle: number): number {
   return normalizeAngle(-angle);
 }
@@ -30,7 +35,7 @@ export function normalizeAngle(angle: number): number {
 }
 
 export function getClosestCorner(distanceX: number, distanceY: number): Corner {
-  if(distanceX > 0)
+  if (distanceX > 0)
     return distanceY > 0 ? [1, 1] : [1, -1];
   return distanceY > 0 ? [-1, 1] : [-1, -1];
 }
@@ -44,4 +49,10 @@ export function getCornerBlocks(block: Point, corner: Corner): Point[] {
     [Math.floor(block[0] + corner[0]), Math.floor(block[1])],
     [Math.floor(block[0]), Math.floor(block[1] + corner[1])],
   ];
+}
+
+export function distanceToRectSquared(rect: Rect, p: Point) {
+  const dx = Math.max(rect.min[0] - p[0], 0, p[0] - rect.max[0]);
+  const dy = Math.max(rect.min[1] - p[1], 0, p[1] - rect.max[1]);
+  return dx * dx + dy * dy;
 }

@@ -6,6 +6,7 @@ import { GamePacket } from '@shared/Game.ts';
 import { useDispatch } from 'react-redux';
 import { gameActions } from '../store/gameSlice.ts';
 import { AppDispatch } from '../store';
+import { DropUpdateData, IDrop } from '@shared/Drops.ts';
 
 export const SocketContext = createContext<Socket<ServerToClientEvents, ClientToServerEvents> | null>(null);
 
@@ -36,6 +37,12 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       y,
       newBlock,
     })));
+
+    socket.on('new_drops', (drops: IDrop[]) => dispatch(gameActions.newDrops(drops)));
+
+    socket.on('drops_update', (update: DropUpdateData[]) => dispatch(gameActions.dropsUpdate(update)));
+
+    socket.on('drop_remove', (dropId: string) => dispatch(gameActions.removeDrop(dropId)));
 
     return socket;
   }, []);
