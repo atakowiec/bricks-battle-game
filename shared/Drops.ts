@@ -1,4 +1,4 @@
-export type DropEffect = 'paddle_speed' | 'paddle_size' | 'double_ball' | 'life'
+export type DropEffect = 'paddle_speed' | 'paddle_size' | 'ball_count' | 'life'
 export type DropType = 'positive' | 'negative'
 export type DropTarget = 'player' | 'opponent'
 
@@ -10,6 +10,7 @@ export interface IDrop {
   position: [number, number];
   size: number;
   owner: string;
+  speed: number;
 }
 
 export interface DropUpdateData {

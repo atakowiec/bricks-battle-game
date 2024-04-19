@@ -63,6 +63,7 @@ export class GameMember {
     this.blockChanges = [];
     this.ball.isServing = true;
     this.ball.resetPosition();
+    this.drops.drops.splice(0, this.drops.drops.length);
 
     await this.initSelectedGadgets();
   }
@@ -132,23 +133,24 @@ export class GameMember {
       },
     });
 
-    this.sendBlockChanges()
+    this.sendBlockChanges();
     this.drops.sendUpdates();
-    this.blockChanges = [];
     this.paddle.moved = false;
   }
 
   public sendBlockChanges() {
     for (const changedBlock of this.blockChanges) {
       const currentBlock = this.board[changedBlock.y][changedBlock.x];
-      this.game.owner.socket.emit('update_board', true, changedBlock.x, changedBlock.y, currentBlock);
-      this.game.player.socket.emit('update_board', false, changedBlock.x, changedBlock.y, currentBlock);
+      this.game.owner.socket.emit('update_board', this.game.owner === this, changedBlock.x, changedBlock.y, currentBlock);
+      this.game.player.socket.emit('update_board', this.game.player === this, changedBlock.x, changedBlock.y, currentBlock);
       this.drops.onBlockDestroy(changedBlock.x, changedBlock.y);
     }
+
+    this.blockChanges = [];
   }
 
   tick() {
-    this.ball.tick()
-    this.drops.tick()
+    this.ball.tick();
+    this.drops.tick();
   }
 }

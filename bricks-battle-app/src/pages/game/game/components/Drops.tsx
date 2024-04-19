@@ -9,14 +9,16 @@ export function Drops(props: GameCanvasProps) {
   return (
     <>
       {props.gameMember.drops.map(drop => (
-        <div key={drop.id}
-             className={`${style.drop} ${style[drop.type]} ${style[drop.effect]} ${style[drop.target]}`}
+        <div key={`${drop.id}`}
+             className={`${style.drop} ${style[drop.type]} ${style[drop.target]}`}
              style={{
-               left: `${(drop.position[0] - drop.size) * blockSize}`,
-               top: `${(drop.position[1] - drop.size) * blockSize}`,
+               left: `${(drop.position[0] - drop.size) * blockSize}px`,
+               top: `${(drop.position[1] - drop.size) * blockSize}px`,
                width: `${blockSize * drop.size * 2}px`,
                height: `${blockSize * drop.size * 2}px`,
-             }} />
+             }}>
+          <img src={`/assets/drops/${drop.effect}_${drop.type}.svg`} alt={`${drop.type} drop for ${drop.effect}`} />
+        </div>
       ))}
     </>
   );

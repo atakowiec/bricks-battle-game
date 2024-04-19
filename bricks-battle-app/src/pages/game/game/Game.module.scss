@@ -89,6 +89,7 @@
     }
 
     .boardBox {
+      overflow: hidden;
       @extend .container-border;
       border-width: 0.5rem;
       background-color: #020D00;
@@ -130,13 +131,36 @@
       }
     }
   }
-}
 
-.boardBox {
-  .drop {
-    position: absolute;
-    background-size: contain;
-    transition: top 150ms, left 150ms;
-    border-radius: 100%;
+  .boardBox {
+    .drop {
+      position: absolute;
+      background-size: contain;
+      transition: top 150ms, left 150ms;
+      border-radius: 100%;
+      padding: 6px;
+      background-color: white;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      &.negative {
+        border: 5px solid #ff4444;
+      }
+
+      &.positive {
+        border: 5px solid #00cc00;
+      }
+
+      &.opponent {
+        background-color: black;
+
+        img {
+          filter: invert(1);
+        }
+      }
+    }
   }
 }

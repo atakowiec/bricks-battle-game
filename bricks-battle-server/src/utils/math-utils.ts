@@ -56,3 +56,7 @@ export function distanceToRectSquared(rect: Rect, p: Point) {
   const dy = Math.max(rect.min[1] - p[1], 0, p[1] - rect.max[1]);
   return dx * dx + dy * dy;
 }
+
+export function between(min: number, value: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}

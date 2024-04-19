@@ -7,7 +7,7 @@ export class Paddle {
   public positionY = 0;
   public size = 3;
   public thickness = 0;
-  public speed = 0.5;
+  public speed = 0.7;
   public moved = false;
 
   constructor(paddleOwner: GameMember) {
