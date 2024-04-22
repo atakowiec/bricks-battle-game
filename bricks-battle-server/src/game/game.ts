@@ -1,5 +1,5 @@
 import { SocketType } from './game.types';
-import { GamePacket, GameStatus, PaddleDirection } from '@shared/Game';
+import { GamePacket, GameSettings, GameStatus, PaddleDirection, SettingType } from '@shared/Game';
 import { GameMember } from './game-member';
 import { GameService } from './game.service';
 import { WsException } from '@nestjs/websockets';
@@ -17,6 +17,13 @@ export default class Game {
 
   private ownerDisconnectTimeout: NodeJS.Timeout;
   private playerDisconnectTimeout: NodeJS.Timeout;
+
+  settings: GameSettings = {
+    drops_for_opponent: true,
+    drops_for_player: true,
+    positive_drops: true,
+    negative_drops: true,
+  };
 
   constructor(owner: SocketType, gameService: GameService) {
     this.gameService = gameService;
@@ -56,6 +63,7 @@ export default class Game {
       id: this.id,
       map: this.map,
       status: this.gameStatus,
+      settings: this.settings,
     };
 
     if (this.player?.nickname === member.data.nickname) {
@@ -432,6 +440,22 @@ export default class Game {
     this.counting = 3;
     this.sendUpdate({
       status: this.gameStatus,
+    });
+  }
+
+  toggleSettings(client: SocketType, key: SettingType) {
+    if (client != this.owner.socket) {
+      throw new WsException('Only owner can change settings!');
+    }
+
+    if (this.gameStatus != 'waiting') {
+      throw new WsException('You cannot change settings during the game!');
+    }
+
+    this.settings[key] = !this.settings[key];
+
+    this.sendUpdate({
+      settings: this.settings,
     });
   }
 }

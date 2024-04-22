@@ -3,13 +3,13 @@ import style from '../style/globals.module.scss';
 
 
 export interface ContainerProps {
-  children: ReactNode[];
+  children: ReactNode;
   className?: string;
 }
 
 export function Container(props: ContainerProps) {
   return (
-    <div className={`${style.globalContainer} ${props.className ?? ''} col-12 col-md-8 col-lg-6 col-xl-5 col-xxl-4`}>
+    <div className={`${style.globalContainer} ${props.className ?? ''} col-12 col-md-8 col-lg-6 col-xl-4`}>
       {props.children}
     </div>
   );

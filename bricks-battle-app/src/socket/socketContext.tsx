@@ -15,7 +15,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const socket: Socket<ServerToClientEvents, ClientToServerEvents> = useMemo(() => {
-    const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io('http://localhost:3000', {
+    const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io('http://192.168.0.164:3000', {
       autoConnect: false,
       withCredentials: true,
       transports: ['websocket'],

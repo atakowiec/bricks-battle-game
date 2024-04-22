@@ -7,6 +7,9 @@ import { NavbarRoute } from '../App.tsx';
 import MapEditor from './map-hub/map-editor/MapEditor.tsx';
 import { Container } from '../components/Container.tsx';
 import MapListPage from './map-hub/map-list/MapListPage.tsx';
+import { useDispatch } from 'react-redux';
+import { layoutActions } from '../store/layoutSlice.ts';
+import { useEffect } from 'react';
 
 const routes: NavbarRoute[] = [
   {
@@ -29,8 +32,14 @@ const routes: NavbarRoute[] = [
 
 export function MenuRouter() {
   const tab = useSelector(state => state.layout.tab);
+  const dispatch = useDispatch();
 
-  if(tab === "map-editor")
+  useEffect(() => {
+    if (!tab || !routes.find(route => route.id === tab))
+      dispatch(layoutActions.setTab('main'));
+  }, [tab]);
+
+  if (tab === 'map-editor')
     return <MapEditor />;
 
   const route = routes.find(route => route.id === tab);

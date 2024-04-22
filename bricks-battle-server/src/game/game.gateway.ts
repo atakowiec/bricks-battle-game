@@ -14,7 +14,7 @@ import { WsExceptionFilter } from '../socket/ws-exception.filter';
 import { GameService } from './game.service';
 import { EventWsException } from '../socket/event-ws-exception';
 import { GameId } from '../socket/game-id.decorator';
-import { PaddleDirection } from '@shared/Game';
+import { PaddleDirection, SettingType } from '@shared/Game';
 
 
 @WebSocketGateway({ cors: true, credentials: true })
@@ -213,5 +213,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     game.resume(client);
+  }
+
+  @UseFilters(WsExceptionFilter)
+  @SubscribeMessage('toggle_settings')
+  toggleSettings(@ConnectedSocket() client: SocketType, @MessageBody() key: SettingType) {
+    const game = this.gameService.getUserGame(client.data.nickname);
+
+    if (!game) {
+      throw new WsException('You are not in a game!');
+    }
+
+    game.toggleSettings(client, key);
   }
 }

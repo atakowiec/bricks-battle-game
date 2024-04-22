@@ -8,6 +8,7 @@ import MapEditor from './map-hub/map-editor/MapEditor.tsx';
 import { GameBox } from './game/game/GameBox.tsx';
 import { isInGame } from '../utils/utils.ts';
 import MapListPage from './map-hub/map-list/MapListPage.tsx';
+import { Settings } from './game/settings/Settings.tsx';
 
 const routes: NavbarRoute[] = [
   {
@@ -24,7 +25,7 @@ const routes: NavbarRoute[] = [
   },
   {
     id: 'settings',
-    element: <></>,
+    element: <Settings />,
   },
 ];
 

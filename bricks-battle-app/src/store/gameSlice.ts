@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IGameMember, GamePacket, GameStatus } from '@shared/Game.ts';
+import { IGameMember, GamePacket, GameStatus, GameSettings } from '@shared/Game.ts';
 import { IMap } from '@shared/Map.ts';
 import lodash from 'lodash';
 import { DropUpdateData, IDrop } from '@shared/Drops.ts';
@@ -11,6 +11,7 @@ export type GameState = {
   map: IMap
   status: GameStatus;
   winner?: string;
+  settings: GameSettings;
 } | null;
 
 const gameSlice = createSlice({

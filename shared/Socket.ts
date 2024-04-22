@@ -1,4 +1,4 @@
-import { GamePacket, PaddleDirection } from './Game';
+import { GamePacket, PaddleDirection, SettingType } from './Game';
 import { DropUpdateData, IDrop } from './Drops';
 
 export interface ServerToClientEvents {
@@ -30,6 +30,7 @@ export interface ClientToServerEvents {
   play_again: () => void;
   pause: () => void;
   resume_game: () => void;
+  toggle_settings: (key: SettingType) => void;
 }
 
 export type ClientToServerEventsKeys = keyof ClientToServerEvents

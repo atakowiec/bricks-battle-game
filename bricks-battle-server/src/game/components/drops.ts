@@ -5,9 +5,7 @@ import { IGameMember } from '@shared/Game';
 
 export class Drops {
   private static readonly DROP_SIZE = 0.8;
-  public static readonly DROP_TYPES: DropType[] = ['positive', 'negative'];
   public static readonly DROP_EFFECTS: DropEffect[] = ['paddle_speed', 'paddle_size', 'life'];
-  public static readonly DROP_TARGETS: DropTarget[] = ['player', 'opponent'];
 
   readonly drops: IDrop[] = [];
 
@@ -54,9 +52,16 @@ export class Drops {
   }
 
   private spawnDrop(x: number, y: number) {
-    const type = Drops.DROP_TYPES[Math.floor(Math.random() * Drops.DROP_TYPES.length)];
+    const dropTypes = this.getDropTypes();
+    const dropTargets = this.getDropTargets();
+    if (dropTypes.length === 0 || dropTargets.length === 0) {
+      // no drops enabled
+      return;
+    }
+
+    const type = dropTypes[Math.floor(Math.random() * dropTypes.length)];
     const effect = Drops.DROP_EFFECTS[Math.floor(Math.random() * Drops.DROP_EFFECTS.length)];
-    const target = Drops.DROP_TARGETS[Math.floor(Math.random() * Drops.DROP_TARGETS.length)];
+    const target = dropTargets[Math.floor(Math.random() * dropTargets.length)];
 
     const newDrop: IDrop = {
       id: Math.random().toString(36).substring(2),
@@ -112,5 +117,29 @@ export class Drops {
     this.drops.splice(this.drops.indexOf(drop), 1);
     this.dropOwner.socket.emit('drop_remove', drop.id);
     this.dropOwner.game.getOpponent(this.dropOwner).socket.emit('drop_remove', drop.id);
+  }
+
+  private getDropTypes(): DropType[] {
+    const res = [];
+    const settings = this.dropOwner.game.settings;
+    if (settings.positive_drops) {
+      res.push('positive');
+    }
+    if (settings.negative_drops) {
+      res.push('negative');
+    }
+    return res;
+  }
+
+  private getDropTargets(): DropTarget[] {
+    const res = [];
+    const settings = this.dropOwner.game.settings;
+    if (settings.drops_for_player) {
+      res.push('player');
+    }
+    if (settings.drops_for_opponent) {
+      res.push('opponent');
+    }
+    return res;
   }
 }

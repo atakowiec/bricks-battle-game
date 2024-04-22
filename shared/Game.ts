@@ -26,7 +26,17 @@ export interface GamePacket {
   map?: IMap;
   status?: GameStatus;
   winner?: string;
+  settings?: GameSettings;
 }
+
+export interface GameSettings {
+  drops_for_opponent?: boolean;
+  drops_for_player?: boolean;
+  positive_drops?: boolean;
+  negative_drops?: boolean;
+}
+
+export type SettingType = keyof GameSettings;
 
 export type GameStatus = 'waiting' | 'starting' | 'playing' | 'paused' | 'owner_paused' | 'finished';
 

@@ -1,0 +1,13 @@
+.settingsEntry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.625rem 0;
+  padding: 0.625rem;
+  font-size: 1.25rem;
+
+  img {
+    width: 4rem;
+    height: 4rem;
+  }
+}
