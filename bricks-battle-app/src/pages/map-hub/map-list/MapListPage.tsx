@@ -13,7 +13,7 @@ const mapCategories = [
 export default function MapListPage() {
   title('Map Hub');
 
-  const [mapCategory, setMapCategory] = useState<MapType>('official');
+  const [mapCategory, setMapCategory] = useState<MapType>('community');
 
   return (
     <>

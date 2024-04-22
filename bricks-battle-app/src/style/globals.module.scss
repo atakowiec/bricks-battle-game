@@ -46,7 +46,7 @@ $text-font-size: 1.5rem;
   font-size: $text-font-size;
   font-family: $font-family;
   outline: none;
-  padding: 0.625rem 0.9375rem;
+  padding: 0.6rem 0.9rem;
   width: 100%;
   box-sizing: border-box;
   transition: 0.3s;
@@ -103,10 +103,10 @@ $text-font-size: 1.5rem;
 .inlineButtonsBox {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 
   button {
-    margin: 0 10px;
+    margin: 0 0.5rem;
 
     &:first-child {
       margin-left: 0;
@@ -146,7 +146,7 @@ h1 {
   @extend .container-background;
 
   position: relative;
-  padding: 1.25rem 3.125rem 4.375rem 3.125rem;
+  padding: 1rem 3rem 2.3rem;
   z-index: 5;
   transition: 0.3s ease-in-out all;
 }
@@ -208,7 +208,7 @@ h1 {
 
   .selectButton {
     @extend .button;
-    transition: background 0.2s;
+    transition: all 0.2s;
     margin: 0 0.3125rem;
     flex: 1;
     text-align: center;
@@ -229,7 +229,7 @@ h1 {
 
 .scrollbar {
   &::-webkit-scrollbar {
-    width: 15px;
+    width: 1rem;
     background: $background-inactive;
   }
 

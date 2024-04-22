@@ -19,11 +19,11 @@
 
 .mapImage {
   text-align: center;
-  margin: 3rem;
+  margin: 2rem;
 
   svg {
     @extend .input-border;
-    width: 13rem;
+    width: 11rem;
     height: auto;
     cursor: pointer;
     position: relative;
@@ -40,14 +40,14 @@
 .membersBox {
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 1rem;
 
   .memberCard {
     display: flex;
     flex: 1;
 
     &:first-child {
-      margin-right: 10px;
+      margin-right: 0.6rem;
     }
 
     &.empty {
@@ -78,19 +78,21 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 60px;
+      height: 5rem;
       background-color: $background-inactive;
       width: 100%;
       border: 6px solid $accent-1;
     }
 
     .profileIcon {
-      height: 60px;
-      width: 72px;
+      height: 4rem;
+      width: 4rem;
+      box-sizing: content-box;
       border: 6px solid $accent-1;
       background-color: $accent-1;
       background-size: contain;
       background-repeat: no-repeat;
+      background-position: center;
     }
 
     .memberInfo {
@@ -101,7 +103,7 @@
       align-items: center;
       border: 6px solid $accent-1;
       margin-left: -6px;
-      width: 100%;
+      width: calc(100% - 4rem);
     }
   }
 }

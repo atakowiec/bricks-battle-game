@@ -5,6 +5,7 @@ import FloatingContainer, { FloatingContainerProps } from '../../../components/F
 import Button from '../../../components/Button.tsx';
 import { layoutActions } from '../../../store/layoutSlice.ts';
 import { useDispatch } from 'react-redux';
+import { InlineButtons } from '../../../components/InlineButtons.tsx';
 
 export function BottomButtons(props: StateProps & { saveMap: () => void }) {
   const [exitConfirmationVisible, setExitConfirmationVisible] = useState(false);
@@ -40,14 +41,14 @@ function ExitConfirmation(props: FloatingContainerProps) {
       <p>
         Are you sure you want to exit? All unsaved changes will be lost.
       </p>
-      <div className={`${style.bottomButtons} mt-5`}>
+      <InlineButtons className={"mx-5"}>
         <Button type={'primary'} onClick={() => dispatch(layoutActions.setTab('map-hub'))}>
           Exit
         </Button>
         <Button type={'secondary'} onClick={() => props.setVisible(false)}>
           Cancel
         </Button>
-      </div>
+      </InlineButtons>
     </FloatingContainer>
   );
 }

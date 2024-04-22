@@ -29,6 +29,12 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   handleConnection(client: SocketType) {
+    if(!client.handshake.headers.cookie) {
+      console.log('Socket has connected without a cookie');
+      client.disconnect();
+      return;
+    }
+
     const cookies = parse(client.handshake.headers.cookie);
     const payload = this.jwtService.decode(cookies.access_token);
 

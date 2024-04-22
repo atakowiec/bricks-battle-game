@@ -8,6 +8,8 @@ import { useRef, useState } from 'react';
 import title from '../../utils/title.ts';
 import useSocket from '../../socket/useSocket.ts';
 import { selectedGadgetStyle } from '../../utils/utils.ts';
+import { InlineButtons } from '../../components/InlineButtons.tsx';
+import Button from '../../components/Button.tsx';
 
 export default function Account() {
   title('Your Account');
@@ -40,10 +42,10 @@ export default function Account() {
             {user.nickname}
           </div>
         </div>
-        <div className={style.buttonsBox}>
-          <button onClick={() => setChangePasswordVisible(true)}>Change password</button>
-          <button onClick={logout}>Logout</button>
-        </div>
+        <InlineButtons>
+          <Button onClick={() => setChangePasswordVisible(true)}>Change password</Button>
+          <Button type={'secondary'} onClick={logout}>Logout</Button>
+        </InlineButtons>
       </div>
     </>
   );

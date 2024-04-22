@@ -1,12 +1,12 @@
 import MainMenu from './main/MainMenu.tsx';
 import AccountTab from './account/AccountTab.tsx';
 import Gadgets from './gadgets/Gadgets.tsx';
-import MapHubTab from './map-hub/MapHubTab.tsx';
 import NavBar from '../components/NavBar.tsx';
 import useSelector from '../hooks/useSelector.ts';
 import { NavbarRoute } from '../App.tsx';
 import MapEditor from './map-hub/map-editor/MapEditor.tsx';
 import { Container } from '../components/Container.tsx';
+import MapListPage from './map-hub/map-list/MapListPage.tsx';
 
 const routes: NavbarRoute[] = [
   {
@@ -23,7 +23,7 @@ const routes: NavbarRoute[] = [
   },
   {
     id: 'map-hub',
-    element: <MapHubTab />,
+    element: <MapListPage />,
   },
 ];
 

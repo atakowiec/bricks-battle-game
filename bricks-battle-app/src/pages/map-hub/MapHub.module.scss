@@ -38,8 +38,8 @@
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
-  margin-top: 20px;
-  max-height: 330px;
+  margin-top: 1rem;
+  max-height: 21rem;
   overflow: auto;
 
   .mapCard {
@@ -47,7 +47,7 @@
     width: 100%;
     height: fit-content;
     display: flex;
-    border: 6px solid $accent-1;
+    border: 0.4rem solid $accent-1;
 
     &:first-child {
       margin-top: 0;
@@ -58,7 +58,7 @@
     }
 
     svg {
-      width: 200px;
+      width: 12rem;
       border-right: 6px solid $accent-1;
     }
 
@@ -68,6 +68,7 @@
       justify-content: space-between;
       padding: 10px 10px 10px 20px;
       width: 100%;
+      position: relative;
 
       h3 {
         margin: 0;
@@ -79,17 +80,19 @@
         color: #ffffffca;
       }
 
+      button {
+        position: absolute;
+        padding: 8px 20px;
+        margin: 0;
+        font-size: 18px;
+        right: 10px;
+        bottom: 10px;
+      }
+
       .cardBottomBox {
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-
-        button {
-          padding: 8px 20px;
-          margin: 0;
-          font-size: 18px;
-          width: fit-content;
-        }
 
         .difficulty {
           margin-top: 10px;
@@ -116,9 +119,8 @@
     justify-content: center;
 
     & > button {
-      width: fit-content !important;
-      padding-left: 30px !important;
-      padding-right: 30px !important;
+      padding-left: 1.5rem !important;
+      padding-right: 1.5rem !important;
       margin: 10px 10px 0 10px;
 
       &:first-child {
@@ -174,13 +176,13 @@
         flex: 0;
 
         img {
-          width: 40px;
+          width: 2rem;
+          height: 2rem;
           filter: invert(1);
           user-select: none;
         }
       }
     }
-
 
     .toolsInputsBox {
       display: flex;
@@ -192,22 +194,22 @@
 
         &:last-child {
           width: 40%;
-          margin-left: 10px;
+          margin-left: 0.5rem;
         }
       }
     }
 
     h4 {
-      margin-top: 20px;
+      margin-top: 1.2rem;
     }
 
     .colorButton {
-      width: 60px;
-      height: 60px;
+      width: 4rem;
+      height: 4rem;
       cursor: pointer;
       border: 2px solid transparent;
-      margin: 0 10px 10px 0;
-      border-radius: 10px;
+      margin: 0 0.5rem 0.5rem 0;
+      border-radius: 0.5rem;
       transition: all 0.3s;
 
       &.active {
@@ -219,7 +221,7 @@
           width: 100%;
           height: 100%;
           z-index: 50000;
-          border-radius: 8px;
+          border-radius: 0.5rem;
           border: 3px solid #212121;
         }
       }

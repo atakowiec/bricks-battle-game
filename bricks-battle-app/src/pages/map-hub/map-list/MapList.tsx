@@ -58,7 +58,7 @@ export function MapList(props: { mapCategory: MapType }) {
     }
 
     // create a new game with the selected map
-    socket.emit('create_game', clickedMapRef.current, () => dispatch(layoutActions.setTab("main")));
+    socket.emit('create_game', clickedMapRef.current, () => dispatch(layoutActions.setTab('main')));
   }
 
   return (
@@ -116,7 +116,7 @@ function Loading() {
 
 function MapCard(props: { map: IMap, mapCategory: MapType, onClick: () => void }) {
   const game = useSelector(state => state.game);
-  const isNotOwner = game?.player?.owner === false
+  const isNotOwner = game?.player?.owner === false;
   const isSelected = game?.map?._id === props.map._id;
 
   return (
@@ -136,8 +136,11 @@ function MapCard(props: { map: IMap, mapCategory: MapType, onClick: () => void }
           <div className={style.difficulty}>
             {props.map.difficulty}
           </div>
-          {!isNotOwner && <Button onClick={props.onClick} disabled={isSelected} type={'secondary'}>{isSelected ? "Selected" : "Play"}</Button>}
         </div>
+        {!isNotOwner && <Button onClick={props.onClick}
+                                width={"auto"}
+                                disabled={isSelected}
+                                type={'secondary'}>{isSelected ? 'Selected' : 'Play'}</Button>}
       </div>
     </div>
   );
