@@ -35,8 +35,10 @@ export function MenuRouter() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!tab || !routes.find(route => route.id === tab))
-      dispatch(layoutActions.setTab('main'));
+    if (tab === 'map-editor') return;
+    if (!(!tab || !routes.find(route => route.id === tab))) return;
+
+    dispatch(layoutActions.setTab('main'));
   }, [tab]);
 
   if (tab === 'map-editor')

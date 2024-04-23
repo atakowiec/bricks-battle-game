@@ -3,6 +3,7 @@ import { IGameMember, GamePacket, GameStatus, GameSettings } from '@shared/Game.
 import { IMap } from '@shared/Map.ts';
 import lodash from 'lodash';
 import { DropUpdateData, IDrop } from '@shared/Drops.ts';
+import { IGadget } from '@shared/Gadgets.ts';
 
 export type GameState = {
   id: string;
@@ -93,6 +94,13 @@ const gameSlice = createSlice({
 
         player.drops.splice(dropIndex, 1);
       }
+      return state;
+    },
+    selectGadget(state, action) {
+      if (!state) return state;
+      const gadget: IGadget = action.payload;
+      state.player.selectedGadgets[gadget.type] = gadget;
+
       return state;
     },
   },

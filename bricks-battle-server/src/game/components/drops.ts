@@ -92,7 +92,7 @@ export class Drops {
 
     switch (drop.effect) {
       case 'paddle_speed':
-        target.paddle.speed = between(0.3, target.paddle.speed + 0.1 * factor, 1.5);
+        target.paddle.speed = between(0.05, target.paddle.speed + 0.02 * factor, 0.5);
         changes.paddleSpeed = target.paddle.speed;
         break;
       case 'paddle_size':
@@ -104,6 +104,9 @@ export class Drops {
         changes.lives = target.lives;
         break;
     }
+
+    console.log(`Drop applied: ${drop.effect} to ${target.nickname}`);
+    console.log(changes);
 
     target.sendUpdate({
       player: changes,

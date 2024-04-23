@@ -266,10 +266,6 @@ export default class Game {
       throw new WsException('Internal Error: Map not found!');
     }
 
-    if (map.owner && map.owner.toString() !== this.owner.sub && map.type === 'personal') {
-      throw new WsException('You cannot use this map!');
-    }
-
     this.map = map;
     this.owner.sendNotification(`Map has been changed to ${this.map.name}`);
 

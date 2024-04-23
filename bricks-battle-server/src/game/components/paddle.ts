@@ -15,6 +15,7 @@ export class Paddle {
   }
 
   move(direction: PaddleDirection) {
+    console.log("moving paddle with speed", this.speed);
     this.positionX += direction == 'left' ? -this.speed : this.speed;
     this.positionX = Math.max(0, Math.min(this.paddleOwner.game.map.size - this.size, this.positionX));
     this.moved = true;

@@ -12,6 +12,7 @@ import useNotifications from '../../hooks/useNotifications.ts';
 import { useReloadApi } from '../../hooks/reload-api/useReloadApi.ts';
 import { useDispatch } from 'react-redux';
 import { gadgetsActions } from '../../store/gadgetsSlice.ts';
+import { gameActions } from '../../store/gameSlice.ts';
 
 interface GadgetsSelectorProps {
   type: GadgetType;
@@ -75,6 +76,7 @@ function GadgetsList(props: { gadgets: IGadget[], deleteActive: boolean }) {
       // select gadget
       getApi().get(`/gadgets/select/${gadget._id}`).then((data) => {
         dispatch(gadgetsActions.selectGadget(data.data));
+        dispatch(gameActions.selectGadget(data.data));
       }).catch(err => {
         console.error(err);
       });
