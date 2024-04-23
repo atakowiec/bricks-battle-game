@@ -1,0 +1,29 @@
+@import "../../style/globals.module";
+
+.elementsBox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .infoElement {
+    @extend .input-border;
+    flex: 40%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    color: #ddd;
+    text-decoration: none;
+    font-size: 0.8rem;
+
+    img {
+      width: 40px;
+      height: 40px;
+      filter: invert(1);
+    }
+
+    span {
+      margin-left: 10px;
+    }
+  }
+}

@@ -10,6 +10,7 @@ import MapListPage from './map-hub/map-list/MapListPage.tsx';
 import { useDispatch } from 'react-redux';
 import { layoutActions } from '../store/layoutSlice.ts';
 import { useEffect } from 'react';
+import { InfoPage } from './info/InfoPage.tsx';
 
 const routes: NavbarRoute[] = [
   {
@@ -28,6 +29,10 @@ const routes: NavbarRoute[] = [
     id: 'map-hub',
     element: <MapListPage />,
   },
+  {
+    id: 'info',
+    element: <InfoPage />,
+  }
 ];
 
 export function MenuRouter() {
