@@ -105,8 +105,7 @@ export class Drops {
         break;
     }
 
-    console.log(`Drop applied: ${drop.effect} to ${target.nickname}`);
-    console.log(changes);
+    console.log(`Drop applied: ${drop.type} ${drop.effect} to ${target.nickname}`);
 
     target.sendUpdate({
       player: changes,

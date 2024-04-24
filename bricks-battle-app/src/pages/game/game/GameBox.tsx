@@ -7,6 +7,7 @@ import { OpponentBoard } from './OpponentBoard.tsx';
 import { BoardContainer } from './BoardContainer.tsx';
 import { PauseScreen } from './components/PauseScreen.tsx';
 import { WinScreen } from './components/WinScreen.tsx';
+import title from '../../../utils/title.ts';
 
 export interface PropsWithGame {
   game: GameState;
@@ -14,6 +15,7 @@ export interface PropsWithGame {
 
 export function GameBox() {
   const game = useSelector(state => state.game!)!;
+  title("Game against " + (game.opponent?.nickname ?? ""))
 
   return (
     <div className={style.gameContainer}>
