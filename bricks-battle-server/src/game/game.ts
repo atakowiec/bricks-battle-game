@@ -308,16 +308,7 @@ export default class Game {
     this.player.sendNotification('Game has started!');
 
     // send game update to both players
-    this.owner.sendUpdate({
-      status: this.gameStatus,
-      player: this.owner.getPacket(),
-      opponent: this.player.getPacket(),
-    });
-    this.player.sendUpdate({
-      status: this.gameStatus,
-      player: this.player.getPacket(),
-      opponent: this.owner.getPacket(),
-    });
+    this.send()
   }
 
   countdown() {

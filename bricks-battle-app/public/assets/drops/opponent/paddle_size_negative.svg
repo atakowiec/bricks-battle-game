@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="44.666668mm"
+   height="16.685886mm"
+   viewBox="0 0 44.666668 16.685886"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(-1.6666668)">
+    <rect
+       style="fill:#fff;stroke-width:0.14006"
+       id="rect1"
+       width="20"
+       height="11.668905"
+       x="14"
+       y="2.5084901" />
+    <path
+       style="fill:#fff;fill-opacity:0.5;stroke-width:0.264583"
+       id="path4"
+       d="m 42.142756,33.063627 -27.128381,0 13.564191,-23.4938667 z"
+       transform="matrix(0,-0.61507123,-0.2128215,0,8.7033176,25.920796)" />
+    <path
+       style="fill:#fff;fill-opacity:0.804878;stroke-width:0.264583"
+       id="path4-7"
+       d="m 42.142756,33.063627 -27.128381,0 13.564191,-23.4938667 z"
+       transform="matrix(0,-0.61507123,-0.2128215,0,14.703318,25.920796)" />
+    <path
+       style="fill:#fff;fill-opacity:0.79878;stroke-width:0.264583"
+       id="path4-7-0"
+       d="m 42.142756,33.063627 -27.128381,0 13.564191,-23.4938667 z"
+       transform="matrix(0,-0.61507123,0.2128215,0,33.296683,25.920796)" />
+    <path
+       style="fill:#fff;fill-opacity:0.503049;stroke-width:0.264583"
+       id="path4-7-0-8"
+       d="m 42.142756,33.063627 -27.128381,0 13.564191,-23.4938667 z"
+       transform="matrix(0,-0.61507123,0.2128215,0,39.296683,25.920796)" />
+  </g>
+  <g
+     id="g8"
+     style="display:none"
+     transform="translate(-1.6666668)">
+    <rect
+       style="fill:#fff;stroke-width:0.11597"
+       id="rect4"
+       width="20"
+       height="8"
+       x="14"
+       y="3" />
+    <path
+       style="fill:#fff;fill-opacity:0.5;stroke-width:0.264583"
+       id="path5"
+       d="m 42.142756,33.063627 -27.128381,0 13.564191,-23.4938667 z"
+       transform="matrix(0,-0.51606472,0.2128215,0,-2.0366507,21.748389)" />
+    <path
+       style="fill:#fff;fill-opacity:0.804878;stroke-width:0.264583"
+       id="path6"
+       d="m 42.142756,33.063627 -27.128381,0 13.564191,-23.4938667 z"
+       transform="matrix(0,-0.51606472,0.2128215,0,3.9633493,21.748389)" />
+    <path
+       style="fill:#fff;fill-opacity:0.79878;stroke-width:0.264583"
+       id="path7"
+       d="m 42.142756,33.063627 -27.128381,0 13.564191,-23.4938667 z"
+       transform="matrix(0,-0.51606472,-0.2128215,0,44.036651,21.748389)" />
+    <path
+       style="fill:#fff;fill-opacity:0.503049;stroke-width:0.264583"
+       id="path8"
+       d="m 42.142756,33.063627 -27.128381,0 13.564191,-23.4938667 z"
+       transform="matrix(0,-0.51606472,-0.2128215,0,50.036651,21.748389)" />
+  </g>
+</svg>
