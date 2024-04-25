@@ -105,15 +105,6 @@
         left: 0;
       }
 
-      .boardRow {
-        display: flex;
-
-        .boardCell {
-          margin: 1px;
-          border-radius: 5px;
-        }
-      }
-
       .paddle {
         position: absolute;
         border-radius: 5px;
