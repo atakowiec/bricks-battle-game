@@ -94,7 +94,7 @@ export function Drops(props: GameCanvasProps) {
                width: `${cellSize * drop.size * 2}px`,
                height: `${cellSize * drop.size * 2}px`,
              }}>
-          <img src={`/assets/drops/${drop.effect}_${drop.type}.svg`} alt={`${drop.type} drop for ${drop.effect}`} />
+          <img src={`/assets/drops/${drop.target}/${drop.effect}_${drop.type}.svg`} alt={`${drop.type} drop for ${drop.effect}`} />
         </div>
       ))}
     </>
