@@ -17,7 +17,7 @@ services:
     volumes:
       - /app/frontend/node_modules
     ports:
-      - "80:80"
+      - "8000:80"
     depends_on:
       - mongo
   backend:
@@ -26,11 +26,12 @@ services:
       context: .
       dockerfile: ./bricks-battle-server/Dockerfile
     environment:
+      - JWT_SECRET=4tg4uigq3gq3478g34uhg3478gh34uifh378f3h4uif34ui
       - MONGO_HOST=mongo
       - MONGO_PORT=27017
       - MONGO_USER=root
       - MONGO_PASS=pass
-      - CLIENT_URL=http://localhost
+      - CLIENT_URL=http://localhost:8000
     volumes:
       - /app/backend/node_modules
     ports:
