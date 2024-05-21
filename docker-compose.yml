@@ -5,7 +5,35 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./mongo-volume:/data/db
+      - C:/users/matci/Desktop/mongodb:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=pass
+  frontend:
+    container_name: bricks-battle-app
+    build:
+      context: .
+      dockerfile: ./bricks-battle-app/Dockerfile
+    volumes:
+      - /app/frontend/node_modules
+    ports:
+      - "80:80"
+    depends_on:
+      - mongo
+  backend:
+    container_name: bricks-battle-server
+    build:
+      context: .
+      dockerfile: ./bricks-battle-server/Dockerfile
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_USER=root
+      - MONGO_PASS=pass
+      - CLIENT_URL=http://localhost
+    volumes:
+      - /app/backend/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
