@@ -7,7 +7,9 @@ This is a real-time pvp Breakout style game where players can play against each 
 This project is my favorite because it's the most complex project I've ever done.
 I wanted to create some really challenging application and I think I did it.
 
-Main challenges were real-time communication and physics.
+Main challenges were:
+- **Real-time communication** - I had to implement adequate structure of the backend so real-time communication would be possible.
+- **Advanced physics** - Physics, collision detection and ball movement were the most challenging parts of the project. [(colisions and movement)](https://github.com/atakowiec/bricks-battle-game/blob/a9be1d962445880eee7144a9c7858fc2fab4b207/bricks-battle-server/src/game/components/ball.ts#L44)
 
 ## Features
 - **Accounts**, but players can play without them
