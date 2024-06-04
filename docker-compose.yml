@@ -1,19 +1,15 @@
 services:
   mongo:
-    container_name: mongo
+    container_name: bricks-battle-mongodb
     image: mongo
     ports:
       - "27017:27017"
-    volumes:
-      - C:/users/matci/Desktop/mongodb:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=pass
   frontend:
     container_name: bricks-battle-app
-    build:
-      context: .
-      dockerfile: ./bricks-battle-app/Dockerfile
+    image: atakowiec/bricks-battle-game:app
     volumes:
       - /app/frontend/node_modules
     ports:
@@ -22,9 +18,7 @@ services:
       - mongo
   backend:
     container_name: bricks-battle-server
-    build:
-      context: .
-      dockerfile: ./bricks-battle-server/Dockerfile
+    image: atakowiec/bricks-battle-game:server
     environment:
       - JWT_SECRET=4tg4uigq3gq3478g34uhg3478gh34uifh378f3h4uif34ui
       - MONGO_HOST=mongo
