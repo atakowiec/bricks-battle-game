@@ -14,6 +14,42 @@ export class MapsService {
               @InjectModel(Map.name) private mapModel: Model<Map>,
               private readonly usersService: UsersService) {
     // empty
+
+    this.createSampleMap();
+  }
+
+  async createSampleMap() {
+    // first check if there is any map in the database with official type
+    const officialMaps = await this.mapModel.find({ type: 'official' });
+
+    if (officialMaps.length > 0) {
+      return;
+    }
+
+    // create a sample map
+    const map = new this.mapModel();
+    map.type = 'official';
+    map.name = 'Map #1';
+    map.size = 20;
+    map.data =
+      '1KK30000000000003KK1' +
+      'W1KK300000000003KK1W' +
+      '111KK3333333333KK111' +
+      '11122222222222222111' +
+      '112WWWW333333WWWW211' +
+      '11233330000003333211' +
+      '22300000000000000322' +
+      '33000000000000000033' +
+      '00000000000000000000' +
+      '00000000000000000000' +
+      '00000000000000000000' +
+      '00000000000000000000' +
+      '00000000000000000000' +
+      '00000000000000000000';
+
+    map.difficulty = 'easy';
+
+    await map.save();
   }
 
   getMapsByType(type: MapType, user: User) {
@@ -84,6 +120,6 @@ export class MapsService {
       owner: map.owner,
       difficulty: map.difficulty as MapDifficulty,
       data: map.data,
-    }
+    };
   }
 }

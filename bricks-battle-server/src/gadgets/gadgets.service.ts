@@ -16,6 +16,33 @@ export class GadgetsService {
               private readonly gameService: GameService,
   ) {
     // empty
+
+    this.createDefaultGadgets();
+  }
+
+  async createDefaultGadgets() {
+    // check if there is any gadget
+    const gadgets = await this.gadgetModel.find().exec();
+    if (gadgets.length) {
+      return;
+    }
+
+    const types = ['ball', 'trails', 'paddle', 'icon'];
+    const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF', '#FFFFFF', '#000000'];
+
+    const gadgetsToCreate = [];
+
+    for (const type of types) {
+      for (const color of colors) {
+        gadgetsToCreate.push(new this.gadgetModel({
+          type,
+          data: color,
+          displayType: `color`,
+        }));
+      }
+    }
+
+    await this.gadgetModel.insertMany(gadgetsToCreate);
   }
 
   public static toIGadget(gadget: Gadget): IGadget {
