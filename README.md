@@ -1,5 +1,8 @@
 # Bricks Battle Game
 
+## Game preview
+![game preview](https://github.com/atakowiec/atakowiec/blob/main/assets/bricks-battle/game.png)
+
 ## Description
 This is a real-time pvp Breakout style game where players can play against each other, make own maps, customize profile and more.
 
